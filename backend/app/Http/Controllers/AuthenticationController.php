@@ -58,5 +58,12 @@ class AuthenticationController extends Controller
     {
         $user = Auth::user();
         $user->token()->revoke();
+
+        return response()->json(["success" => "Logout"], 200);
+    }
+
+    public function unauthenticated()
+    {
+        return response()->json(['error' => 'unauthenticated'], 403);
     }
 }

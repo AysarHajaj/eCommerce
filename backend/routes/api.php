@@ -19,6 +19,4 @@ use Illuminate\Support\Facades\Route;
 Route::post('register', [AuthenticationController::class, 'register']);
 Route::post('login', [AuthenticationController::class, 'login']);
 Route::middleware("auth:api")->get('logout', [AuthenticationController::class, 'logout']);
-Route::middleware("auth:api")->get('user', function (Request $request) {
-    return response()->json(Auth::user());
-});
+Route::get('unauthenticated', [AuthenticationController::class, 'unauthenticated'])->name('unauthenticated');
