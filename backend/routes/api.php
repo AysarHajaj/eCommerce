@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\SubCategoryController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -23,3 +24,4 @@ Route::middleware("auth:api")->get('logout', [AuthenticationController::class, '
 Route::get('unauthenticated', [AuthenticationController::class, 'unauthenticated'])->name('unauthenticated');
 Route::resource('categories', CategoryController::class)->middleware("auth:api");
 Route::post('categories/{id}', [CategoryController::class, 'update']);
+Route::resource('sub_categories', SubCategoryController::class)->middleware("auth:api");
