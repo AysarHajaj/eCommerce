@@ -12,7 +12,14 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
+import ListSubheader from "@mui/material/ListSubheader";
 import Collapse from "@mui/material/Collapse";
+import DraftsIcon from "@mui/icons-material/Drafts";
+import SendIcon from "@mui/icons-material/Send";
+import ExpandLess from "@mui/icons-material/ExpandLess";
+import ExpandMore from "@mui/icons-material/ExpandMore";
+import StarBorder from "@mui/icons-material/StarBorder";
+import Config from "../../config";
 
 const drawerWidth = 240;
 
@@ -27,6 +34,21 @@ export const DrawerHeader = styled("div")(({ theme }) => ({
 
 const AppDrawer = ({ open, handleDrawerClose }) => {
   const theme = useTheme();
+  const navItems = Config.nav_items;
+  const [collapse, setCollapse] = React.useState(
+    navItems
+      .filter((item) => item.sub_items)
+      .reduce((accr, currentItem) => {
+        accr[currentItem.id] = false;
+        return accr;
+      }, {})
+  );
+
+  const handleClick = (id) => {
+    const newData = { ...collapse };
+    newData[id] = !newData[id];
+    setCollapse(newData);
+  };
   return (
     <Drawer
       sx={{
@@ -51,30 +73,44 @@ const AppDrawer = ({ open, handleDrawerClose }) => {
         </IconButton>
       </DrawerHeader>
       <Divider />
-      <List>
-        {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
-      <Divider />
-      <List>
-        {["All mail", "Trash", "Spam"].map((text, index) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItemButton>
-          </ListItem>
-        ))}
+      <List
+        sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
+        component="nav"
+        aria-labelledby="nested-list-subheader"
+      >
+        {navItems.map((item) => {
+          if (!item.sub_items) {
+            return (
+              <ListItemButton key={item.id}>
+                {item.icon && <ListItemIcon>{item.icon}</ListItemIcon>}
+                <ListItemText primary={item.label} />
+              </ListItemButton>
+            );
+          }
+          return (
+            <React.Fragment>
+              <ListItemButton onClick={() => handleClick(item.id)}>
+                {item.icon && <ListItemIcon>{item.icon}</ListItemIcon>}
+                <ListItemText primary={item.label} />
+                {collapse[item.id] ? <ExpandLess /> : <ExpandMore />}
+              </ListItemButton>
+              <Collapse in={collapse[item.id]} timeout="auto" unmountOnExit>
+                <List component="div" disablePadding>
+                  {item.sub_items.map((subItem) => {
+                    return (
+                      <ListItemButton sx={{ pl: 4 }}>
+                        {subItem.icon && (
+                          <ListItemIcon>{subItem.icon}</ListItemIcon>
+                        )}
+                        <ListItemText primary={subItem.label} />
+                      </ListItemButton>
+                    );
+                  })}
+                </List>
+              </Collapse>
+            </React.Fragment>
+          );
+        })}
       </List>
     </Drawer>
   );

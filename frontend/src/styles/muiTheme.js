@@ -4,7 +4,7 @@ const theme = createTheme(
   adaptV4Theme({
     typography: {
       htmlFontSize: 10,
-      fontSize: 12,
+      fontSize: 8,
     },
     palette: {
       primary: {
@@ -15,6 +15,13 @@ const theme = createTheme(
       },
       secondary: {
         main: "#757575",
+      },
+    },
+    props: {
+      MuiListItemIcon: {
+        style: {
+          minWidth: "35px",
+        },
       },
     },
   })
