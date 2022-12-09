@@ -5,10 +5,11 @@ import CssBaseline from "@mui/material/CssBaseline";
 import AppBar from "./AppBar";
 import DrawerApp from "./AppDrawer";
 import AppMain from "./AppMain";
+import AppRoutes from "../../routes";
 
 const Layout = () => {
   const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(true);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -29,7 +30,9 @@ const Layout = () => {
       <CssBaseline />
       <AppBar open={open} handleDrawerOpen={handleDrawerOpen} />
       <DrawerApp open={open} handleDrawerClose={handleDrawerClose} />
-      <AppMain open={open} />
+      <AppMain open={open}>
+        <AppRoutes />
+      </AppMain>
     </Box>
   );
 };
