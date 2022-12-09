@@ -22,11 +22,11 @@ const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
   })
 );
 
-const AppMain = ({ open }) => {
+const AppMain = (props) => {
   return (
-    <Main open={open}>
+    <Main open={props.open}>
       <DrawerHeader />
-      this is main component
+      {props.children}
     </Main>
   );
 };
