@@ -6,7 +6,7 @@ export default {
     {
       id: 1,
       label: "Dashboard",
-      to: "/dashboard",
+      to: "/",
       icon: <HomeIcon />,
       roles: [Constant.user_roles.admin, Constant.user_roles.vendor],
     },
@@ -20,7 +20,7 @@ export default {
         {
           id: 3,
           label: "Categories",
-          to: "/categories",
+          to: "/category",
           roles: [Constant.user_roles.admin],
         },
         {
