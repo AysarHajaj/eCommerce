@@ -20,6 +20,7 @@ import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 import StarBorder from "@mui/icons-material/StarBorder";
 import Config from "../../config";
+import { NavLink } from "react-router-dom";
 
 const drawerWidth = 240;
 
@@ -81,14 +82,18 @@ const AppDrawer = ({ open, handleDrawerClose }) => {
         {navItems.map((item) => {
           if (!item.sub_items) {
             return (
-              <ListItemButton key={item.id}>
+              <ListItemButton
+                LinkComponent={NavLink}
+                to={item.to}
+                key={item.id}
+              >
                 {item.icon && <ListItemIcon>{item.icon}</ListItemIcon>}
                 <ListItemText primary={item.label} />
               </ListItemButton>
             );
           }
           return (
-            <React.Fragment>
+            <React.Fragment key={item.id}>
               <ListItemButton onClick={() => handleClick(item.id)}>
                 {item.icon && <ListItemIcon>{item.icon}</ListItemIcon>}
                 <ListItemText primary={item.label} />
@@ -98,7 +103,12 @@ const AppDrawer = ({ open, handleDrawerClose }) => {
                 <List component="div" disablePadding>
                   {item.sub_items.map((subItem) => {
                     return (
-                      <ListItemButton sx={{ pl: 4 }}>
+                      <ListItemButton
+                        LinkComponent={NavLink}
+                        to={subItem.to}
+                        key={subItem.id}
+                        sx={{ pl: 4 }}
+                      >
                         {subItem.icon && (
                           <ListItemIcon>{subItem.icon}</ListItemIcon>
                         )}
