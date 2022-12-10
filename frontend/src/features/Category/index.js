@@ -89,4 +89,4 @@ const Category = () => {
   );
 };
 
-export default React.memo(Category);
+export default Category;
