@@ -26,7 +26,7 @@ export default {
         {
           id: 4,
           label: "Sub Categories",
-          to: "/sub_categories",
+          to: "/sub_category",
           roles: [Constant.user_roles.admin],
         },
         {
