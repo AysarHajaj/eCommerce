@@ -13,6 +13,7 @@ import {
   deleteCategory,
   selectDeleteCategories,
 } from "./categorySlice";
+import { NavLink } from "react-router-dom";
 
 const Category = () => {
   const dispatch = useDispatch();
@@ -67,10 +68,17 @@ const Category = () => {
     dispatch(getCategories());
   }, []);
   return (
-    <div style={{ height: 400, width: "100%" }}>
-      <Button variant="outlined" startIcon={<DeleteIcon />}>
-        Add
-      </Button>
+    <div className="wrapper category-wrapper">
+      <div className="container-header">
+        <Button
+          variant="contained"
+          LinkComponent={NavLink}
+          to="/"
+          startIcon={<AddIcon />}
+        >
+          Add New Category
+        </Button>
+      </div>
       <DataGrid
         rows={data}
         columns={columns}
