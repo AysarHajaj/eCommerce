@@ -16,6 +16,15 @@ export default () => {
         }
         path="/category"
       />
+      <Route
+        element={
+          <React.Suspense fallback="Loading...">
+            <Category />
+          </React.Suspense>
+        }
+        path="/category/:id/:name"
+      />
+      <Route element={<b>404 not found</b>} path="*" />
     </Routes>
   );
 };
