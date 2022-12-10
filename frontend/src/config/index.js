@@ -32,7 +32,7 @@ export default {
         {
           id: 5,
           label: "Child Categories",
-          to: "/child_categories",
+          to: "/child_category",
           roles: [Constant.user_roles.admin],
         },
       ],
