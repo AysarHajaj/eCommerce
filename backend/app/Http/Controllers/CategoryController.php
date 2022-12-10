@@ -18,6 +18,9 @@ class CategoryController extends Controller
     public function index()
     {
         $categories = Category::all();
+        $categories->map(function ($category) {
+            return $category->image = env('APP_URL') . 'storage/' . $category->image;
+        });
 
         return response()->json(["data" => $categories], 200);
     }
@@ -41,12 +44,12 @@ class CategoryController extends Controller
 
         $image = $request->file('image');
         $input = $request->all();
-        $input['image'] = time() . '.' . $image->getClientOriginalExtension();
+        $input['image'] = 'thumbnail/' . time() . '.' . $image->getClientOriginalExtension();
 
         $imgFile = Image::make($image->getRealPath());
         $imgFile->resize(150, 150, function ($constraint) {
             $constraint->aspectRatio();
-        })->save(storage_path('app/public/thumbnail/'  . $input['image']));
+        })->save(storage_path('app/public/'  . $input['image']));
 
         $category = Category::create($input);
 
@@ -62,6 +65,7 @@ class CategoryController extends Controller
     public function show($id)
     {
         $category = Category::find($id);
+        $category->image = env('APP_URL') . 'storage/' . $category->image;
 
         return response()->json(["data" => $category], 200);
     }
