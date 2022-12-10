@@ -77,15 +77,17 @@ const SubCategory = () => {
     dispatch(getSubCategories());
   }, []);
   return (
-    <div style={{ height: 400, width: "100%" }}>
-      <Button
-        variant="contained"
-        LinkComponent={NavLink}
-        to="/"
-        startIcon={<AddIcon />}
-      >
-        Add New Sub Category
-      </Button>
+    <div className="wrapper category-wrapper">
+      <div className="container-header">
+        <Button
+          variant="contained"
+          LinkComponent={NavLink}
+          to="/"
+          startIcon={<AddIcon />}
+        >
+          Add New Sub Category
+        </Button>
+      </div>
       <DataGrid
         rows={data}
         columns={columns}
