@@ -3,6 +3,7 @@ import { Route, Routes } from "react-router-dom";
 
 const Dashboard = React.lazy(() => import("../features/Dashboard"));
 const Category = React.lazy(() => import("../features/Category"));
+const SubCategory = React.lazy(() => import("../features/SubCategory"));
 
 export default () => {
   return (
@@ -19,10 +20,10 @@ export default () => {
       <Route
         element={
           <React.Suspense fallback="Loading...">
-            <Category />
+            <SubCategory />
           </React.Suspense>
         }
-        path="/category/:id/:name"
+        path="/sub_category/"
       />
       <Route element={<b>404 not found</b>} path="*" />
     </Routes>
