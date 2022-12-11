@@ -12,6 +12,11 @@ const initialState = {
     isFetched: false,
     error: null,
   },
+  change_status: {
+    data: "",
+    isFetched: false,
+    error: null,
+  },
 };
 
 export const getCategories = createAsyncThunk("categories/get", () =>
@@ -25,6 +30,14 @@ export const deleteCategory = createAsyncThunk("categories/delete", (id) =>
     .deleteCategory(id)
     .then((response) => ({ data: response.data, id }))
     .catch((error) => error)
+);
+export const changeCategoryStatus = createAsyncThunk(
+  "categories/change_status",
+  (id) =>
+    api
+      .changeCategoryStatus(id)
+      .then((response) => ({ data: response.data, id }))
+      .catch((error) => error)
 );
 
 export const categorySlice = createSlice({
@@ -62,10 +75,32 @@ export const categorySlice = createSlice({
       .addCase(deleteCategory.rejected, (state, action) => {
         state.delete.isFetched = true;
         state.delete.error = action.payload;
+      })
+      // change category status case
+
+      .addCase(changeCategoryStatus.pending, (state) => {
+        state.change_status.isFetched = false;
+        state.change_status.error = null;
+      })
+      .addCase(changeCategoryStatus.fulfilled, (state, action) => {
+        state.change_status.isFetched = true;
+        state.change_status.data = action.payload.data;
+        state.get.data = state.get.data.map((category) => {
+          if (category.id === action.payload.id) {
+            return { ...category, deactivated_at: action.payload.data.data };
+          }
+          return { ...category };
+        });
+      })
+      .addCase(changeCategoryStatus.rejected, (state, action) => {
+        state.change_status.isFetched = true;
+        state.change_status.error = action.payload;
       });
   },
 });
 
 export const selectGetCategories = (state) => state.category.get;
 export const selectDeleteCategories = (state) => state.category.delete;
+export const selectChangeCategoriesStatus = (state) =>
+  state.category.change_status;
 export default categorySlice.reducer;
