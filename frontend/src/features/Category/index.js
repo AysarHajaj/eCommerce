@@ -14,6 +14,7 @@ import {
   selectDeleteCategories,
 } from "./categorySlice";
 import { NavLink } from "react-router-dom";
+import Avatar from "@mui/material/Avatar";
 
 const Category = () => {
   const dispatch = useDispatch();
@@ -26,7 +27,14 @@ const Category = () => {
   const columns = useMemo(() => {
     return [
       { field: "id", headerName: "ID", width: 70 },
-      { field: "image", headerName: "Image", width: 130 },
+      {
+        field: "image",
+        headerName: "Image",
+        width: 130,
+        renderCell: (params) => {
+          return <Avatar src={params.row.image} />;
+        },
+      },
       { field: "name", headerName: "Name", width: 130 },
       {
         field: "status",
