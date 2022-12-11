@@ -43,7 +43,9 @@ class CategoryController extends Controller
         }
 
         $image = $request->file('image');
-        $input = $request->all();
+        $input = [
+            'name' => $request->all()['name']
+        ];
         $input['image'] = 'thumbnail/' . time() . '.' . $image->getClientOriginalExtension();
 
         $imgFile = Image::make($image->getRealPath());
@@ -89,7 +91,9 @@ class CategoryController extends Controller
         }
 
         $image = $request->file('image');
-        $input = $request->all();
+        $input = [
+            'name' => $request->all()['name']
+        ];
         $input['image'] = 'thumbnail/' . time() . '.' . $image->getClientOriginalExtension();
 
         $imgFile = Image::make($image->getRealPath());
