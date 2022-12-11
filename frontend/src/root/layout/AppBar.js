@@ -1,10 +1,12 @@
-import * as React from "react";
+import React, { useMemo } from "react";
 import { styled } from "@mui/material/styles";
 import MuiAppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import MenuIcon from "@mui/icons-material/Menu";
+import { useLocation } from "react-router-dom";
+import constant from "../../constant";
 
 const drawerWidth = 240;
 
@@ -26,6 +28,15 @@ const AppBarStyle = styled(MuiAppBar, {
 }));
 
 const AppBar = ({ open, handleDrawerOpen }) => {
+  const location = useLocation();
+  const pageName = useMemo(() => {
+    return (
+      Object.values(constant.routes).find((route) => {
+        return route.path === location.pathname;
+      })?.label || "Not Found"
+    );
+  }, [location.pathname]);
+
   return (
     <AppBarStyle position="fixed" open={open}>
       <Toolbar>
@@ -39,7 +50,7 @@ const AppBar = ({ open, handleDrawerOpen }) => {
           <MenuIcon />
         </IconButton>
         <Typography variant="h6" noWrap component="div">
-          Persistent drawer
+          {pageName}
         </Typography>
       </Toolbar>
     </AppBarStyle>
