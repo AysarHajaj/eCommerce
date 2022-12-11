@@ -11,7 +11,7 @@ import {
   getSubCategories,
   selectGetSubCategories,
   deleteSubCategory,
-  selectDeleteSubCategories,
+  changeSubCategoryStatus,
 } from "./subCategorySlice";
 import { NavLink } from "react-router-dom";
 
@@ -21,6 +21,10 @@ const SubCategory = () => {
 
   const handleDelete = useCallback((id) => {
     dispatch(deleteSubCategory(id));
+  });
+
+  const changeStatus = useCallback((id) => {
+    dispatch(changeSubCategoryStatus(id));
   });
 
   const columns = useMemo(() => {
@@ -38,17 +42,10 @@ const SubCategory = () => {
         headerName: "Status",
         width: 130,
         renderCell: (params) => {
-          const changeStatus = (checked) => {
-            console.log(
-              "from sub category log checked",
-              checked,
-              params.row.id
-            );
-          };
           return (
             <AppSwitch
               isActive={!params.row.deactivated_at}
-              changeStatus={changeStatus}
+              changeStatus={() => changeStatus(params.row.id)}
             />
           );
         },

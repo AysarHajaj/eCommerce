@@ -12,6 +12,8 @@ const getChildCategories = () => api.get("/child_categories");
 const deleteChildCategory = (id) => api.delete(`/child_categories/${id}`);
 const changeCategoryStatus = (id) =>
   api.post(`/categories/${id}/change_status`);
+const changeSubCategoryStatus = (id) =>
+  api.post(`/sub_categories/${id}/change_status`);
 
 export default {
   getCategories,
@@ -21,4 +23,5 @@ export default {
   getChildCategories,
   deleteChildCategory,
   changeCategoryStatus,
+  changeSubCategoryStatus,
 };

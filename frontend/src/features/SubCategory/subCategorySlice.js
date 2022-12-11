@@ -12,6 +12,11 @@ const initialState = {
     isFetched: false,
     error: null,
   },
+  change_status: {
+    data: "",
+    isFetched: false,
+    error: null,
+  },
 };
 
 export const getSubCategories = createAsyncThunk("sub_categories/get", () =>
@@ -25,6 +30,14 @@ export const deleteSubCategory = createAsyncThunk(
   (id) =>
     api
       .deleteSubCategory(id)
+      .then((response) => ({ data: response.data, id }))
+      .catch((error) => error)
+);
+export const changeSubCategoryStatus = createAsyncThunk(
+  "sub_categories/change_status",
+  (id) =>
+    api
+      .changeSubCategoryStatus(id)
       .then((response) => ({ data: response.data, id }))
       .catch((error) => error)
 );
@@ -64,10 +77,32 @@ export const subCategorySlice = createSlice({
       .addCase(deleteSubCategory.rejected, (state, action) => {
         state.delete.isFetched = true;
         state.delete.error = action.payload;
+      })
+      // change category status case
+
+      .addCase(changeSubCategoryStatus.pending, (state) => {
+        state.change_status.isFetched = false;
+        state.change_status.error = null;
+      })
+      .addCase(changeSubCategoryStatus.fulfilled, (state, action) => {
+        state.change_status.isFetched = true;
+        state.change_status.data = action.payload.data;
+        state.get.data = state.get.data.map((subCategory) => {
+          if (subCategory.id === action.payload.id) {
+            return { ...subCategory, deactivated_at: action.payload.data.data };
+          }
+          return { ...subCategory };
+        });
+      })
+      .addCase(changeSubCategoryStatus.rejected, (state, action) => {
+        state.change_status.isFetched = true;
+        state.change_status.error = action.payload;
       });
   },
 });
 
 export const selectGetSubCategories = (state) => state.sub_category.get;
 export const selectDeleteSubCategories = (state) => state.sub_category.delete;
+export const selectChangeSubCategoriesStatus = (state) =>
+  state.category.change_status;
 export default subCategorySlice.reducer;
