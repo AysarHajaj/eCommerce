@@ -115,4 +115,18 @@ class CategoryController extends Controller
 
         return response()->json(["data" => 'success'], 200);
     }
+
+    public function changeStatus(Request $request, $id)
+    {
+        $category = Category::find($id);
+        if ($category->deactivated_at) {
+            $category->deactivated_at = null;
+        } else {
+            $category->deactivated_at = now();
+        }
+
+        $category->save();
+
+        return response()->json(["data" => $category->deactivated_at], 200);
+    }
 }
