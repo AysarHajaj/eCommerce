@@ -4,17 +4,32 @@ import api from "../../api";
 const initialState = {
   get: {
     data: [],
-    isFetched: false,
+    isLoading: false,
     error: null,
   },
   delete: {
     data: "",
-    isFetched: false,
+    isLoading: false,
     error: null,
   },
   change_status: {
     data: "",
-    isFetched: false,
+    isLoading: false,
+    error: null,
+  },
+  get_category_by_id: {
+    data: {},
+    isLoading: false,
+    error: null,
+  },
+  update_category: {
+    data: {},
+    isLoading: false,
+    error: null,
+  },
+  post_category: {
+    data: {},
+    isLoading: false,
     error: null,
   },
 };
@@ -39,6 +54,26 @@ export const changeCategoryStatus = createAsyncThunk(
       .then((response) => ({ data: response.data, id }))
       .catch((error) => error)
 );
+export const getCategoryById = createAsyncThunk("category/get/id", (id) =>
+  api
+    .getCategoryById(id)
+    .then((response) => response.data)
+    .catch((error) => error)
+);
+
+export const updateCategory = createAsyncThunk("category/update", (data) =>
+  api
+    .updateCategory(data.id, data)
+    .then((response) => response.data)
+    .catch((error) => error)
+);
+
+export const postCategory = createAsyncThunk("category/post", (data) =>
+  api
+    .postCategory(data)
+    .then((response) => response.data)
+    .catch((error) => error)
+);
 
 export const categorySlice = createSlice({
   name: "category",
@@ -48,42 +83,42 @@ export const categorySlice = createSlice({
     builder
       //get categories case
       .addCase(getCategories.pending, (state) => {
-        state.get.isFetched = false;
+        state.get.isLoading = true;
         state.get.error = null;
       })
       .addCase(getCategories.fulfilled, (state, action) => {
-        state.get.isFetched = true;
+        state.get.isLoading = false;
         state.get.data = action.payload.data;
       })
       .addCase(getCategories.rejected, (state, action) => {
-        state.get.isFetched = true;
+        state.get.isLoading = false;
         state.get.error = action.payload;
       })
       //delete categories case
 
       .addCase(deleteCategory.pending, (state) => {
-        state.delete.isFetched = false;
+        state.delete.isLoading = true;
         state.delete.error = null;
       })
       .addCase(deleteCategory.fulfilled, (state, action) => {
-        state.delete.isFetched = true;
+        state.delete.isLoading = false;
         state.delete.data = action.payload.data;
         state.get.data = state.get.data.filter(
           (category) => category.id != action.payload.id
         );
       })
       .addCase(deleteCategory.rejected, (state, action) => {
-        state.delete.isFetched = true;
+        state.delete.isLoading = false;
         state.delete.error = action.payload;
       })
       // change category status case
 
       .addCase(changeCategoryStatus.pending, (state) => {
-        state.change_status.isFetched = false;
+        state.change_status.isLoading = true;
         state.change_status.error = null;
       })
       .addCase(changeCategoryStatus.fulfilled, (state, action) => {
-        state.change_status.isFetched = true;
+        state.change_status.isLoading = false;
         state.change_status.data = action.payload.data;
         state.get.data = state.get.data.map((category) => {
           if (category.id === action.payload.id) {
@@ -93,8 +128,50 @@ export const categorySlice = createSlice({
         });
       })
       .addCase(changeCategoryStatus.rejected, (state, action) => {
-        state.change_status.isFetched = true;
-        state.change_status.error = action.payload;
+        state.get_category_by_id.isLoading = false;
+        state.get_category_by_id.error = action.payload;
+      })
+      // get category by id case
+
+      .addCase(getCategoryById.pending, (state) => {
+        state.get_category_by_id.isLoading = true;
+        state.get_category_by_id.error = null;
+      })
+      .addCase(getCategoryById.fulfilled, (state, action) => {
+        state.get_category_by_id.isLoading = false;
+        state.get_category_by_id.data = action.payload.data;
+      })
+      .addCase(getCategoryById.rejected, (state, action) => {
+        state.get_category_by_id.isLoading = false;
+        state.get_category_by_id.error = action.payload;
+      })
+      // update category case
+
+      .addCase(updateCategory.pending, (state) => {
+        state.update_category.isLoading = true;
+        state.update_category.error = null;
+      })
+      .addCase(updateCategory.fulfilled, (state, action) => {
+        state.update_category.isLoading = false;
+        state.update_category.data = action.payload.data;
+      })
+      .addCase(updateCategory.rejected, (state, action) => {
+        state.update_category.isLoading = false;
+        state.update_category.error = action.payload;
+      })
+      // update category case
+
+      .addCase(postCategory.pending, (state) => {
+        state.post_category.isLoading = true;
+        state.post_category.error = null;
+      })
+      .addCase(postCategory.fulfilled, (state, action) => {
+        state.post_category.isLoading = false;
+        state.post_category.data = action.payload.data;
+      })
+      .addCase(postCategory.rejected, (state, action) => {
+        state.post_category.isLoading = false;
+        state.post_category.error = action.payload;
       });
   },
 });
@@ -103,4 +180,9 @@ export const selectGetCategories = (state) => state.category.get;
 export const selectDeleteCategories = (state) => state.category.delete;
 export const selectChangeCategoriesStatus = (state) =>
   state.category.change_status;
+export const selectGetCategoryById = (state) =>
+  state.category.get_category_by_id;
+export const selectUpdateCategory = (state) => state.category.update_category;
+export const selectPostCategory = (state) => state.category.post_category;
+
 export default categorySlice.reducer;

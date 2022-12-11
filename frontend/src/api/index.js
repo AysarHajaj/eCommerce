@@ -16,6 +16,15 @@ const changeSubCategoryStatus = (id) =>
   api.post(`/sub_categories/${id}/change_status`);
 const changeChildCategoryStatus = (id) =>
   api.post(`/child_categories/${id}/change_status`);
+const getCategoryById = (id) => api.get(`/categories/${id}`);
+const updateCategory = (id, data) =>
+  api.post(`/categories/${id}`, data, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
+const postCategory = (data) =>
+  api.post(`/categories`, data, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
 
 export default {
   getCategories,
@@ -27,4 +36,7 @@ export default {
   changeCategoryStatus,
   changeSubCategoryStatus,
   changeChildCategoryStatus,
+  getCategoryById,
+  updateCategory,
+  postCategory,
 };
