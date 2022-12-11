@@ -11,7 +11,7 @@ import {
   getCategories,
   selectGetCategories,
   deleteCategory,
-  selectDeleteCategories,
+  changeCategoryStatus,
 } from "./categorySlice";
 import { NavLink } from "react-router-dom";
 import Avatar from "@mui/material/Avatar";
@@ -22,6 +22,10 @@ const Category = () => {
 
   const handleDelete = useCallback((id) => {
     dispatch(deleteCategory(id));
+  });
+
+  const changeStatus = useCallback((id) => {
+    dispatch(changeCategoryStatus(id));
   });
 
   const columns = useMemo(() => {
@@ -41,13 +45,10 @@ const Category = () => {
         headerName: "Status",
         width: 130,
         renderCell: (params) => {
-          const changeStatus = (checked) => {
-            console.log("from category log checked", checked, params.row.id);
-          };
           return (
             <AppSwitch
               isActive={!params.row.deactivated_at}
-              changeStatus={changeStatus}
+              changeStatus={() => changeStatus(params.row.id)}
             />
           );
         },
