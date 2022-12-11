@@ -90,12 +90,12 @@ class CategoryController extends Controller
 
         $image = $request->file('image');
         $input = $request->all();
-        $input['image'] = time() . '.' . $image->getClientOriginalExtension();
+        $input['image'] = 'thumbnail/' . time() . '.' . $image->getClientOriginalExtension();
 
         $imgFile = Image::make($image->getRealPath());
         $imgFile->resize(150, 150, function ($constraint) {
             $constraint->aspectRatio();
-        })->save(storage_path('app/public/thumbnail/'  . $input['image']));
+        })->save(storage_path('app/public/'  . $input['image']));
 
         Category::where('id', $id)->update($input);
 
