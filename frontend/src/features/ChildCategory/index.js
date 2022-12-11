@@ -11,7 +11,7 @@ import {
   getChildCategories,
   selectGetChildCategories,
   deleteChildCategory,
-  selectDeleteChildCategories,
+  changeChildCategoryStatus,
 } from "./childCategorySlice";
 import { NavLink } from "react-router-dom";
 
@@ -21,6 +21,10 @@ const ChildCategory = () => {
 
   const handleDelete = useCallback((id) => {
     dispatch(deleteChildCategory(id));
+  });
+
+  const changeStatus = useCallback((id) => {
+    dispatch(changeChildCategoryStatus(id));
   });
 
   const columns = useMemo(() => {
@@ -44,17 +48,10 @@ const ChildCategory = () => {
         headerName: "Status",
         width: 130,
         renderCell: (params) => {
-          const changeStatus = (checked) => {
-            console.log(
-              "from child category log checked",
-              checked,
-              params.row.id
-            );
-          };
           return (
             <AppSwitch
               isActive={!params.row.deactivated_at}
-              changeStatus={changeStatus}
+              changeStatus={() => changeStatus(params.row.id)}
             />
           );
         },

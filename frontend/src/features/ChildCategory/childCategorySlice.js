@@ -12,6 +12,11 @@ const initialState = {
     isFetched: false,
     error: null,
   },
+  change_status: {
+    data: "",
+    isFetched: false,
+    error: null,
+  },
 };
 
 export const getChildCategories = createAsyncThunk("child_categories/get", () =>
@@ -25,6 +30,14 @@ export const deleteChildCategory = createAsyncThunk(
   (id) =>
     api
       .deleteChildCategory(id)
+      .then((response) => ({ data: response.data, id }))
+      .catch((error) => error)
+);
+export const changeChildCategoryStatus = createAsyncThunk(
+  "child_categories/change_status",
+  (id) =>
+    api
+      .changeChildCategoryStatus(id)
       .then((response) => ({ data: response.data, id }))
       .catch((error) => error)
 );
@@ -64,6 +77,29 @@ export const childCategorySlice = createSlice({
       .addCase(deleteChildCategory.rejected, (state, action) => {
         state.delete.isFetched = true;
         state.delete.error = action.payload;
+      })
+      // change category status case
+
+      .addCase(changeChildCategoryStatus.pending, (state) => {
+        state.change_status.isFetched = false;
+        state.change_status.error = null;
+      })
+      .addCase(changeChildCategoryStatus.fulfilled, (state, action) => {
+        state.change_status.isFetched = true;
+        state.change_status.data = action.payload.data;
+        state.get.data = state.get.data.map((childCategory) => {
+          if (childCategory.id === action.payload.id) {
+            return {
+              ...childCategory,
+              deactivated_at: action.payload.data.data,
+            };
+          }
+          return { ...childCategory };
+        });
+      })
+      .addCase(changeChildCategoryStatus.rejected, (state, action) => {
+        state.change_status.isFetched = true;
+        state.change_status.error = action.payload;
       });
   },
 });
@@ -71,4 +107,6 @@ export const childCategorySlice = createSlice({
 export const selectGetChildCategories = (state) => state.child_category.get;
 export const selectDeleteChildCategories = (state) =>
   state.child_category.delete;
+export const selectChangeChildCategoriesStatus = (state) =>
+  state.category.change_status;
 export default childCategorySlice.reducer;
