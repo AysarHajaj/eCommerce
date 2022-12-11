@@ -95,4 +95,18 @@ class ChildCategoryController extends Controller
 
         return response()->json(["data" => 'success'], 200);
     }
+
+    public function changeStatus(Request $request, $id)
+    {
+        $childCategory = ChildCategory::find($id);
+        if ($childCategory->deactivated_at) {
+            $childCategory->deactivated_at = null;
+        } else {
+            $childCategory->deactivated_at = now();
+        }
+
+        $childCategory->save();
+
+        return response()->json(["data" => $childCategory->deactivated_at], 200);
+    }
 }

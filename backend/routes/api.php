@@ -28,3 +28,4 @@ Route::post('categories/{id}/change_status', [CategoryController::class, 'change
 Route::resource('sub_categories', SubCategoryController::class);
 Route::resource('child_categories', ChildCategoryController::class);
 Route::post('sub_categories/{id}/change_status', [SubCategoryController::class, 'changeStatus']);
+Route::post('child_categories/{id}/change_status', [ChildCategoryController::class, 'changeStatus']);
