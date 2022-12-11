@@ -12,7 +12,7 @@ export default ({ isActive, changeStatus }) => {
 
   const handleChange = (event) => {
     setChecked(event.target.checked);
-    changeStatus(event.target.checked);
+    changeStatus();
   };
   return (
     <FormControlLabel
