@@ -1,29 +1,112 @@
-import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
-import { selectGetCategories } from "../../categorySlice";
+import React, { useState, useEffect, useMemo } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  getCategoryById,
+  selectGetCategoryById,
+  updateCategory,
+  selectUpdateCategory,
+  postCategory,
+  selectPostCategory,
+} from "../../categorySlice";
+import { useParams, useNavigate } from "react-router-dom";
+import { TextField, OutlinedInput, FormControl } from "@mui/material";
+import { LoadingButton } from "@mui/lab";
 
-const Form = ({ id }) => {
+const Form = () => {
+  const { id } = useParams();
+  const dispatch = useDispatch();
+  const { data: initialData } = useSelector(selectGetCategoryById);
+  const { isLoading: updateIsLoading } = useSelector(selectUpdateCategory);
+  const { isLoading: postIsLoading } = useSelector(selectPostCategory);
+  const isEdit = !!id;
+  const navigate = useNavigate();
+
   const [data, setData] = useState({
     id,
     name: "",
     image: "",
-    deactivated_at: null,
   });
-  const [initialData, setInitialData] = useState({ ...data });
 
-  const isEdit = !!id;
+  const enableSave = useMemo(() => {
+    let result = true;
+    if (
+      isEdit &&
+      initialData.name === data.name &&
+      data.image === initialData.image
+    ) {
+      result = false;
+    } else if (!isEdit && data.name === "" && data.image === "") {
+      result = false;
+    }
+    return result;
+  }, [isEdit, data, initialData]);
 
-  const { data: categories } = useSelector(selectGetCategories);
+  const handleChangeImage = (e) => {
+    const files = e.target.files;
+    if (files?.length) {
+      const file = e.target.files[0];
+      setData({ ...data, image: file });
+    }
+  };
+
+  const handleSubmit = () => {
+    let result;
+    if (isEdit) {
+      result = dispatch(updateCategory(data));
+    } else {
+      result = dispatch(postCategory(data));
+    }
+
+    result.then(({ meta }) => {
+      if (meta.requestStatus === "fulfilled") {
+        navigate("/category");
+      }
+    });
+  };
 
   useEffect(() => {
     if (isEdit) {
-      const category = categories.find((item) => item.id === id) || {};
-      setData({ ...data, ...category });
-      setInitialData({ ...initialData, ...category });
+      dispatch(getCategoryById(id)).then(({ payload }) => {
+        setData(payload.data);
+      });
     }
   }, []);
 
-  return <div></div>;
+  return (
+    <form>
+      <FormControl fullWidth>
+        <label>Name</label>
+        <TextField
+          id="name"
+          variant="outlined"
+          value={data.name}
+          onChange={(e) => setData({ ...data, name: e.target.value })}
+          fullWidth
+        />
+      </FormControl>
+
+      <FormControl style={{ marginTop: "15px" }} fullWidth>
+        <label>Image</label>
+        <OutlinedInput
+          id="image"
+          type="file"
+          variant="outlined"
+          fullWidth
+          label="Image"
+          onChange={handleChangeImage}
+        />
+      </FormControl>
+      <LoadingButton
+        style={{ marginTop: "15px" }}
+        variant="contained"
+        loading={updateIsLoading || postIsLoading}
+        onClick={handleSubmit}
+        disabled={!enableSave}
+      >
+        {isEdit ? "Update" : "Save"}
+      </LoadingButton>
+    </form>
+  );
 };
 
 export default Form;
