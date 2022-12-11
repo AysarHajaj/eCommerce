@@ -60,7 +60,10 @@ const Category = () => {
         renderCell: (params) => {
           return (
             <React.Fragment>
-              <IconButton>
+              <IconButton
+                LinkComponent={NavLink}
+                to={`/category/edit/${params.row.id}`}
+              >
                 <EditIcon />
               </IconButton>
               <IconButton onClick={() => handleDelete(params.row.id)}>
@@ -82,7 +85,7 @@ const Category = () => {
         <Button
           variant="contained"
           LinkComponent={NavLink}
-          to="/"
+          to="/category/create"
           startIcon={<AddIcon />}
         >
           Add New Category
