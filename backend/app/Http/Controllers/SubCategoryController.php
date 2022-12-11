@@ -93,4 +93,18 @@ class SubCategoryController extends Controller
 
         return response()->json(["data" => 'success'], 200);
     }
+
+    public function changeStatus(Request $request, $id)
+    {
+        $subCategory = SubCategory::find($id);
+        if ($subCategory->deactivated_at) {
+            $subCategory->deactivated_at = null;
+        } else {
+            $subCategory->deactivated_at = now();
+        }
+
+        $subCategory->save();
+
+        return response()->json(["data" => $subCategory->deactivated_at], 200);
+    }
 }
