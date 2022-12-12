@@ -12,5 +12,9 @@ export default {
       path: "/category",
       label: "Category",
     },
+    LOGIN: {
+      path: "/login",
+      label: "Login",
+    },
   },
 };
