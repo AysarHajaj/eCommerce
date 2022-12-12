@@ -50,7 +50,9 @@ class AuthenticationController extends Controller
             $response = [];
             $response['token'] = $user->createToken('eCommerce')->accessToken;
 
-            return response()->json([$response], 200);
+            return response()->json($response, 200);
+        } else {
+            return response()->json(["error" => "Incorrect Email or Password"], 401);
         }
     }
 
