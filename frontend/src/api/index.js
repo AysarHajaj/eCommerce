@@ -26,6 +26,8 @@ const postCategory = (data) =>
     headers: { "Content-Type": "multipart/form-data" },
   });
 
+const login = (data) => api.post(`/login`, data);
+
 export default {
   getCategories,
   deleteCategory,
@@ -39,4 +41,5 @@ export default {
   getCategoryById,
   updateCategory,
   postCategory,
+  login,
 };
