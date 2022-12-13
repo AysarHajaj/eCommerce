@@ -13,11 +13,13 @@ import {
   deleteSubCategory,
   changeSubCategoryStatus,
 } from "./subCategorySlice";
-import { NavLink } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import constant from "../../constant";
 
 const SubCategory = () => {
   const dispatch = useDispatch();
   const { data } = useSelector(selectGetSubCategories);
+  const navigate = useNavigate();
 
   const handleDelete = useCallback((id) => {
     dispatch(deleteSubCategory(id));
@@ -58,7 +60,11 @@ const SubCategory = () => {
           return (
             <React.Fragment>
               <IconButton>
-                <EditIcon />
+                <EditIcon
+                  onClick={() =>
+                    navigate(`/sub_category/edit/${params.row.id}`)
+                  }
+                />
               </IconButton>
               <IconButton onClick={() => handleDelete(params.row.id)}>
                 <DeleteIcon />
@@ -78,8 +84,7 @@ const SubCategory = () => {
       <div className="container-header">
         <Button
           variant="contained"
-          LinkComponent={NavLink}
-          to="/"
+          onClick={() => navigate(constant.routes.CREATE_SUB_CATEGORY.path)}
           startIcon={<AddIcon />}
         >
           Add New Sub Category
