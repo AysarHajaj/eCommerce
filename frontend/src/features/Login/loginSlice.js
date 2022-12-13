@@ -9,14 +9,12 @@ const initialState = {
   },
 };
 
-export const login = createAsyncThunk("login", (data, { rejectWithValue }) => {
-  {
-    return api
-      .login(data)
-      .then((response) => response.data)
-      .catch((error) => rejectWithValue(error?.response?.data));
-  }
-});
+export const login = createAsyncThunk("login", (data, { rejectWithValue }) =>
+  api
+    .login(data)
+    .then((response) => response.data)
+    .catch((error) => rejectWithValue(error?.response?.data))
+);
 
 export const loginSlice = createSlice({
   name: "login",

@@ -21,7 +21,6 @@ class CategoryController extends Controller
         $categories->map(function ($category) {
             return $category->image = env('APP_URL') . 'storage/' . $category->image;
         });
-
         return response()->json(["data" => $categories], 200);
     }
 
@@ -35,23 +34,26 @@ class CategoryController extends Controller
     {
         $validator = Validator::make($request->all(), [
             "name" => "required",
-            "image" => 'required|image|mimes:jpg,jpeg,png,gif,svg|max:2048'
+            "image" => 'image|mimes:jpg,jpeg,png,gif,svg|max:2048'
         ]);
 
         if ($validator->fails()) {
             return response()->json(['error' => $validator->errors()], 400);
         }
 
-        $image = $request->file('image');
         $input = [
             'name' => $request->all()['name']
         ];
-        $input['image'] = 'thumbnail/' . time() . '.' . $image->getClientOriginalExtension();
+        $image = $request->file('image');
+        if ($image) {
 
-        $imgFile = Image::make($image->getRealPath());
-        $imgFile->resize(150, 150, function ($constraint) {
-            $constraint->aspectRatio();
-        })->save(storage_path('app/public/'  . $input['image']));
+            $input['image'] = 'thumbnail/' . time() . '.' . $image->getClientOriginalExtension();
+
+            $imgFile = Image::make($image->getRealPath());
+            $imgFile->resize(150, 150, function ($constraint) {
+                $constraint->aspectRatio();
+            })->save(storage_path('app/public/'  . $input['image']));
+        }
 
         $category = Category::create($input);
 
@@ -83,23 +85,26 @@ class CategoryController extends Controller
     {
         $validator = Validator::make($request->all(), [
             "name" => "required",
-            "image" => 'required|image|mimes:jpg,jpeg,png,gif,svg|max:2048'
+            "image" => 'image|mimes:jpg,jpeg,png,gif,svg|max:2048'
         ]);
 
         if ($validator->fails()) {
             return response()->json(['error' => $validator->errors()], 400);
         }
 
-        $image = $request->file('image');
         $input = [
             'name' => $request->all()['name']
         ];
-        $input['image'] = 'thumbnail/' . time() . '.' . $image->getClientOriginalExtension();
+        $image = $request->file('image');
+        if ($image) {
 
-        $imgFile = Image::make($image->getRealPath());
-        $imgFile->resize(150, 150, function ($constraint) {
-            $constraint->aspectRatio();
-        })->save(storage_path('app/public/'  . $input['image']));
+            $input['image'] = 'thumbnail/' . time() . '.' . $image->getClientOriginalExtension();
+
+            $imgFile = Image::make($image->getRealPath());
+            $imgFile->resize(150, 150, function ($constraint) {
+                $constraint->aspectRatio();
+            })->save(storage_path('app/public/'  . $input['image']));
+        }
 
         Category::where('id', $id)->update($input);
 

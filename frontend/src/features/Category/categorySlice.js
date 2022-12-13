@@ -34,45 +34,55 @@ const initialState = {
   },
 };
 
-export const getCategories = createAsyncThunk("categories/get", () =>
-  api
-    .getCategories()
-    .then((response) => response.data)
-    .catch((error) => error)
+export const getCategories = createAsyncThunk(
+  "categories/get",
+  (data = null, { rejectWithValue }) =>
+    api
+      .getCategories()
+      .then((response) => response.data)
+      .catch((error) => rejectWithValue(error?.response?.data))
 );
-export const deleteCategory = createAsyncThunk("categories/delete", (id) =>
-  api
-    .deleteCategory(id)
-    .then((response) => ({ data: response.data, id }))
-    .catch((error) => error)
+export const deleteCategory = createAsyncThunk(
+  "categories/delete",
+  (id, { rejectWithValue }) =>
+    api
+      .deleteCategory(id)
+      .then((response) => ({ data: response.data, id }))
+      .catch((error) => rejectWithValue(error?.response?.data))
 );
 export const changeCategoryStatus = createAsyncThunk(
   "categories/change_status",
-  (id) =>
+  (id, { rejectWithValue }) =>
     api
       .changeCategoryStatus(id)
       .then((response) => ({ data: response.data, id }))
-      .catch((error) => error)
+      .catch((error) => rejectWithValue(error?.response?.data))
 );
-export const getCategoryById = createAsyncThunk("category/get/id", (id) =>
-  api
-    .getCategoryById(id)
-    .then((response) => response.data)
-    .catch((error) => error)
-);
-
-export const updateCategory = createAsyncThunk("category/update", (data) =>
-  api
-    .updateCategory(data.id, data)
-    .then((response) => response.data)
-    .catch((error) => error)
+export const getCategoryById = createAsyncThunk(
+  "category/get/id",
+  (id, { rejectWithValue }) =>
+    api
+      .getCategoryById(id)
+      .then((response) => response.data)
+      .catch((error) => rejectWithValue(error?.response?.data))
 );
 
-export const postCategory = createAsyncThunk("category/post", (data) =>
-  api
-    .postCategory(data)
-    .then((response) => response.data)
-    .catch((error) => error)
+export const updateCategory = createAsyncThunk(
+  "category/update",
+  (data, { rejectWithValue }) =>
+    api
+      .updateCategory(data.id, data)
+      .then((response) => response.data)
+      .catch((error) => rejectWithValue(error?.response?.data))
+);
+
+export const postCategory = createAsyncThunk(
+  "category/post",
+  (data, { rejectWithValue }) =>
+    api
+      .postCategory(data)
+      .then((response) => response.data)
+      .catch((error) => rejectWithValue(error?.response?.data))
 );
 
 export const categorySlice = createSlice({
@@ -159,7 +169,7 @@ export const categorySlice = createSlice({
         state.update_category.isLoading = false;
         state.update_category.error = action.payload;
       })
-      // update category case
+      // post category case
 
       .addCase(postCategory.pending, (state) => {
         state.post_category.isLoading = true;

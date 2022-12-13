@@ -13,10 +13,12 @@ import {
   deleteCategory,
   changeCategoryStatus,
 } from "./categorySlice";
-import { NavLink } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Avatar from "@mui/material/Avatar";
+import constant from "../../constant";
 
 const Category = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { data } = useSelector(selectGetCategories);
 
@@ -61,8 +63,7 @@ const Category = () => {
           return (
             <React.Fragment>
               <IconButton
-                LinkComponent={NavLink}
-                to={`/category/edit/${params.row.id}`}
+                onClick={() => navigate(`/category/edit/${params.row.id}`)}
               >
                 <EditIcon />
               </IconButton>
@@ -84,8 +85,7 @@ const Category = () => {
       <div className="container-header">
         <Button
           variant="contained"
-          LinkComponent={NavLink}
-          to="/category/create"
+          onClick={() => navigate(constant.routes.CREATE_CATEGORY.path)}
           startIcon={<AddIcon />}
         >
           Add New Category

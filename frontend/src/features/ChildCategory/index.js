@@ -13,11 +13,13 @@ import {
   deleteChildCategory,
   changeChildCategoryStatus,
 } from "./childCategorySlice";
-import { NavLink } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import constant from "../../constant";
 
 const ChildCategory = () => {
   const dispatch = useDispatch();
   const { data } = useSelector(selectGetChildCategories);
+  const navigate = useNavigate();
 
   const handleDelete = useCallback((id) => {
     dispatch(deleteChildCategory(id));
@@ -63,7 +65,11 @@ const ChildCategory = () => {
         renderCell: (params) => {
           return (
             <React.Fragment>
-              <IconButton>
+              <IconButton
+                onClick={() =>
+                  navigate(`/child_category/edit/${params.row.id}`)
+                }
+              >
                 <EditIcon />
               </IconButton>
               <IconButton onClick={() => handleDelete(params.row.id)}>
@@ -84,7 +90,7 @@ const ChildCategory = () => {
       <div className="container-header">
         <Button
           variant="contained"
-          LinkComponent={NavLink}
+          onClick={() => navigate(constant.routes.CREATE_CHILD_CATEGORY.path)}
           to="/"
           startIcon={<AddIcon />}
         >
