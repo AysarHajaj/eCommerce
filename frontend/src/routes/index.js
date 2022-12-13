@@ -10,6 +10,9 @@ const ChildCategory = React.lazy(() => import("../features/ChildCategory"));
 const CategoryForm = React.lazy(() =>
   import("../features/Category/components/Form")
 );
+const ChildCategoryForm = React.lazy(() =>
+  import("../features/ChildCategory/components/Form")
+);
 const Login = React.lazy(() => import("../features/Login"));
 
 export default () => {
@@ -41,7 +44,7 @@ export default () => {
             </AuthRoute>
           </React.Suspense>
         }
-        path="/category/create"
+        path={constant.routes.CREATE_CATEGORY.path}
       />
       <Route
         element={
@@ -51,7 +54,7 @@ export default () => {
             </AuthRoute>
           </React.Suspense>
         }
-        path="/category/edit/:id"
+        path={constant.routes.EDIT_CATEGORY.path}
       />
       <Route
         element={
@@ -61,8 +64,28 @@ export default () => {
             </AuthRoute>
           </React.Suspense>
         }
-        path="/sub_category/"
+        path={constant.routes.SUB_CATEGORY.path}
       />
+      {/* <Route
+        element={
+          <React.Suspense fallback="Loading...">
+            <AuthRoute>
+              <SubCategory />
+            </AuthRoute>
+          </React.Suspense>
+        }
+        path={constant.routes.CREATE_SUB_CATEGORY.path}
+      />
+      <Route
+        element={
+          <React.Suspense fallback="Loading...">
+            <AuthRoute>
+              <SubCategory />
+            </AuthRoute>
+          </React.Suspense>
+        }
+        path={constant.routes.EDIT_SUB_CATEGORY.path}
+      /> */}
       <Route
         element={
           <React.Suspense fallback="Loading...">
@@ -71,7 +94,27 @@ export default () => {
             </AuthRoute>
           </React.Suspense>
         }
-        path="/child_category/"
+        path={constant.routes.CHILD_CATEGORY.path}
+      />
+      <Route
+        element={
+          <React.Suspense fallback="Loading...">
+            <AuthRoute>
+              <ChildCategoryForm />
+            </AuthRoute>
+          </React.Suspense>
+        }
+        path={constant.routes.CREATE_CHILD_CATEGORY.path}
+      />
+      <Route
+        element={
+          <React.Suspense fallback="Loading...">
+            <AuthRoute>
+              <ChildCategoryForm />
+            </AuthRoute>
+          </React.Suspense>
+        }
+        path={constant.routes.EDIT_CHILD_CATEGORY.path}
       />
       <Route
         element={
