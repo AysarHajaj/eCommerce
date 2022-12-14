@@ -56,7 +56,7 @@ class CategoryController extends Controller
             $image = $request->file('image');
 
             if ($image) {
-                $input['image'] = 'thumbnail/' . time() . '.' . $image->getClientOriginalExtension();
+                $input['image'] = 'categories/' . time() . '.' . $image->getClientOriginalExtension();
                 $imgFile = Image::make($image->getRealPath());
                 $imgFile->resize(150, 150, function ($constraint) {
                     $constraint->aspectRatio();
@@ -123,7 +123,7 @@ class CategoryController extends Controller
             $input = $request->only(['name']);
             $image = $request->file('image');
             if ($image) {
-                $input['image'] = 'thumbnail/' . time() . '.' . $image->getClientOriginalExtension();
+                $input['image'] = 'categories/' . time() . '.' . $image->getClientOriginalExtension();
                 $imgFile = Image::make($image->getRealPath());
                 $imgFile->resize(150, 150, function ($constraint) {
                     $constraint->aspectRatio();
