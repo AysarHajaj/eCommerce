@@ -24,18 +24,14 @@ const Form = () => {
   const [data, setData] = useState({
     id,
     name: "",
-    image: "",
+    image: undefined,
   });
 
   const enableSave = useMemo(() => {
     let result = true;
-    if (
-      isEdit &&
-      initialData.name === data.name &&
-      data.image === initialData.image
-    ) {
+    if (isEdit && initialData.name === data.name && data.image === undefined) {
       result = false;
-    } else if (!isEdit && data.name === "" && data.image === "") {
+    } else if (!isEdit && data.name === "" && data.image === undefined) {
       result = false;
     }
     return result;
@@ -67,7 +63,7 @@ const Form = () => {
   useEffect(() => {
     if (isEdit) {
       dispatch(getCategoryById(id)).then(({ payload }) => {
-        setData(payload.data);
+        setData({ ...payload.data, image: undefined });
       });
     }
   }, []);
