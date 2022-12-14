@@ -1,0 +1,19 @@
+.dashboard-table-container {
+  background-color: white;
+  padding: 10px 25px 25px;
+  margin: 20px 10px;
+  border-radius: 3px;
+
+  .table-title {
+    color: #6c757d;
+  }
+
+  .table-controls {
+    margin-top: 15px;
+
+    .MuiAutocomplete-root {
+      max-width: 500px;
+      margin-left: auto;
+    }
+  }
+}
