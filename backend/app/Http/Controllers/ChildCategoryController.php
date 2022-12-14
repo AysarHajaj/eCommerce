@@ -90,7 +90,7 @@ class ChildCategoryController extends Controller
             ]);
 
             if ($validator->fails()) {
-                $response = ['error' => $validator->errors()];
+                $response = ['error' => $validator->errors()->first()];
                 return response()->json($response, 400);
             }
 
