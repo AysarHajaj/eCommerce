@@ -34,25 +34,38 @@ class AuthenticationController extends Controller
 
     public function login(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            "email" => "required|email",
-            "password" => "required"
-        ]);
+        try {
+            $validator = Validator::make($request->all(), [
+                "email" => "required|email",
+                "password" => "required"
+            ]);
 
-        if ($validator->fails()) {
-            return response()->json(['error' => $validator->errors()], 400);
-        }
+            if ($validator->fails()) {
+                return response()->json(['error' => $validator->errors()->first()], 400);
+            }
 
-        $input = $request->all();
+            $input = $request->all();
 
-        if (Auth::attempt($input)) {
-            $user = Auth::user();
-            $response = [];
-            $response['token'] = $user->createToken('eCommerce')->accessToken;
+            if (Auth::attempt($input)) {
+                $user = Auth::user();
+                if ($user->image) {
+                    $user->image = env('APP_URL') . 'storage/' . $user->image;
+                }
+                $response = [
+                    "data" => [
+                        "user" => $user,
+                        "token" => $user->createToken('eCommerce')->accessToken
+                    ]
+                ];
 
-            return response()->json($response, 200);
-        } else {
-            return response()->json(["error" => "Incorrect Email or Password"], 401);
+                return response()->json($response, 200);
+            } else {
+                $response = ["error" => "Incorrect Email or Password"];
+                return response()->json($response, 401);
+            }
+        } catch (\Throwable $th) {
+            $response = ["error" => $th->getMessage()];
+            return response()->json($response, 500);
         }
     }
 
@@ -66,6 +79,7 @@ class AuthenticationController extends Controller
 
     public function unauthenticated()
     {
-        return response()->json(['error' => 'unauthenticated'], 403);
+        $response = ['error' => 'unauthenticated'];
+        return response()->json($response, 403);
     }
 }
