@@ -18,6 +18,8 @@ const CategoryForm = React.lazy(() =>
 const ChildCategoryForm = React.lazy(() =>
   import("../features/ChildCategory/components/Form")
 );
+const Products = React.lazy(() => import("../features/Products"));
+const CreateProducts = React.lazy(() => import("../features/CreateProducts"));
 
 const { ROUTES, USER_ROLES } = constant;
 
@@ -120,6 +122,28 @@ const AppRoutes = () => {
             element={
               <React.Suspense fallback={<Loader />}>
                 <ChildCategoryForm />
+              </React.Suspense>
+            }
+          />
+        </Route>
+
+        <Route element={<RequiredAuth allowedRoles={[USER_ROLES.ADMIN, USER_ROLES.VENDOR]} />}>
+          <Route
+            path={ROUTES.PRODUCTS.path}
+            element={
+              <React.Suspense fallback={<Loader />}>
+                <Products />
+              </React.Suspense>
+            }
+          />
+        </Route>
+
+        <Route element={<RequiredAuth allowedRoles={[USER_ROLES.ADMIN, USER_ROLES.VENDOR]} />}>
+          <Route
+            path={ROUTES.CREATE_PRODUCT.path}
+            element={
+              <React.Suspense fallback={<Loader />}>
+                <CreateProducts />
               </React.Suspense>
             }
           />

@@ -11,7 +11,7 @@ export default {
     },
     CATEGORY: {
       path: "/category",
-      label: "Category",
+      label: "Categories",
     },
     LOGIN: {
       path: "/login",
@@ -27,7 +27,7 @@ export default {
     },
     SUB_CATEGORY: {
       path: "/sub_category",
-      label: "Sub Category",
+      label: "Sub Categories",
     },
     CREATE_SUB_CATEGORY: {
       path: "/sub_category/create",
@@ -39,7 +39,7 @@ export default {
     },
     CHILD_CATEGORY: {
       path: "/child_category",
-      label: "Child Category",
+      label: "Child Categories",
     },
     CREATE_CHILD_CATEGORY: {
       path: "/child_category/create",
@@ -52,6 +52,14 @@ export default {
     UNAUTHORIZED: {
       path: "/unauthorized",
       label: "Unauthorized",
+    },
+    PRODUCTS: {
+      path: "/vendor/products",
+      label: "Products",
+    },
+    CREATE_PRODUCT: {
+      path: "/vendor/create_product",
+      label: "Create Product",
     },
   },
 };
