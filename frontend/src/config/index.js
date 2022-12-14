@@ -1,4 +1,5 @@
 import HomeIcon from "@mui/icons-material/Home";
+import WindowIcon from "@mui/icons-material/Window";
 import Constant from "../constant";
 
 const config = {
@@ -14,7 +15,7 @@ const config = {
       id: 2,
       label: "Manage Categories",
       to: "",
-      icon: <HomeIcon />,
+      icon: <WindowIcon />,
       roles: [Constant.USER_ROLES.ADMIN],
       sub_items: [
         {
