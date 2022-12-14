@@ -37,5 +37,6 @@ Route::prefix('vendors')->group(function () {
     Route::get('/', [UserController::class, 'getVendors']);
     Route::get('/{id}', [UserController::class, 'getVendor']);
     Route::delete('/{id}', [UserController::class, 'deleteVendor']);
-    Route::post('/update/{id}', [UserController::class, 'updateVendor']);
+    Route::post('/{id}', [UserController::class, 'updateVendor']);
+    Route::post('/{id}/change_status', [UserController::class, 'changeStatus']);
 });
