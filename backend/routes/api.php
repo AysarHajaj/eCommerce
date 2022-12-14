@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ChildCategoryController;
+use App\Http\Controllers\ShopController;
 use App\Http\Controllers\SubCategoryController;
 use App\Http\Controllers\UserController;
 use App\Models\Category;
@@ -39,4 +40,10 @@ Route::prefix('vendors')->group(function () {
     Route::delete('/{id}', [UserController::class, 'deleteVendor']);
     Route::post('/{id}', [UserController::class, 'updateVendor']);
     Route::post('/{id}/change_status', [UserController::class, 'changeStatus']);
+});
+
+//Shop apis
+Route::prefix('shops')->group(function () {
+    Route::get('/{id}', [ShopController::class, 'show']);
+    Route::post('/{id}', [ShopController::class, 'update']);
 });
