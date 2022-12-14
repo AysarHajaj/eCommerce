@@ -61,6 +61,8 @@ class CategoryController extends Controller
                 $imgFile->resize(150, 150, function ($constraint) {
                     $constraint->aspectRatio();
                 })->save(storage_path('app/public/'  . $input['image']));
+            } else {
+                $input['image'] = null;
             }
 
             $category = Category::create($input);
