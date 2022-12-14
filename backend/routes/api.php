@@ -32,8 +32,10 @@ Route::post('sub_categories/{id}/change_status', [SubCategoryController::class, 
 Route::post('child_categories/{id}/change_status', [ChildCategoryController::class, 'changeStatus']);
 
 //vendor apis
-Route::post('vendors', [UserController::class, 'storeVendor']);
-Route::get('vendors', [UserController::class, 'getVendors']);
-Route::get('vendors/{id}', [UserController::class, 'getVendor']);
-Route::delete('vendors/{id}', [UserController::class, 'deleteVendor']);
-Route::post('vendors/update/{id}', [UserController::class, 'updateVendor']);
+Route::prefix('vendors')->group(function () {
+    Route::post('/', [UserController::class, 'storeVendor']);
+    Route::get('/', [UserController::class, 'getVendors']);
+    Route::get('/{id}', [UserController::class, 'getVendor']);
+    Route::delete('/{id}', [UserController::class, 'deleteVendor']);
+    Route::post('/update/{id}', [UserController::class, 'updateVendor']);
+});
