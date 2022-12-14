@@ -141,4 +141,23 @@ class UserController extends Controller
             return response()->json($response, 500);
         }
     }
+
+    public function changeStatus(Request $request, $id)
+    {
+        try {
+            $user = User::find($id);
+            if ($user->deactivated_at) {
+                $user->deactivated_at = null;
+            } else {
+                $user->deactivated_at = now();
+            }
+
+            $user->save();
+            $response = ["data" => $user->deactivated_at];
+            return response()->json($response, 200);
+        } catch (\Throwable $th) {
+            $response = ["error" => $th->getMessage()];
+            return response()->json($response, 500);
+        }
+    }
 }
