@@ -53,6 +53,7 @@ Route::prefix('vendors')->group(function () {
 Route::prefix('shops')->group(function () {
     Route::get('/{id}', [ShopController::class, 'show']);
     Route::post('/{id}', [ShopController::class, 'update']);
+    Route::get('/vendor/{vendorId}', [ShopController::class, 'showByVendorId']);
 });
 
 //products apis
