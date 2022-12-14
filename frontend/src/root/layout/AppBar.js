@@ -31,7 +31,7 @@ const AppBar = ({ open, handleDrawerOpen }) => {
   const location = useLocation();
   const pageName = useMemo(() => {
     return (
-      Object.values(constant.routes).find((route) => {
+      Object.values(constant.ROUTES).find((route) => {
         return route.path === location.pathname;
       })?.label || "Not Found"
     );

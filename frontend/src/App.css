@@ -1,5 +1,17 @@
+*, *::after, *::after {
+  box-sizing: border-box;
+}
+
 .MuiDataGrid-root {
   margin-top: 15px;
   width: 100%;
   height: 400px
+}
+
+.Mui-error  {
+  background: rgba(215,161,161,.368627);
+  padding: 3px;
+  margin: 0;
+  font-size: 13px;
+  height:  28px;
 }

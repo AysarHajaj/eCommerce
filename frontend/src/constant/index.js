@@ -1,9 +1,10 @@
+/* eslint-disable import/no-anonymous-default-export */
 export default {
-  user_roles: {
-    admin: 1,
-    vendor: 2,
+  USER_ROLES: {
+    ADMIN: 'admin',
+    VENDOR: 'vendor',
   },
-  routes: {
+  ROUTES: {
     DASHBOARD: {
       path: "/",
       label: "Dashboard",

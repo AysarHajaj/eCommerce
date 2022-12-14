@@ -1,26 +1,22 @@
-import React, { useState, useEffect, useMemo } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { login, selectLogin, setToken } from "./loginSlice";
-import { useParams, useNavigate } from "react-router-dom";
-import {
-  TextField,
-  OutlinedInput,
-  FormControl,
-  FormHelperText,
-  CircularProgress,
-} from "@mui/material";
+import React, { useState, useEffect, useMemo, useRef } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import { TextField, FormControl, FormHelperText } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
+import "./style.scss";
+import useAuth from "../../hooks/useAuth";
+import api from '../../api';
+
+const { PUBLIC_URL } = process.env;
 
 const Login = () => {
-  const dispatch = useDispatch();
-  const {
-    isLoading: loginIsLoading,
-    error,
-    data: loginData,
-  } = useSelector(selectLogin);
+  const { setAuth } = useAuth();
+  const emailRef = useRef();
   const navigate = useNavigate();
-  const [showLoader, setShowLoader] = useState(true);
+  const location = useLocation();
+  const fromPath = location.state?.from?.pathname || "/";
 
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
   const [data, setData] = useState({
     password: "",
     email: "",
@@ -30,92 +26,95 @@ const Login = () => {
     return data.name !== "" && data.password !== "";
   }, [data]);
 
-  const handleSubmit = () => {
-    dispatch(login(data)).then(({ payload }) => {
-      if (payload.token) {
-        navigate("/");
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      setIsLoading(true);
+      const response = await api.login(data);
+      const resData = response?.data;
+      const accessToken = resData.data?.token;
+      const user = resData.data?.user;
+
+      localStorage.setItem('token', accessToken);
+      localStorage.setItem("user", JSON.stringify(user));
+
+      setAuth({ user, accessToken });
+      setData({ email: '', password: '' });
+      navigate(fromPath, { replace: true });
+    } catch (err) {
+      if (!err?.response) {
+        setError("No Server Response");
+      } else if (err.response?.status === 400) {
+        setError("Missing Username or Password");
+      } else if (err.response?.status === 401) {
+        setError("Unauthorized");
+      } else {
+        setError("Login Failed");
       }
-    });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      dispatch(setToken(token));
-    }
-    const timer = setTimeout(() => {
-      setShowLoader(false);
-    }, 5000);
-    return () => {
-      clearTimeout(timer);
-    };
-  }, []);
+    setError("");
+  }, [data.email, data.password]);
 
-  useEffect(() => {
-    if (loginData?.token) {
-      navigate("/");
-    }
-  }, [loginData]);
-  return showLoader ? (
-    <CircularProgress
-      style={{
-        margin: "auto",
-        display: "block",
-        maxWidth: "300px",
-      }}
-    />
-  ) : (
-    <form>
-      <FormControl fullWidth>
-        <label>Email</label>
-        <TextField
-          id="email"
-          variant="outlined"
-          value={data.email}
-          onChange={(e) => setData({ ...data, email: e.target.value })}
-          fullWidth
-        />
-      </FormControl>
-
-      <FormControl style={{ marginTop: "15px" }} fullWidth>
-        <label>Password</label>
-        <TextField
-          id="password"
-          variant="outlined"
-          value={data.password}
-          onChange={(e) => setData({ ...data, password: e.target.value })}
-          type="password"
-          fullWidth
-        />
-      </FormControl>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-        }}
-      >
-        <LoadingButton
-          style={{ marginTop: "15px" }}
-          variant="contained"
-          loading={loginIsLoading}
-          onClick={handleSubmit}
-          disabled={!enableSave}
-        >
-          Login
-        </LoadingButton>
-        {error && !loginIsLoading && (
-          <FormHelperText
-            error
-            style={{
-              fontSize: "1.2em",
-            }}
-          >
-            {error}
-          </FormHelperText>
-        )}
+  return (
+    <section className="login-container">
+      <div className="login-brand">
+        <div className="logo">
+          <img alt="" src={`${PUBLIC_URL}/images/eCommerceLogo.png`} />
+        </div>
       </div>
-    </form>
+      <form onSubmit={handleSubmit}>
+        <FormHelperText error={!!error}>{error}</FormHelperText>
+        <FormControl fullWidth>
+          <TextField
+            id="email"
+            variant="outlined"
+            value={data.email}
+            onChange={(e) => setData({ ...data, email: e.target.value })}
+            fullWidth
+            inputRef={emailRef}
+            autoComplete="off"
+            placeholder="Email"
+            required
+          />
+        </FormControl>
+
+        <FormControl style={{ marginTop: "15px" }} fullWidth>
+          <TextField
+            id="password"
+            variant="outlined"
+            value={data.password}
+            onChange={(e) => setData({ ...data, password: e.target.value })}
+            type="password"
+            fullWidth
+            autoComplete="off"
+            placeholder="Password"
+            required
+          />
+        </FormControl>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <LoadingButton
+            style={{ marginTop: "15px" }}
+            variant="contained"
+            loading={isLoading}
+            disabled={!enableSave}
+            type="submit"
+          >
+            Login
+          </LoadingButton>
+        </div>
+      </form>
+    </section>
   );
 };
 

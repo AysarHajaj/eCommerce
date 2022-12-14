@@ -1,13 +1,9 @@
 import React from "react";
+import AppRoutes from './routes'
 import "./App.css";
-import Layout from "./root/layout/Layout";
 
 function App() {
-  return (
-    <div className="App">
-      <Layout />
-    </div>
-  );
+  return <div className="App">{<AppRoutes />}</div>;
 }
 
 export default App;

@@ -23,6 +23,13 @@ const theme = createTheme(
           minWidth: "35px",
         },
       },
+      MuiTextField: {
+        inputProps: {
+          style: {
+            height: "1em",
+          },
+        },
+      },
     },
   })
 );

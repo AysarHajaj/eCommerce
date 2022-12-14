@@ -1,7 +1,12 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
 import constant from "../constant";
-import AuthRoute from "./AuthRoute";
+import RequiredAuth from "./RequiredAuth";
+import Layout from "../root/layout/Layout";
+import Unauthorized from "../components/UnAuthorized";
+import PageNotFound from "../components/PageNotFound";
+import Login from "../features/Login";
+import Loader from "../components/Loader";
 
 const Dashboard = React.lazy(() => import("../features/Dashboard"));
 const Category = React.lazy(() => import("../features/Category"));
@@ -13,118 +18,117 @@ const CategoryForm = React.lazy(() =>
 const ChildCategoryForm = React.lazy(() =>
   import("../features/ChildCategory/components/Form")
 );
-const Login = React.lazy(() => import("../features/Login"));
 
-export default () => {
+const { ROUTES, USER_ROLES } = constant;
+
+const AppRoutes = () => {
   return (
     <Routes>
-      <Route
-        element={
-          <AuthRoute>
-            <Dashboard />
-          </AuthRoute>
-        }
-        path={constant.routes.DASHBOARD.path}
-      />
-      <Route
-        element={
-          <React.Suspense fallback="Loading...">
-            <AuthRoute>
-              <Category />
-            </AuthRoute>
-          </React.Suspense>
-        }
-        path={constant.routes.CATEGORY.path}
-      />
-      <Route
-        element={
-          <React.Suspense fallback="Loading...">
-            <AuthRoute>
-              <CategoryForm />
-            </AuthRoute>
-          </React.Suspense>
-        }
-        path={constant.routes.CREATE_CATEGORY.path}
-      />
-      <Route
-        element={
-          <React.Suspense fallback="Loading...">
-            <AuthRoute>
-              <CategoryForm />
-            </AuthRoute>
-          </React.Suspense>
-        }
-        path={constant.routes.EDIT_CATEGORY.path}
-      />
-      <Route
-        element={
-          <React.Suspense fallback="Loading...">
-            <AuthRoute>
-              <SubCategory />
-            </AuthRoute>
-          </React.Suspense>
-        }
-        path={constant.routes.SUB_CATEGORY.path}
-      />
-      {/* <Route
-        element={
-          <React.Suspense fallback="Loading...">
-            <AuthRoute>
-              <SubCategory />
-            </AuthRoute>
-          </React.Suspense>
-        }
-        path={constant.routes.CREATE_SUB_CATEGORY.path}
-      />
-      <Route
-        element={
-          <React.Suspense fallback="Loading...">
-            <AuthRoute>
-              <SubCategory />
-            </AuthRoute>
-          </React.Suspense>
-        }
-        path={constant.routes.EDIT_SUB_CATEGORY.path}
-      /> */}
-      <Route
-        element={
-          <React.Suspense fallback="Loading...">
-            <AuthRoute>
-              <ChildCategory />
-            </AuthRoute>
-          </React.Suspense>
-        }
-        path={constant.routes.CHILD_CATEGORY.path}
-      />
-      <Route
-        element={
-          <React.Suspense fallback="Loading...">
-            <AuthRoute>
-              <ChildCategoryForm />
-            </AuthRoute>
-          </React.Suspense>
-        }
-        path={constant.routes.CREATE_CHILD_CATEGORY.path}
-      />
-      <Route
-        element={
-          <React.Suspense fallback="Loading...">
-            <AuthRoute>
-              <ChildCategoryForm />
-            </AuthRoute>
-          </React.Suspense>
-        }
-        path={constant.routes.EDIT_CHILD_CATEGORY.path}
-      />
-      <Route
-        element={
-          <React.Suspense fallback="Loading...">
-            <Login />
-          </React.Suspense>
-        }
-        path={constant.routes.LOGIN.path}
-      />
-      <Route element={<b>404 not found</b>} path="*" />
+      <Route element={<Login />} path={ROUTES.LOGIN.path} />
+
+      <Route path="/" element={<Layout />}>
+        <Route element={<RequiredAuth />}>
+          <Route path="unauthorized" element={<Unauthorized />} />
+        </Route>
+
+        <Route
+          element={
+            <RequiredAuth
+              allowedRoles={[USER_ROLES.ADMIN, USER_ROLES.VENDOR]}
+            />
+          }
+        >
+          <Route
+            element={
+              <React.Suspense fallback={<Loader />}>
+                <Dashboard />
+              </React.Suspense>
+            }
+            path={ROUTES.DASHBOARD.path}
+          />
+        </Route>
+
+        <Route element={<RequiredAuth allowedRoles={[USER_ROLES.ADMIN]} />}>
+          <Route
+            path={ROUTES.CATEGORY.path}
+            element={
+              <React.Suspense fallback={<Loader />}>
+                <Category />
+              </React.Suspense>
+            }
+          />
+        </Route>
+
+        <Route element={<RequiredAuth allowedRoles={[USER_ROLES.ADMIN]} />}>
+          <Route
+            path={ROUTES.CREATE_CATEGORY.path}
+            element={
+              <React.Suspense fallback={<Loader />}>
+                <CategoryForm />
+              </React.Suspense>
+            }
+          />
+        </Route>
+
+        <Route element={<RequiredAuth allowedRoles={[USER_ROLES.ADMIN]} />}>
+          <Route
+            path={ROUTES.EDIT_CATEGORY.path}
+            element={
+              <React.Suspense fallback={<Loader />}>
+                <CategoryForm />
+              </React.Suspense>
+            }
+          />
+        </Route>
+
+        <Route element={<RequiredAuth allowedRoles={[USER_ROLES.ADMIN]} />}>
+          <Route
+            path={ROUTES.SUB_CATEGORY.path}
+            element={
+              <React.Suspense fallback={<Loader />}>
+                <SubCategory />
+              </React.Suspense>
+            }
+          />
+        </Route>
+
+        <Route element={<RequiredAuth allowedRoles={[USER_ROLES.ADMIN]} />}>
+          <Route
+            path={ROUTES.CHILD_CATEGORY.path}
+            element={
+              <React.Suspense fallback={<Loader />}>
+                <ChildCategory />
+              </React.Suspense>
+            }
+          />
+        </Route>
+
+        <Route element={<RequiredAuth allowedRoles={[USER_ROLES.ADMIN]} />}>
+          <Route
+            path={ROUTES.CREATE_CHILD_CATEGORY.path}
+            element={
+              <React.Suspense fallback={<Loader />}>
+                <ChildCategoryForm />
+              </React.Suspense>
+            }
+          />
+        </Route>
+
+        <Route element={<RequiredAuth allowedRoles={[USER_ROLES.ADMIN]} />}>
+          <Route
+            path={ROUTES.EDIT_CHILD_CATEGORY.path}
+            element={
+              <React.Suspense fallback={<Loader />}>
+                <ChildCategoryForm />
+              </React.Suspense>
+            }
+          />
+        </Route>
+
+        <Route element={<PageNotFound />} path="*" />
+      </Route>
     </Routes>
   );
 };
+
+export default AppRoutes;
