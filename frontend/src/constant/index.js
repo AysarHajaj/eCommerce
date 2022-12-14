@@ -24,6 +24,7 @@ export default {
     EDIT_CATEGORY: {
       path: "/category/edit/:id",
       label: "Edit Category",
+      dynamicPath: (id) => `/category/edit/${id}`,
     },
     SUB_CATEGORY: {
       path: "/sub_category",
@@ -36,6 +37,7 @@ export default {
     EDIT_SUB_CATEGORY: {
       path: "/sub_category/edit/:id",
       label: "Edit Sub Category",
+      dynamicPath: (id) => `/sub_category/edit/${id}`,
     },
     CHILD_CATEGORY: {
       path: "/child_category",
@@ -48,6 +50,7 @@ export default {
     EDIT_CHILD_CATEGORY: {
       path: "/child_category/edit/:id",
       label: "Edit Child Category",
+      dynamicPath: (id) => `/child_category/edit/${id}`,
     },
     UNAUTHORIZED: {
       path: "/unauthorized",

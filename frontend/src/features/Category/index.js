@@ -85,7 +85,7 @@ const Category = () => {
       <div className="container-header">
         <Button
           variant="contained"
-          onClick={() => navigate(constant.routes.CREATE_CATEGORY.path)}
+          onClick={() => navigate(constant.ROUTES.CREATE_CATEGORY.path)}
           startIcon={<AddIcon />}
         >
           Add New Category

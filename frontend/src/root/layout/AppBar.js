@@ -1,6 +1,6 @@
 import React, { useMemo } from "react";
 import { styled } from "@mui/material/styles";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import MuiAppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
@@ -55,6 +55,7 @@ const AppBar = ({ open, handleDrawerOpen }) => {
   const location = useLocation();
   const navigate = useNavigate();
   const { setAuth } = useAuth();
+  const { id } = useParams();
 
   const {
     auth: { user },
@@ -62,7 +63,8 @@ const AppBar = ({ open, handleDrawerOpen }) => {
   const pageName = useMemo(() => {
     return (
       Object.values(constant.ROUTES).find((route) => {
-        return route.path === location.pathname;
+        console.log(route, route?.dynamicPath);
+        return route.path === location.pathname || ( !!route?.dynamicPath && route?.dynamicPath(id) === location.pathname);
       })?.label || "Not Found"
     );
   }, [location.pathname]);
