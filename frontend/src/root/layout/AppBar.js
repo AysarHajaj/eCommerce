@@ -87,7 +87,7 @@ const AppBar = ({ open, handleDrawerOpen }) => {
           edge="start"
           sx={{ mr: 2, ...(open && { display: "none" }) }}
         >
-          <MenuIcon />
+          <MenuIcon htmlColor="white" />
         </IconButton>
         <Typography
           color="white"
