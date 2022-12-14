@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Shop;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Image;
@@ -60,6 +61,23 @@ class ShopController extends Controller
             Shop::where('id', $id)->update($input);
 
             $response = ["data" => "success"];
+            return response()->json($response, 200);
+        } catch (\Throwable $th) {
+            $response = ["error" => $th->getMessage()];
+            return response()->json($response, 500);
+        }
+    }
+
+    public function showByVendorId($vendorId)
+    {
+        try {
+            $vendor = User::find($vendorId);
+            $shop = $vendor->shop;
+            if ($shop->banner_image) {
+                $shop->banner_image = env('APP_URL') . 'storage/' . $shop->banner_image;
+            }
+            $response = ["data" => $shop];
+
             return response()->json($response, 200);
         } catch (\Throwable $th) {
             $response = ["error" => $th->getMessage()];
