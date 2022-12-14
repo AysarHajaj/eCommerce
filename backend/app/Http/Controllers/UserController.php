@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Constants\UserTypes;
+use App\Models\Shop;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -40,6 +41,9 @@ class UserController extends Controller
             $input['type'] = UserTypes::VENDOR;
 
             $user = User::create($input);
+            $shop = Shop::create([
+                'user_id' => $user->id
+            ]);
 
             $response = ["data" => "success"];
 
