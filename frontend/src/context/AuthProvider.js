@@ -10,7 +10,7 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const token = localStorage.getItem("token");
     const user = localStorage.getItem("user");
-    console.log("get here");
+
     if (token && user) {
       setAuth({ accessToken: token, user: JSON.parse(user) });
       navigate("/", { replace: true });
