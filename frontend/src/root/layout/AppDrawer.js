@@ -14,6 +14,7 @@ import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 import Config from "../../config";
 import { useNavigate } from "react-router-dom";
+import useAuth from "../../hooks/useAuth";
 
 const drawerWidth = 240;
 
@@ -28,6 +29,7 @@ export const DrawerHeader = styled("div")(({ theme }) => ({
 
 const AppDrawer = ({ open, handleDrawerClose }) => {
   const navigate = useNavigate();
+  const { auth: { user } } = useAuth();
   const theme = useTheme();
   const navItems = Config.nav_items;
   const [collapse, setCollapse] = React.useState(
@@ -73,43 +75,46 @@ const AppDrawer = ({ open, handleDrawerClose }) => {
         component="nav"
         aria-labelledby="nested-list-subheader"
       >
-        {navItems.map((item) => {
-          if (!item.sub_items) {
+        {navItems
+          .filter((item) => item.roles.includes(user?.type))
+          .filter((item) => item.roles.includes(user?.type))
+          .map((item) => {
+            if (!item.sub_items) {
+              return (
+                <ListItemButton onClick={() => navigate(item.to)} key={item.id}>
+                  {item.icon && <ListItemIcon>{item.icon}</ListItemIcon>}
+                  <ListItemText primary={item.label} />
+                </ListItemButton>
+              );
+            }
             return (
-              <ListItemButton onClick={() => navigate(item.to)} key={item.id}>
-                {item.icon && <ListItemIcon>{item.icon}</ListItemIcon>}
-                <ListItemText primary={item.label} />
-              </ListItemButton>
+              <React.Fragment key={item.id}>
+                <ListItemButton onClick={() => handleClick(item.id)}>
+                  {item.icon && <ListItemIcon>{item.icon}</ListItemIcon>}
+                  <ListItemText primary={item.label} />
+                  {collapse[item.id] ? <ExpandLess /> : <ExpandMore />}
+                </ListItemButton>
+                <Collapse in={collapse[item.id]} timeout="auto" unmountOnExit>
+                  <List component="div" disablePadding>
+                    {item.sub_items.map((subItem) => {
+                      return (
+                        <ListItemButton
+                          onClick={() => navigate(subItem.to)}
+                          key={subItem.id}
+                          sx={{ pl: 4 }}
+                        >
+                          {subItem.icon && (
+                            <ListItemIcon>{subItem.icon}</ListItemIcon>
+                          )}
+                          <ListItemText primary={subItem.label} />
+                        </ListItemButton>
+                      );
+                    })}
+                  </List>
+                </Collapse>
+              </React.Fragment>
             );
-          }
-          return (
-            <React.Fragment key={item.id}>
-              <ListItemButton onClick={() => handleClick(item.id)}>
-                {item.icon && <ListItemIcon>{item.icon}</ListItemIcon>}
-                <ListItemText primary={item.label} />
-                {collapse[item.id] ? <ExpandLess /> : <ExpandMore />}
-              </ListItemButton>
-              <Collapse in={collapse[item.id]} timeout="auto" unmountOnExit>
-                <List component="div" disablePadding>
-                  {item.sub_items.map((subItem) => {
-                    return (
-                      <ListItemButton
-                        onClick={() => navigate(subItem.to)}
-                        key={subItem.id}
-                        sx={{ pl: 4 }}
-                      >
-                        {subItem.icon && (
-                          <ListItemIcon>{subItem.icon}</ListItemIcon>
-                        )}
-                        <ListItemText primary={subItem.label} />
-                      </ListItemButton>
-                    );
-                  })}
-                </List>
-              </Collapse>
-            </React.Fragment>
-          );
-        })}
+          })}
       </List>
     </Drawer>
   );
