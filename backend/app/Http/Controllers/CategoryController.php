@@ -17,11 +17,20 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::all();
-        $categories->map(function ($category) {
-            return $category->image = env('APP_URL') . 'storage/' . $category->image;
-        });
-        return response()->json(["data" => $categories], 200);
+        try {
+            $categories = Category::all();
+            $categories->map(function ($category) {
+                if ($category->image) {
+                    return $category->image = env('APP_URL') . 'storage/' . $category->image;
+                }
+            });
+            $response = ["data" => $categories];
+
+            return response()->json($response, 200);
+        } catch (\Throwable $th) {
+            $response = ["error" => $th->getMessage()];
+            return response()->json($response, 500);
+        }
     }
 
     /**
@@ -32,32 +41,36 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            "name" => "required",
-            "image" => 'image|mimes:jpg,jpeg,png,gif,svg|max:2048'
-        ]);
+        try {
+            $validator = Validator::make($request->all(), [
+                "name" => "required",
+                "image" => 'image|mimes:jpg,jpeg,png,gif,svg|max:2048'
+            ]);
 
-        if ($validator->fails()) {
-            return response()->json(['error' => $validator->errors()], 400);
+            if ($validator->fails()) {
+                $response = ["error" => $validator->errors()->first()];
+                return response()->json($response, 400);
+            }
+
+            $input = $request->only(['name']);
+            $image = $request->file('image');
+
+            if ($image) {
+                $input['image'] = 'thumbnail/' . time() . '.' . $image->getClientOriginalExtension();
+                $imgFile = Image::make($image->getRealPath());
+                $imgFile->resize(150, 150, function ($constraint) {
+                    $constraint->aspectRatio();
+                })->save(storage_path('app/public/'  . $input['image']));
+            }
+
+            $category = Category::create($input);
+            $response = ["data" => $category];
+
+            return response()->json($response, 200);
+        } catch (\Throwable $th) {
+            $response = ["error" => $th->getMessage()];
+            return response()->json($response, 500);
         }
-
-        $input = [
-            'name' => $request->all()['name']
-        ];
-        $image = $request->file('image');
-        if ($image) {
-
-            $input['image'] = 'thumbnail/' . time() . '.' . $image->getClientOriginalExtension();
-
-            $imgFile = Image::make($image->getRealPath());
-            $imgFile->resize(150, 150, function ($constraint) {
-                $constraint->aspectRatio();
-            })->save(storage_path('app/public/'  . $input['image']));
-        }
-
-        $category = Category::create($input);
-
-        return response()->json(["data" => $category], 200);
     }
 
     /**
@@ -68,10 +81,21 @@ class CategoryController extends Controller
      */
     public function show($id)
     {
-        $category = Category::find($id);
-        $category->image = env('APP_URL') . 'storage/' . $category->image;
+        try {
+            $category = Category::find($id);
+            if ($category->image) {
+                $category->image = env('APP_URL') . 'storage/' . $category->image;
+            }
 
-        return response()->json(["data" => $category], 200);
+            $response = [
+                "data" => $category
+            ];
+
+            return response()->json($response, 200);
+        } catch (\Throwable $th) {
+            $response = ["error" => $th->getMessage()];
+            return response()->json($response, 500);
+        }
     }
 
     /**
@@ -83,32 +107,34 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $validator = Validator::make($request->all(), [
-            "name" => "required",
-            "image" => 'image|mimes:jpg,jpeg,png,gif,svg|max:2048'
-        ]);
+        try {
+            $validator = Validator::make($request->all(), [
+                "name" => "required",
+                "image" => 'image|mimes:jpg,jpeg,png,gif,svg|max:2048'
+            ]);
 
-        if ($validator->fails()) {
-            return response()->json(['error' => $validator->errors()], 400);
+            if ($validator->fails()) {
+                $response = ["error" => $validator->errors()->first()];
+                return response()->json($response, 400);
+            }
+
+            $input = $request->only(['name']);
+            $image = $request->file('image');
+            if ($image) {
+                $input['image'] = 'thumbnail/' . time() . '.' . $image->getClientOriginalExtension();
+                $imgFile = Image::make($image->getRealPath());
+                $imgFile->resize(150, 150, function ($constraint) {
+                    $constraint->aspectRatio();
+                })->save(storage_path('app/public/'  . $input['image']));
+            }
+
+            Category::where('id', $id)->update($input);
+            $response = ["data" => "success"];
+            return response()->json($response, 200);
+        } catch (\Throwable $th) {
+            $response = ["error" => $th->getMessage()];
+            return response()->json($response, 500);
         }
-
-        $input = [
-            'name' => $request->all()['name']
-        ];
-        $image = $request->file('image');
-        if ($image) {
-
-            $input['image'] = 'thumbnail/' . time() . '.' . $image->getClientOriginalExtension();
-
-            $imgFile = Image::make($image->getRealPath());
-            $imgFile->resize(150, 150, function ($constraint) {
-                $constraint->aspectRatio();
-            })->save(storage_path('app/public/'  . $input['image']));
-        }
-
-        Category::where('id', $id)->update($input);
-
-        return response()->json(["data" => "success"], 200);
     }
 
     /**
@@ -119,23 +145,33 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        $category = Category::find($id);
-        $category->delete();
-
-        return response()->json(["data" => 'success'], 200);
+        try {
+            $category = Category::find($id);
+            $category->delete();
+            $response = ["data" => "success"];
+            return response()->json($response, 200);
+        } catch (\Throwable $th) {
+            $response = ["error" => $th->getMessage()];
+            return response()->json($response, 500);
+        }
     }
 
     public function changeStatus(Request $request, $id)
     {
-        $category = Category::find($id);
-        if ($category->deactivated_at) {
-            $category->deactivated_at = null;
-        } else {
-            $category->deactivated_at = now();
+        try {
+            $category = Category::find($id);
+            if ($category->deactivated_at) {
+                $category->deactivated_at = null;
+            } else {
+                $category->deactivated_at = now();
+            }
+
+            $category->save();
+            $response = ["data" => $category->deactivated_at];
+            return response()->json($response, 200);
+        } catch (\Throwable $th) {
+            $response = ["error" => $th->getMessage()];
+            return response()->json($response, 500);
         }
-
-        $category->save();
-
-        return response()->json(["data" => $category->deactivated_at], 200);
     }
 }

@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ChildCategoryController;
 use App\Http\Controllers\SubCategoryController;
+use App\Http\Controllers\UserController;
 use App\Models\Category;
 use Illuminate\Support\Facades\Route;
 
@@ -29,3 +30,12 @@ Route::resource('sub_categories', SubCategoryController::class);
 Route::resource('child_categories', ChildCategoryController::class);
 Route::post('sub_categories/{id}/change_status', [SubCategoryController::class, 'changeStatus']);
 Route::post('child_categories/{id}/change_status', [ChildCategoryController::class, 'changeStatus']);
+
+//vendor apis
+Route::prefix('vendors')->group(function () {
+    Route::post('/', [UserController::class, 'storeVendor']);
+    Route::get('/', [UserController::class, 'getVendors']);
+    Route::get('/{id}', [UserController::class, 'getVendor']);
+    Route::delete('/{id}', [UserController::class, 'deleteVendor']);
+    Route::post('/update/{id}', [UserController::class, 'updateVendor']);
+});

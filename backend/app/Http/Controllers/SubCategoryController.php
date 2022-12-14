@@ -15,9 +15,15 @@ class SubCategoryController extends Controller
      */
     public function index()
     {
-        $subCategories = SubCategory::with('category')->get();
+        try {
+            $subCategories = SubCategory::with('category')->get();
+            $response = ["data" => $subCategories];
 
-        return response()->json(["data" => $subCategories], 200);
+            return response()->json($response, 200);
+        } catch (\Throwable $th) {
+            $response = ["error" => $th->getMessage()];
+            return response()->json($response, 500);
+        }
     }
 
     /**
@@ -28,19 +34,27 @@ class SubCategoryController extends Controller
      */
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            "name" => "required",
-            "category_id" => 'required'
-        ]);
+        try {
+            $validator = Validator::make($request->all(), [
+                "name" => "required",
+                "category_id" => 'required'
+            ]);
 
-        if ($validator->fails()) {
-            return response()->json(['error' => $validator->errors()], 400);
+            if ($validator->fails()) {
+                $response = ["error" => $validator->errors()->first()];
+                return response()->json($response, 400);
+            }
+
+            $input = $request->all();
+            $subCategory = SubCategory::create($input);
+
+            $response = ["data" => $subCategory];
+
+            return response()->json($response, 200);
+        } catch (\Throwable $th) {
+            $response = ["error" => $th->getMessage()];
+            return response()->json($response, 500);
         }
-
-        $input = $request->all();
-        $subCategory = SubCategory::create($input);
-
-        return response()->json(["data" => $subCategory], 200);
     }
 
     /**
@@ -51,9 +65,14 @@ class SubCategoryController extends Controller
      */
     public function show($id)
     {
-        $subCategory = SubCategory::with('category')->find($id);
-
-        return response()->json(["data" => $subCategory], 200);
+        try {
+            $subCategory = SubCategory::with('category')->find($id);
+            $response = ["data" => $subCategory];
+            return response()->json($response, 200);
+        } catch (\Throwable $th) {
+            $response = ["error" => $th->getMessage()];
+            return response()->json($response, 500);
+        }
     }
 
     /**
@@ -65,19 +84,26 @@ class SubCategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $validator = Validator::make($request->all(), [
-            "name" => "required",
-            "category_id" => 'required'
-        ]);
+        try {
+            $validator = Validator::make($request->all(), [
+                "name" => "required",
+                "category_id" => 'required'
+            ]);
 
-        if ($validator->fails()) {
-            return response()->json(['error' => $validator->errors()], 400);
+            if ($validator->fails()) {
+                $response = ["error" => $validator->errors()->first()];
+
+                return response()->json($response, 400);
+            }
+
+            $input = $request->all();
+            SubCategory::where('id', $id)->update($input);
+            $response = ["data" => "success"];
+            return response()->json($response, 200);
+        } catch (\Throwable $th) {
+            $response = ["error" => $th->getMessage()];
+            return response()->json($response, 500);
         }
-
-        $input = $request->all();
-        SubCategory::where('id', $id)->update($input);
-
-        return response()->json(["data" => "success"], 200);
     }
 
     /**
@@ -88,23 +114,33 @@ class SubCategoryController extends Controller
      */
     public function destroy($id)
     {
-        $subCategory = SubCategory::find($id);
-        $subCategory->delete();
-
-        return response()->json(["data" => 'success'], 200);
+        try {
+            $subCategory = SubCategory::find($id);
+            $subCategory->delete();
+            $response = ["data" => 'success'];
+            return response()->json($response, 200);
+        } catch (\Throwable $th) {
+            $response = ["error" => $th->getMessage()];
+            return response()->json($response, 500);
+        }
     }
 
     public function changeStatus(Request $request, $id)
     {
-        $subCategory = SubCategory::find($id);
-        if ($subCategory->deactivated_at) {
-            $subCategory->deactivated_at = null;
-        } else {
-            $subCategory->deactivated_at = now();
+        try {
+            $subCategory = SubCategory::find($id);
+            if ($subCategory->deactivated_at) {
+                $subCategory->deactivated_at = null;
+            } else {
+                $subCategory->deactivated_at = now();
+            }
+
+            $subCategory->save();
+            $response = ["data" => $subCategory->deactivated_at];
+            return response()->json($response, 200);
+        } catch (\Throwable $th) {
+            $response = ["error" => $th->getMessage()];
+            return response()->json($response, 500);
         }
-
-        $subCategory->save();
-
-        return response()->json(["data" => $subCategory->deactivated_at], 200);
     }
 }

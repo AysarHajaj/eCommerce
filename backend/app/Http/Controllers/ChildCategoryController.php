@@ -15,9 +15,14 @@ class ChildCategoryController extends Controller
      */
     public function index()
     {
-        $childCategories = ChildCategory::with(['category', 'subCategory'])->get();
-
-        return response()->json(["data" => $childCategories], 200);
+        try {
+            $childCategories = ChildCategory::with(['category', 'subCategory'])->get();
+            $response = ["data" => $childCategories];
+            return response()->json($response, 200);
+        } catch (\Throwable $th) {
+            $response = ["error" => $th->getMessage()];
+            return response()->json($response, 500);
+        }
     }
 
     /**
@@ -28,20 +33,26 @@ class ChildCategoryController extends Controller
      */
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            "name" => "required",
-            "category_id" => 'required',
-            "sub_category_id" => 'required'
-        ]);
+        try {
+            $validator = Validator::make($request->all(), [
+                "name" => "required",
+                "category_id" => 'required',
+                "sub_category_id" => 'required'
+            ]);
 
-        if ($validator->fails()) {
-            return response()->json(['error' => $validator->errors()], 400);
+            if ($validator->fails()) {
+                $response = ['error' => $validator->errors()->first()];
+                return response()->json($response, 400);
+            }
+
+            $input = $request->all();
+            $childCategory = ChildCategory::create($input);
+            $response = ["data" => $childCategory];
+            return response()->json($response, 200);
+        } catch (\Throwable $th) {
+            $response = ["error" => $th->getMessage()];
+            return response()->json($response, 500);
         }
-
-        $input = $request->all();
-        $childCategory = ChildCategory::create($input);
-
-        return response()->json(["data" => $childCategory], 200);
     }
 
     /**
@@ -52,9 +63,14 @@ class ChildCategoryController extends Controller
      */
     public function show($id)
     {
-        $childCategory = ChildCategory::with(['category', 'subCategory'])->find($id);
-
-        return response()->json(["data" => $childCategory], 200);
+        try {
+            $childCategory = ChildCategory::with(['category', 'subCategory'])->find($id);
+            $response = ["data" => $childCategory];
+            return response()->json($response, 200);
+        } catch (\Throwable $th) {
+            $response = ["error" => $th->getMessage()];
+            return response()->json($response, 500);
+        }
     }
 
     /**
@@ -66,20 +82,26 @@ class ChildCategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $validator = Validator::make($request->all(), [
-            "name" => "required",
-            "category_id" => 'required',
-            "sub_category_id" => 'required'
-        ]);
+        try {
+            $validator = Validator::make($request->all(), [
+                "name" => "required",
+                "category_id" => 'required',
+                "sub_category_id" => 'required'
+            ]);
 
-        if ($validator->fails()) {
-            return response()->json(['error' => $validator->errors()], 400);
+            if ($validator->fails()) {
+                $response = ['error' => $validator->errors()->first()];
+                return response()->json($response, 400);
+            }
+
+            $input = $request->all();
+            ChildCategory::where('id', $id)->update($input);
+            $response = ["data" => "success"];
+            return response()->json($response, 200);
+        } catch (\Throwable $th) {
+            $response = ["error" => $th->getMessage()];
+            return response()->json($response, 500);
         }
-
-        $input = $request->all();
-        ChildCategory::where('id', $id)->update($input);
-
-        return response()->json(["data" => "success"], 200);
     }
 
     /**
@@ -90,23 +112,33 @@ class ChildCategoryController extends Controller
      */
     public function destroy($id)
     {
-        $subCategory = ChildCategory::find($id);
-        $subCategory->delete();
-
-        return response()->json(["data" => 'success'], 200);
+        try {
+            $subCategory = ChildCategory::find($id);
+            $subCategory->delete();
+            $response = ["data" => 'success'];
+            return response()->json($response, 200);
+        } catch (\Throwable $th) {
+            $response = ["error" => $th->getMessage()];
+            return response()->json($response, 500);
+        }
     }
 
     public function changeStatus(Request $request, $id)
     {
-        $childCategory = ChildCategory::find($id);
-        if ($childCategory->deactivated_at) {
-            $childCategory->deactivated_at = null;
-        } else {
-            $childCategory->deactivated_at = now();
+        try {
+            $childCategory = ChildCategory::find($id);
+            if ($childCategory->deactivated_at) {
+                $childCategory->deactivated_at = null;
+            } else {
+                $childCategory->deactivated_at = now();
+            }
+
+            $childCategory->save();
+            $response = ["data" => $childCategory->deactivated_at];
+            return response()->json($response, 200);
+        } catch (\Throwable $th) {
+            $response = ["error" => $th->getMessage()];
+            return response()->json($response, 500);
         }
-
-        $childCategory->save();
-
-        return response()->json(["data" => $childCategory->deactivated_at], 200);
     }
 }
