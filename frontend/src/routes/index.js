@@ -28,7 +28,7 @@ const AppRoutes = () => {
 
       <Route path="/" element={<Layout />}>
         <Route element={<RequiredAuth />}>
-          <Route path="unauthorized" element={<Unauthorized />} />
+          <Route path={ROUTES.UNAUTHORIZED.path} element={<Unauthorized />} />
         </Route>
 
         <Route

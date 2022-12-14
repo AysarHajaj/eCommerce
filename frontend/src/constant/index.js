@@ -1,8 +1,8 @@
 /* eslint-disable import/no-anonymous-default-export */
 export default {
   USER_ROLES: {
-    ADMIN: 'admin',
-    VENDOR: 'vendor',
+    ADMIN: "admin",
+    VENDOR: "vendor",
   },
   ROUTES: {
     DASHBOARD: {
@@ -48,6 +48,10 @@ export default {
     EDIT_CHILD_CATEGORY: {
       path: "/child_category/edit/:id",
       label: "Edit Child Category",
+    },
+    UNAUTHORIZED: {
+      path: "/unauthorized",
+      label: "Unauthorized",
     },
   },
 };
