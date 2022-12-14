@@ -60,3 +60,4 @@ Route::prefix('shops')->group(function () {
 Route::resource('products', ProductController::class);
 Route::post('products/{id}', [ProductController::class, 'update']);
 Route::post('products/{id}/change_status', [ProductController::class, 'changeStatus']);
+Route::get('products/vendor/{vendorId}', [ProductController::class, 'getProductsByVendorId']);
