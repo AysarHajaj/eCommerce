@@ -4,6 +4,7 @@ import ShopIcon from "@mui/icons-material/LocalGroceryStore";
 import PersonIcon from "@mui/icons-material/Person";
 import VerifiedIcon from "@mui/icons-material/Verified";
 import CircleIcon from "@mui/icons-material/Circle";
+import DashboardTable from "./components/DashboardTable";
 
 const Dashboard =  () => {
   return (
@@ -97,6 +98,7 @@ const Dashboard =  () => {
         ]}
         currency="$"
       />
+      <DashboardTable />
     </section>
   );
 };
