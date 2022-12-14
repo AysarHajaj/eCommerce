@@ -17,7 +17,7 @@ class ProductController extends Controller
     public function index()
     {
         try {
-            $products = Product::all();
+            $products = Product::whereNull('user_id')->get();
             $products->map(function ($product) {
                 if ($product->thumbnail_image) {
                     $product->thumbnail_image = env('APP_URL') . 'storage/' . $product->thumbnail_image;
@@ -223,6 +223,29 @@ class ProductController extends Controller
 
             $product->save();
             $response = ["data" => $product->deactivated_at];
+            return response()->json($response, 200);
+        } catch (\Throwable $th) {
+            $response = ["error" => $th->getMessage()];
+            return response()->json($response, 500);
+        }
+    }
+
+    public function getProductsByVendorId($vendorId)
+    {
+        try {
+            $products = Product::where('user_id', $vendorId)->get();
+            $products->map(function ($product) {
+                if ($product->thumbnail_image) {
+                    $product->thumbnail_image = env('APP_URL') . 'storage/' . $product->thumbnail_image;
+                }
+                if ($product->banner_image) {
+                    $product->banner_image = env('APP_URL') . 'storage/' . $product->banner_image;
+                }
+
+                return $product;
+            });
+            $response = ["data" => $products];
+
             return response()->json($response, 200);
         } catch (\Throwable $th) {
             $response = ["error" => $th->getMessage()];
