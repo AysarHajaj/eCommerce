@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Constants\UserTypes;
+use App\Models\Shop;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -40,6 +41,9 @@ class UserController extends Controller
             $input['type'] = UserTypes::VENDOR;
 
             $user = User::create($input);
+            $shop = Shop::create([
+                'user_id' => $user->id
+            ]);
 
             $response = ["data" => "success"];
 
@@ -135,6 +139,25 @@ class UserController extends Controller
             User::where('id', $id)->update($input);
 
             $response = ["data" => "success"];
+            return response()->json($response, 200);
+        } catch (\Throwable $th) {
+            $response = ["error" => $th->getMessage()];
+            return response()->json($response, 500);
+        }
+    }
+
+    public function changeStatus(Request $request, $id)
+    {
+        try {
+            $user = User::find($id);
+            if ($user->deactivated_at) {
+                $user->deactivated_at = null;
+            } else {
+                $user->deactivated_at = now();
+            }
+
+            $user->save();
+            $response = ["data" => $user->deactivated_at];
             return response()->json($response, 200);
         } catch (\Throwable $th) {
             $response = ["error" => $th->getMessage()];
