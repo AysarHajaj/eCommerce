@@ -30,8 +30,8 @@ import {
   Button,
 } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
-import AddIcon from "@mui/icons-material/Add";
 import FormHelperText from '@mui/material/FormHelperText';
+import Avatar from "@mui/material/Avatar";
 import constant from "../../../../constant";
 import useAuth from "../../../../hooks/useAuth";
 import "./style.scss";
@@ -92,6 +92,23 @@ const Form = () => {
   //   return result;
   // }, [isEdit, data, initialData]);
 
+  const thumbnailImageURL = useMemo(() => { 
+    if (!data.thumbnail_image) return undefined;
+    if (typeof data.thumbnail_image === 'object') {
+      return URL.createObjectURL(data.thumbnail_image);
+    }
+    return data.thumbnail_image;
+  }, [data.thumbnail_image]);
+
+  const bannerImageURL = useMemo(() => {
+    if (!data.banner_image) return undefined;
+    if (typeof data.banner_image === "object") {
+      return URL.createObjectURL(data.banner_image);
+    }
+    return data.banner_image;
+  }, [data.banner_image]);
+
+
   const filteredSubCategories = useMemo(
     () => subCategories.filter((item) => item.id === data.category_id),
     [data.category_id]
@@ -145,16 +162,19 @@ const Form = () => {
 
   return (
     <section className="create-product-container">
-      <Button
-        variant="contained"
-        onClick={() => navigate(navigatePath)}
-      >
+      <Button variant="contained" onClick={() => navigate(navigatePath)}>
         Products
       </Button>
       <form onSubmit={handleSubmit} className="create-product-form">
         <FormHelperText error={!!(postError || putError)}>
           {postError || putError}
         </FormHelperText>
+
+        <FormControl style={{ marginTop: "15px" }} fullWidth>
+          <label>Thumnail Image Preview</label>
+          <Avatar src={thumbnailImageURL} />
+        </FormControl>
+
         <FormControl style={{ marginTop: "15px" }} fullWidth>
           <label>Thumnail Image</label>
           <OutlinedInput
@@ -166,6 +186,12 @@ const Form = () => {
             onChange={handleChangeImage}
           />
         </FormControl>
+
+        <FormControl style={{ marginTop: "15px" }} fullWidth>
+          <label>Banner Image Preview</label>
+          <Avatar src={bannerImageURL} />
+        </FormControl>
+
         <FormControl style={{ marginTop: "15px" }} fullWidth>
           <label>Banner Image</label>
           <OutlinedInput
