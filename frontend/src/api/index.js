@@ -26,9 +26,13 @@ const postCategory = (data) =>
     headers: { "Content-Type": "multipart/form-data" },
   });
 
+const getSubCategoryById = (id) => api.get(`/sub_categories/${id}`);
+const updateSubCategory = (id, data) => api.put(`/sub_categories/${id}`, data);
+const postSubCategory = (data) => api.post(`/sub_categories`, data);
+
 const getChildCategoryById = (id) => api.get(`/child_categories/${id}`);
 const updateChildCategory = (id, data) =>
-  api.post(`/child_categories/${id}`, data);
+  api.put(`/child_categories/${id}`, data);
 const postChildCategory = (data) => api.post(`/child_categories`, data);
 
 const login = (data) => api.post(`/login`, data);
@@ -50,4 +54,7 @@ export default {
   getChildCategoryById,
   updateChildCategory,
   postChildCategory,
+  getSubCategoryById,
+  updateSubCategory,
+  postSubCategory,
 };
