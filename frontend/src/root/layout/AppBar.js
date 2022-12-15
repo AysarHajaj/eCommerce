@@ -158,7 +158,7 @@ const AppBar = ({ open, handleDrawerOpen }) => {
               onClick={() => {
                 localStorage.clear();
                 setAuth({});
-                navigate("/login");
+                window.location.replace('/login');
               }}
             >
               {settings.LOGOUT.icon}
