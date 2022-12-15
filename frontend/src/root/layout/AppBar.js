@@ -10,10 +10,11 @@ import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
 import Menu from "@mui/material/Menu";
 import Tooltip from "@mui/material/Tooltip";
-import PersonIcon from '@mui/icons-material/Person';
+import PersonIcon from "@mui/icons-material/Person";
 import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import ShopIcon from "@mui/icons-material/Shop";
 import MenuItem from "@mui/material/MenuItem";
 import constant from "../../constant";
 import useAuth from "../../hooks/useAuth";
@@ -44,6 +45,11 @@ const settings = {
     icon: <PersonIcon />,
     to: "/settings/profile",
   },
+  SHOP_PROFILE: {
+    label: "Shop Profile",
+    icon: <ShopIcon />,
+    to: "/settings/shop_profile",
+  },
   LOGOUT: {
     label: "Logout",
     icon: <LogoutRoundedIcon />,
@@ -63,7 +69,10 @@ const AppBar = ({ open, handleDrawerOpen }) => {
   const pageName = useMemo(() => {
     return (
       Object.values(constant.ROUTES).find((route) => {
-        return route.path === location.pathname || ( !!route?.dynamicPath && route?.dynamicPath(id) === location.pathname);
+        return (
+          route.path === location.pathname ||
+          (!!route?.dynamicPath && route?.dynamicPath(id) === location.pathname)
+        );
       })?.label || "Not Found"
     );
   }, [location.pathname]);
@@ -150,6 +159,18 @@ const AppBar = ({ open, handleDrawerOpen }) => {
               {settings.PROFILE.icon}
               <Typography fontSize="14px" ml="10px" textAlign="center">
                 {settings.PROFILE.label}
+              </Typography>
+            </MenuItem>
+            <Divider />
+            <MenuItem
+              onClick={() => {
+                handleCloseUserMenu();
+                navigate(`/shop/edit/${user.id}`);
+              }}
+            >
+              {settings.SHOP_PROFILE.icon}
+              <Typography fontSize="14px" ml="10px" textAlign="center">
+                {settings.SHOP_PROFILE.label}
               </Typography>
             </MenuItem>
             <Divider />
