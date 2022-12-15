@@ -162,24 +162,28 @@ const AppBar = ({ open, handleDrawerOpen }) => {
               </Typography>
             </MenuItem>
             <Divider />
-            <MenuItem
-              onClick={() => {
-                handleCloseUserMenu();
-                navigate(`/shop/edit/${user.id}`);
-              }}
-            >
-              {settings.SHOP_PROFILE.icon}
-              <Typography fontSize="14px" ml="10px" textAlign="center">
-                {settings.SHOP_PROFILE.label}
-              </Typography>
-            </MenuItem>
-            <Divider />
+            {user?.type === constant.USER_ROLES.VENDOR && (
+              <React.Fragment>
+                <MenuItem
+                  onClick={() => {
+                    handleCloseUserMenu();
+                    navigate(`/shop/edit/${user.id}`);
+                  }}
+                >
+                  {settings.SHOP_PROFILE.icon}
+                  <Typography fontSize="14px" ml="10px" textAlign="center">
+                    {settings.SHOP_PROFILE.label}
+                  </Typography>
+                </MenuItem>
+                <Divider />
+              </React.Fragment>
+            )}
             <MenuItem
               style={{ color: "red" }}
               onClick={() => {
                 localStorage.clear();
                 setAuth({});
-                window.location.replace('/login');
+                window.location.replace("/login");
               }}
             >
               {settings.LOGOUT.icon}
