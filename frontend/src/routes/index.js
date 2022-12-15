@@ -15,6 +15,9 @@ const ChildCategory = React.lazy(() => import("../features/ChildCategory"));
 const CategoryForm = React.lazy(() =>
   import("../features/Category/components/Form")
 );
+const SubCategoryForm = React.lazy(() =>
+  import("../features/SubCategory/components/Form")
+);
 const ChildCategoryForm = React.lazy(() =>
   import("../features/ChildCategory/components/Form")
 );
@@ -127,7 +130,13 @@ const AppRoutes = () => {
           />
         </Route>
 
-        <Route element={<RequiredAuth allowedRoles={[USER_ROLES.ADMIN, USER_ROLES.VENDOR]} />}>
+        <Route
+          element={
+            <RequiredAuth
+              allowedRoles={[USER_ROLES.ADMIN, USER_ROLES.VENDOR]}
+            />
+          }
+        >
           <Route
             path={ROUTES.PRODUCTS.path}
             element={
@@ -138,12 +147,40 @@ const AppRoutes = () => {
           />
         </Route>
 
-        <Route element={<RequiredAuth allowedRoles={[USER_ROLES.ADMIN, USER_ROLES.VENDOR]} />}>
+        <Route
+          element={
+            <RequiredAuth
+              allowedRoles={[USER_ROLES.ADMIN, USER_ROLES.VENDOR]}
+            />
+          }
+        >
           <Route
             path={ROUTES.CREATE_PRODUCT.path}
             element={
               <React.Suspense fallback={<Loader />}>
                 <CreateProducts />
+              </React.Suspense>
+            }
+          />
+        </Route>
+
+        <Route element={<RequiredAuth allowedRoles={[USER_ROLES.ADMIN]} />}>
+          <Route
+            path={ROUTES.CREATE_SUB_CATEGORY.path}
+            element={
+              <React.Suspense fallback={<Loader />}>
+                <SubCategoryForm />
+              </React.Suspense>
+            }
+          />
+        </Route>
+
+        <Route element={<RequiredAuth allowedRoles={[USER_ROLES.ADMIN]} />}>
+          <Route
+            path={ROUTES.EDIT_SUB_CATEGORY.path}
+            element={
+              <React.Suspense fallback={<Loader />}>
+                <SubCategoryForm />
               </React.Suspense>
             }
           />
