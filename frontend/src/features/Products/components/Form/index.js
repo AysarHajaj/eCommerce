@@ -116,7 +116,22 @@ const Form = () => {
     e.preventDefault();
     let result;
     if (isEdit) {
-      result = dispatch(updateProduct({...data, ...(user?.type === constant.USER_ROLES.VENDOR ? {user_id: user?.id} : {})}));
+      result = dispatch(
+        updateProduct({
+          ...data,
+          ...(user?.type === constant.USER_ROLES.VENDOR
+            ? { user_id: user?.id }
+            : {}),
+          banner_image:
+            typeof data.banner_image === "object"
+              ? data.banner_image
+              : undefined,
+          thumbnail_image:
+            typeof data.thumbnail_image === "object"
+              ? data.thumbnail_image
+              : undefined,
+        })
+      );
     } else {
       result = dispatch(postProduct({...data, ...(user?.type === constant.USER_ROLES.VENDOR ? {user_id: user?.id} : {})}));
     }
