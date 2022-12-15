@@ -77,7 +77,6 @@ const AppDrawer = ({ open, handleDrawerClose }) => {
       >
         {navItems
           .filter((item) => item.roles.includes(user?.type))
-          .filter((item) => item.roles.includes(user?.type))
           .map((item) => {
             if (!item.sub_items) {
               return (
@@ -96,20 +95,22 @@ const AppDrawer = ({ open, handleDrawerClose }) => {
                 </ListItemButton>
                 <Collapse in={collapse[item.id]} timeout="auto" unmountOnExit>
                   <List component="div" disablePadding>
-                    {item.sub_items.map((subItem) => {
-                      return (
-                        <ListItemButton
-                          onClick={() => navigate(subItem.to)}
-                          key={subItem.id}
-                          sx={{ pl: 4 }}
-                        >
-                          {subItem.icon && (
-                            <ListItemIcon>{subItem.icon}</ListItemIcon>
-                          )}
-                          <ListItemText primary={subItem.label} />
-                        </ListItemButton>
-                      );
-                    })}
+                    {item.sub_items
+                      .filter((item) => item.roles.includes(user?.type))
+                      .map((subItem) => {
+                        return (
+                          <ListItemButton
+                            onClick={() => navigate(`${subItem.to}${subItem.to?.includes('/:id') ? `/${user?.id}` : ''}`.replace("/:id", '').trim())}
+                            key={subItem.id}
+                            sx={{ pl: 4 }}
+                          >
+                            {subItem.icon && (
+                              <ListItemIcon>{subItem.icon}</ListItemIcon>
+                            )}
+                            <ListItemText primary={subItem.label} />
+                          </ListItemButton>
+                        );
+                      })}
                   </List>
                 </Collapse>
               </React.Fragment>

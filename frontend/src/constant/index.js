@@ -57,7 +57,12 @@ export default {
       label: "Unauthorized",
     },
     PRODUCTS: {
-      path: "/vendor/products",
+      path: "/products",
+      label: "Products",
+    },
+    VENDOR_PRODUCTS: {
+      path: "/vendor/products/:id",
+      dynamicPath: (id) => `/vendor/products/${id}`,
       label: "Products",
     },
     CREATE_PRODUCT: {

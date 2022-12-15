@@ -127,7 +127,13 @@ const AppRoutes = () => {
           />
         </Route>
 
-        <Route element={<RequiredAuth allowedRoles={[USER_ROLES.ADMIN, USER_ROLES.VENDOR]} />}>
+        <Route
+          element={
+            <RequiredAuth
+              allowedRoles={[USER_ROLES.ADMIN]}
+            />
+          }
+        >
           <Route
             path={ROUTES.PRODUCTS.path}
             element={
@@ -138,7 +144,30 @@ const AppRoutes = () => {
           />
         </Route>
 
-        <Route element={<RequiredAuth allowedRoles={[USER_ROLES.ADMIN, USER_ROLES.VENDOR]} />}>
+        <Route
+          element={
+            <RequiredAuth
+              allowedRoles={[USER_ROLES.ADMIN, USER_ROLES.VENDOR]}
+            />
+          }
+        >
+          <Route
+            path={ROUTES.VENDOR_PRODUCTS.path}
+            element={
+              <React.Suspense fallback={<Loader />}>
+                <Products />
+              </React.Suspense>
+            }
+          />
+        </Route>
+
+        <Route
+          element={
+            <RequiredAuth
+              allowedRoles={[USER_ROLES.ADMIN, USER_ROLES.VENDOR]}
+            />
+          }
+        >
           <Route
             path={ROUTES.CREATE_PRODUCT.path}
             element={
