@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState } from "react";
 import { styled, useTheme } from "@mui/material/styles";
 import Drawer from "@mui/material/Drawer";
 import List from "@mui/material/List";
@@ -13,8 +13,9 @@ import Collapse from "@mui/material/Collapse";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 import Config from "../../config";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
+import constant from "../../constant";
 
 const drawerWidth = 240;
 
@@ -29,7 +30,13 @@ export const DrawerHeader = styled("div")(({ theme }) => ({
 
 const AppDrawer = ({ open, handleDrawerClose }) => {
   const navigate = useNavigate();
-  const { auth: { user } } = useAuth();
+  const location = useLocation();
+
+  const {
+    auth: { user },
+  } = useAuth();
+  const [activeLink, setActiveLink] = useState(location.pathname === constant.ROUTES.DASHBOARD.path ? 1 : 0);
+
   const theme = useTheme();
   const navItems = Config.nav_items;
   const [collapse, setCollapse] = React.useState(
@@ -80,7 +87,14 @@ const AppDrawer = ({ open, handleDrawerClose }) => {
           .map((item) => {
             if (!item.sub_items) {
               return (
-                <ListItemButton onClick={() => navigate(item.to)} key={item.id}>
+                <ListItemButton
+                  className={activeLink === item.id ? "active" : ""}
+                  onClick={() => {
+                    setActiveLink(item.id)
+                    navigate(item.to);
+                  }}
+                  key={item.id}
+                >
                   {item.icon && <ListItemIcon>{item.icon}</ListItemIcon>}
                   <ListItemText primary={item.label} />
                 </ListItemButton>
@@ -100,7 +114,21 @@ const AppDrawer = ({ open, handleDrawerClose }) => {
                       .map((subItem) => {
                         return (
                           <ListItemButton
-                            onClick={() => navigate(`${subItem.to}${subItem.to?.includes('/:id') ? `/${user?.id}` : ''}`.replace("/:id", '').trim())}
+                            className={
+                              activeLink === subItem.id ? "active" : ""
+                            }
+                            onClick={() => {
+                              setActiveLink(subItem.id)
+                              navigate(
+                                `${subItem.to}${
+                                  subItem.to?.includes("/:id")
+                                    ? `/${user?.id}`
+                                    : ""
+                                }`
+                                  .replace("/:id", "")
+                                  .trim()
+                              );
+                            }}
                             key={subItem.id}
                             sx={{ pl: 4 }}
                           >
