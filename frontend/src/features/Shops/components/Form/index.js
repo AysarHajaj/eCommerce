@@ -11,15 +11,11 @@ import {
   TextField,
   OutlinedInput,
   FormControl,
-  Select,
-  MenuItem,
-  Button,
 } from "@mui/material";
+import Avatar from "@mui/material/Avatar";
 import { LoadingButton } from "@mui/lab";
-import AddIcon from "@mui/icons-material/Add";
 import FormHelperText from "@mui/material/FormHelperText";
-import constant from "../../../../constant";
-import useAuth from "../../../../hooks/useAuth";
+import formUtils from "./formUtils";
 import "./style.scss";
 
 const Form = () => {
@@ -28,41 +24,33 @@ const Form = () => {
   const { data: initialData } = useSelector(selectGetShopByVendorId);
   const { isLoading: updateIsLoading, error: putError } =
     useSelector(selectUpdateShop);
-  const isEdit = !!id;
   const navigate = useNavigate();
-  const {
-    auth: { user },
-  } = useAuth();
 
-  const [data, setData] = useState({
-    id: initialData.id,
-    user_id: id,
-    name: "",
-    email: "",
-    banner_image: undefined,
-    phone: "",
-    opens_at: "",
-    closed_at: "",
-    address: "",
-    greeting_message: "",
-    description: "",
-    seo_title: "",
-    seo_description: "",
-  });
+  const [data, setData] = useState({ ...formUtils.initialValues });
 
-  // const enableSave = useMemo(() => {
-  //   let result = true;
-  //   if (
-  //     isEdit &&
-  //     initialData.name === data.name &&
-  //     data.image === initialData.image
-  //   ) {
-  //     result = false;
-  //   } else if (!isEdit && data.name === "" && data.image === "") {
-  //     result = false;
-  //   }
-  //   return result;
-  // }, [isEdit, data, initialData]);
+
+  const initialValidData = useMemo(
+    () => formUtils.getValidData(initialData),
+    [initialData]
+  );
+
+
+  const enableSave = useMemo(() => {
+    let enable = formUtils.isValid(data);
+    if (enable && formUtils.isEqual(data, initialValidData)) {
+      enable = false;
+    }
+    return enable;
+  }, [data, initialValidData]);
+
+  
+  const bannerImageURL = useMemo(() => {
+    if (!data.banner_image) return undefined;
+    if (typeof data.banner_image === "object") {
+      return URL.createObjectURL(data.banner_image);
+    }
+    return data.banner_image;
+  }, [data.banner_image]);
 
   const handleChangeImage = (e) => {
     const files = e.target.files;
@@ -86,7 +74,9 @@ const Form = () => {
       updateShop({
         ...data,
         banner_image:
-          typeof data.banner_image === "string" ? undefined : data.banner_image,
+          typeof data.banner_image === "object"
+            ? data.banner_image
+            : undefined,
       })
     );
 
@@ -99,43 +89,19 @@ const Form = () => {
 
   useEffect(() => {
     dispatch(getShopByVendorId(id)).then(({ payload }) => {
-      const {
-        id,
-        user_id,
-        name,
-        email,
-        banner_image,
-        phone,
-        opens_at,
-        closed_at,
-        address,
-        greeting_message,
-        description,
-        seo_title,
-        seo_description,
-      } = { ...payload.data };
-      setData({
-        id,
-        user_id,
-        name,
-        email,
-        banner_image,
-        phone,
-        opens_at,
-        closed_at,
-        address,
-        greeting_message,
-        description,
-        seo_title,
-        seo_description,
-      });
+      setData(formUtils.getValidData(payload.data));
     });
   }, []);
 
   return (
-    <section className="create-product-container">
-      <form onSubmit={handleSubmit} className="create-product-form">
+    <section className="create-shop-container">
+      <form onSubmit={handleSubmit} className="create-shop-form">
         <FormHelperText error={!!putError}>{putError}</FormHelperText>
+
+        <FormControl style={{ marginTop: "15px" }} fullWidth>
+          <label>Banner Image Preview</label>
+          <Avatar src={bannerImageURL} />
+        </FormControl>
 
         <FormControl style={{ marginTop: "15px" }} fullWidth>
           <label>Banner Image</label>
@@ -271,7 +237,7 @@ const Form = () => {
           variant="contained"
           loading={updateIsLoading}
           type="submit"
-          // disabled={!enableSave}
+          disabled={!enableSave}
         >
           Update
         </LoadingButton>
