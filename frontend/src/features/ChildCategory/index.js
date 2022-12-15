@@ -90,7 +90,7 @@ const ChildCategory = () => {
       <div className="container-header">
         <Button
           variant="contained"
-          onClick={() => navigate(constant.routes.CREATE_CHILD_CATEGORY.path)}
+          onClick={() => navigate(constant.ROUTES.CREATE_CHILD_CATEGORY.path)}
           to="/"
           startIcon={<AddIcon />}
         >
