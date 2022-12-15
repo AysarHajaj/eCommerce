@@ -35,6 +35,19 @@ const updateChildCategory = (id, data) =>
   api.put(`/child_categories/${id}`, data);
 const postChildCategory = (data) => api.post(`/child_categories`, data);
 
+const getVendors = () => api.get("/vendors");
+const deleteVendor = (id) => api.delete(`/vendors/${id}`);
+const changeVendorStatus = (id) => api.post(`/vendors/${id}/change_status`);
+const getVendorById = (id) => api.get(`/vendors/${id}`);
+const updateVendor = (id, data) =>
+  api.post(`/vendors/${id}`, data, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
+const postVendor = (data) =>
+  api.post(`/vendors`, data, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
+
 const login = (data) => api.post(`/login`, data);
 
 export default {
@@ -57,4 +70,10 @@ export default {
   getSubCategoryById,
   updateSubCategory,
   postSubCategory,
+  getVendors,
+  deleteVendor,
+  changeVendorStatus,
+  getVendorById,
+  updateVendor,
+  postVendor,
 };

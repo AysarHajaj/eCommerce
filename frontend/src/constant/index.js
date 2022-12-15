@@ -64,5 +64,18 @@ export default {
       path: "/vendor/create_product",
       label: "Create Product",
     },
+    VENDORS: {
+      path: "/vendors",
+      label: "Vendors",
+    },
+    CREATE_VENDOR: {
+      path: "/vendor/create",
+      label: "Create Vendor",
+    },
+    EDIT_VENDOR: {
+      path: "/vendor/edit/:id",
+      label: "Edit Vendor",
+      dynamicPath: (id) => `/vendor/edit/${id}`,
+    },
   },
 };

@@ -1,5 +1,6 @@
 import HomeIcon from "@mui/icons-material/Home";
 import WindowIcon from "@mui/icons-material/Window";
+import StoreIcon from "@mui/icons-material/Store";
 import Constant from "../constant";
 const { USER_ROLES, ROUTES } = Constant;
 
@@ -59,6 +60,13 @@ const config = {
           roles: [USER_ROLES.ADMIN, USER_ROLES.VENDOR],
         },
       ],
+    },
+    {
+      id: 9,
+      label: ROUTES.VENDORS.label,
+      to: ROUTES.VENDORS.path,
+      icon: <StoreIcon />,
+      roles: [USER_ROLES.ADMIN],
     },
   ],
 };

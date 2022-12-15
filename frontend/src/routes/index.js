@@ -24,6 +24,11 @@ const ChildCategoryForm = React.lazy(() =>
 const Products = React.lazy(() => import("../features/Products"));
 const CreateProducts = React.lazy(() => import("../features/CreateProducts"));
 
+const Vendor = React.lazy(() => import("../features/Vendor"));
+const VendorForm = React.lazy(() =>
+  import("../features/Vendor/components/Form")
+);
+
 const { ROUTES, USER_ROLES } = constant;
 
 const AppRoutes = () => {
@@ -181,6 +186,39 @@ const AppRoutes = () => {
             element={
               <React.Suspense fallback={<Loader />}>
                 <SubCategoryForm />
+              </React.Suspense>
+            }
+          />
+        </Route>
+
+        <Route element={<RequiredAuth allowedRoles={[USER_ROLES.ADMIN]} />}>
+          <Route
+            path={ROUTES.VENDORS.path}
+            element={
+              <React.Suspense fallback={<Loader />}>
+                <Vendor />
+              </React.Suspense>
+            }
+          />
+        </Route>
+
+        <Route element={<RequiredAuth allowedRoles={[USER_ROLES.ADMIN]} />}>
+          <Route
+            path={ROUTES.CREATE_VENDOR.path}
+            element={
+              <React.Suspense fallback={<Loader />}>
+                <VendorForm />
+              </React.Suspense>
+            }
+          />
+        </Route>
+
+        <Route element={<RequiredAuth allowedRoles={[USER_ROLES.ADMIN]} />}>
+          <Route
+            path={ROUTES.EDIT_VENDOR.path}
+            element={
+              <React.Suspense fallback={<Loader />}>
+                <VendorForm />
               </React.Suspense>
             }
           />
