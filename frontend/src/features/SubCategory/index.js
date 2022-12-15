@@ -59,12 +59,10 @@ const SubCategory = () => {
         renderCell: (params) => {
           return (
             <React.Fragment>
-              <IconButton>
-                <EditIcon
-                  onClick={() =>
-                    navigate(`/sub_category/edit/${params.row.id}`)
-                  }
-                />
+              <IconButton
+                onClick={() => navigate(`/sub_category/edit/${params.row.id}`)}
+              >
+                <EditIcon />
               </IconButton>
               <IconButton onClick={() => handleDelete(params.row.id)}>
                 <DeleteIcon />
@@ -84,7 +82,7 @@ const SubCategory = () => {
       <div className="container-header">
         <Button
           variant="contained"
-          onClick={() => navigate(constant.routes.CREATE_SUB_CATEGORY.path)}
+          onClick={() => navigate(constant.ROUTES.CREATE_SUB_CATEGORY.path)}
           startIcon={<AddIcon />}
         >
           Add New Sub Category
