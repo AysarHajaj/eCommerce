@@ -64,6 +64,12 @@ const postProduct = (data) =>
   });
 const login = (data) => api.post(`/login`, data);
 
+const getShopByVendorId = (id) => api.get(`/shops/vendor/${id}`);
+const updateShop = (id, data) =>
+  api.post(`/shops/${id}`, data, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
+
 const apis = {
   getCategories,
   deleteCategory,
@@ -97,6 +103,8 @@ const apis = {
   updateProduct,
   changeProductStatus,
   postProduct,
+  getShopByVendorId,
+  updateShop,
 };
 
 export default apis;

@@ -5,7 +5,8 @@ import subCategoryReducer from "../features/SubCategory/subCategorySlice";
 import childCategoryReducer from "../features/ChildCategory/childCategorySlice";
 import loginReducer from "../features/Login/loginSlice";
 import vendorReducer from "../features/Vendor/vendorSlice";
-import productReducer from '../features/Products/productSlice';
+import productReducer from "../features/Products/productSlice";
+import shopReducer from "../features/Shops/shopSlice";
 
 export const store = configureStore({
   reducer: {
@@ -16,5 +17,6 @@ export const store = configureStore({
     login: loginReducer,
     vendor: vendorReducer,
     product: productReducer,
+    shop: shopReducer,
   },
 });
