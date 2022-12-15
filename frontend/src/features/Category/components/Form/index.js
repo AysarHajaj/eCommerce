@@ -48,7 +48,12 @@ const Form = () => {
   const handleSubmit = () => {
     let result;
     if (isEdit) {
-      result = dispatch(updateCategory(data));
+      result = dispatch(updateCategory({
+        ...data,
+        image:
+          typeof data.image === "object"
+            ? data.image
+            : undefined,}));
     } else {
       result = dispatch(postCategory(data));
     }

@@ -63,7 +63,15 @@ const Form = () => {
   const handleSubmit = () => {
     let result;
     if (isEdit) {
-      result = dispatch(updateVendor(data));
+      result = dispatch(
+        updateVendor({
+          ...data,
+          image:
+            typeof data.image === "object"
+              ? data.image
+              : undefined,
+        })
+      );
     } else {
       result = dispatch(postVendor(data));
     }
