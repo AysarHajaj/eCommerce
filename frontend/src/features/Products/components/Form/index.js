@@ -35,6 +35,7 @@ import Avatar from "@mui/material/Avatar";
 import ListIcon from "@mui/icons-material/List";
 import constant from "../../../../constant";
 import useAuth from "../../../../hooks/useAuth";
+import formUtils from './formUtils';
 import "./style.scss";
 
 const Form = () => {
@@ -58,40 +59,17 @@ const Form = () => {
       : constant.ROUTES.PRODUCTS.path;
   }, [user]);
 
-  const [data, setData] = useState({
-    id,
-    name: "",
-    price: 0,
-    thumbnail_image: undefined,
-    banner_image: undefined,
-    short_name: "",
-    slug: "",
-    category_id: 0,
-    sub_category_id: 0,
-    child_category_id: 0,
-    user_id: undefined,
-    offer_price: 0,
-    stock_quantity: 0,
-    short_description: "",
-    long_description: "",
-    deactivated_at: null,
-    seo_title: "",
-    seo_description: "",
-  });
+  const [data, setData] = useState({ ...formUtils.initialValues });
 
-  // const enableSave = useMemo(() => {
-  //   let result = true;
-  //   if (
-  //     isEdit &&
-  //     initialData.name === data.name &&
-  //     data.image === initialData.image
-  //   ) {
-  //     result = false;
-  //   } else if (!isEdit && data.name === "" && data.image === "") {
-  //     result = false;
-  //   }
-  //   return result;
-  // }, [isEdit, data, initialData]);
+  const initialValidData = useMemo(() => formUtils.getValidData(initialData), [initialData]);
+
+  const enableSave = useMemo(() => {
+    let enable = formUtils.isValid(data);
+    if (enable && isEdit && formUtils.isEqual(data, initialValidData)) {
+      enable = false;
+    }
+    return enable;
+  }, [isEdit, data, initialValidData]);
 
   const thumbnailImageURL = useMemo(() => { 
     if (!data.thumbnail_image) return undefined;
@@ -156,7 +134,7 @@ const Form = () => {
     dispatch(getChildCategories());
     if (isEdit) {
       dispatch(getProductById(id)).then(({ payload }) => {
-        setData(payload.data);
+        setData(formUtils.getValidData(payload.data));
       });
     }
   }, []);
@@ -378,7 +356,7 @@ const Form = () => {
           variant="contained"
           loading={updateIsLoading || postIsLoading}
           type="submit"
-          // disabled={!enableSave}
+          disabled={!enableSave}
         >
           {isEdit ? "Update" : "Save"}
         </LoadingButton>
