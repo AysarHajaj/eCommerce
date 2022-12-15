@@ -57,12 +57,22 @@ export default {
       label: "Unauthorized",
     },
     PRODUCTS: {
-      path: "/vendor/products",
+      path: "/products",
+      label: "Products",
+    },
+    VENDOR_PRODUCTS: {
+      path: "/vendor/products/:id",
+      dynamicPath: (id) => `/vendor/products/${id}`,
       label: "Products",
     },
     CREATE_PRODUCT: {
-      path: "/vendor/create_product",
+      path: "/create_product",
       label: "Create Product",
+    },
+    EDIT_PRODUCT: {
+      path: "/product/edit/:id",
+      label: "Edit Product",
+      dynamicPath: (id) => `/product/edit/${id}`,
     },
     VENDORS: {
       path: "/vendors",

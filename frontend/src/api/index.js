@@ -6,6 +6,7 @@ const api = axios.create({
 
 const getCategories = () => api.get("/categories");
 const deleteCategory = (id) => api.delete(`/categories/${id}`);
+
 const getSubCategories = () => api.get("/sub_categories");
 const deleteSubCategory = (id) => api.delete(`/sub_categories/${id}`);
 const getChildCategories = () => api.get("/child_categories");
@@ -48,9 +49,22 @@ const postVendor = (data) =>
     headers: { "Content-Type": "multipart/form-data" },
   });
 
+const getProducts = () => api.get("/products");
+const getVendorProducts = (id) => api.get(`/products/vendor/${id}`);
+const changeProductStatus = (id) => api.post(`/products/${id}/change_status`);
+const getProductById = (id) => api.get(`/products/${id}`);
+const deleteProduct = (id) => api.delete(`/products/${id}`);
+const updateProduct = (id, data) =>
+  api.post(`/products/${id}`, data, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
+const postProduct = (data) =>
+  api.post(`/products`, data, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
 const login = (data) => api.post(`/login`, data);
 
-export default {
+const apis = {
   getCategories,
   deleteCategory,
   getSubCategories,
@@ -76,4 +90,13 @@ export default {
   getVendorById,
   updateVendor,
   postVendor,
+  getProducts,
+  getVendorProducts,
+  getProductById,
+  deleteProduct,
+  updateProduct,
+  changeProductStatus,
+  postProduct,
 };
+
+export default apis;

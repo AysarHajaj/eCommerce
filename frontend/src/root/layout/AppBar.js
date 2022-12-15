@@ -63,7 +63,6 @@ const AppBar = ({ open, handleDrawerOpen }) => {
   const pageName = useMemo(() => {
     return (
       Object.values(constant.ROUTES).find((route) => {
-        console.log(route, route?.dynamicPath);
         return route.path === location.pathname || ( !!route?.dynamicPath && route?.dynamicPath(id) === location.pathname);
       })?.label || "Not Found"
     );
