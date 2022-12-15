@@ -206,18 +206,18 @@ export const productSlice = createSlice({
       })
       .addCase(postProduct.rejected, (state, action) => {
         state.post_product.isLoading = false;
-        state.post_product.error = action.payload;
+        state.post_product.error = action.payload?.error;
       });
   },
 });
 
-export const selectgetProducts = (state) => state.product.get;
-export const selectDeleteproducts = (state) => state.product.delete;
-export const selectChangeproductsStatus = (state) =>
+export const selectGetProducts = (state) => state.product.get;
+export const selectDeleteProducts = (state) => state.product.delete;
+export const selectChangeProductsStatus = (state) =>
   state.product.change_status;
-export const selectGetproductById = (state) =>
+export const selectGetProductById = (state) =>
   state.product.get_product_by_id;
-export const selectUpdateproduct = (state) => state.product.update_product;
-export const selectPostproduct = (state) => state.product.post_product;
+export const selectUpdateProduct = (state) => state.product.update_product;
+export const selectPostProduct = (state) => state.product.post_product;
 
 export default productSlice.reducer;

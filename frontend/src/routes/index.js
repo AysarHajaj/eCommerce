@@ -19,7 +19,7 @@ const ChildCategoryForm = React.lazy(() =>
   import("../features/ChildCategory/components/Form")
 );
 const Products = React.lazy(() => import("../features/Products"));
-const CreateProducts = React.lazy(() => import("../features/CreateProducts"));
+const CreateProducts = React.lazy(() => import("../features/Products/components/Form"));
 
 const { ROUTES, USER_ROLES } = constant;
 

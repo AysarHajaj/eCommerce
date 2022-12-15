@@ -42,7 +42,7 @@ const updateProduct = (id, data) =>
     headers: { "Content-Type": "multipart/form-data" },
   });
 const postProduct = (data) =>
-  api.post(`/product`, data, {
+  api.post(`/products`, data, {
     headers: { "Content-Type": "multipart/form-data" },
   });
 const login = (data) => api.post(`/login`, data);

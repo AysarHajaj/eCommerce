@@ -10,7 +10,7 @@ import AddIcon from "@mui/icons-material/Add";
 import {
   getProducts,
   getVendorProducts,
-  selectgetProducts,
+  selectGetProducts,
   deleteProduct,
   changeProductStatus,
 } from "./productSlice";
@@ -21,7 +21,7 @@ import constant from "../../constant";
 const Products = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { data } = useSelector(selectgetProducts);
+  const { data } = useSelector(selectGetProducts);
   const { id } = useParams();
 
   const handleDelete = useCallback((id) => {

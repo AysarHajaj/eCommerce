@@ -66,7 +66,7 @@ export default {
       label: "Products",
     },
     CREATE_PRODUCT: {
-      path: "/vendor/create_product",
+      path: "/create_product",
       label: "Create Product",
     },
   },
