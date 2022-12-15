@@ -32,6 +32,7 @@ import {
 import { LoadingButton } from "@mui/lab";
 import FormHelperText from '@mui/material/FormHelperText';
 import Avatar from "@mui/material/Avatar";
+import ListIcon from "@mui/icons-material/List";
 import constant from "../../../../constant";
 import useAuth from "../../../../hooks/useAuth";
 import "./style.scss";
@@ -162,8 +163,8 @@ const Form = () => {
 
   return (
     <section className="create-product-container">
-      <Button variant="contained" onClick={() => navigate(navigatePath)}>
-        Products
+      <Button startIcon={<ListIcon />} variant="contained" onClick={() => navigate(navigatePath)}>
+        View Products
       </Button>
       <form onSubmit={handleSubmit} className="create-product-form">
         <FormHelperText error={!!(postError || putError)}>
