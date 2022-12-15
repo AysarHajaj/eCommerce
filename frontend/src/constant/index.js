@@ -87,5 +87,10 @@ export default {
       label: "Edit Vendor",
       dynamicPath: (id) => `/vendor/edit/${id}`,
     },
+    EDIT_SHOP_SETTINGS: {
+      path: "/shop/edit/:id",
+      label: "Edit Shop Settings",
+      dynamicPath: (id) => `/shop/edit/${id}`,
+    },
   },
 };
