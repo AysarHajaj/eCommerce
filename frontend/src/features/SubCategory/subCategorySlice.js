@@ -17,6 +17,21 @@ const initialState = {
     isLoading: false,
     error: null,
   },
+  get_sub_category_by_id: {
+    data: {},
+    isLoading: false,
+    error: null,
+  },
+  update_sub_category: {
+    data: {},
+    isLoading: false,
+    error: null,
+  },
+  post_sub_category: {
+    data: {},
+    isLoading: false,
+    error: null,
+  },
 };
 
 export const getSubCategories = createAsyncThunk(
@@ -41,6 +56,32 @@ export const changeSubCategoryStatus = createAsyncThunk(
     api
       .changeSubCategoryStatus(id)
       .then((response) => ({ data: response.data, id }))
+      .catch((error) => rejectWithValue(error?.response?.data))
+);
+export const getSubCategoryById = createAsyncThunk(
+  "sub_category/get/id",
+  (id, { rejectWithValue }) =>
+    api
+      .getSubCategoryById(id)
+      .then((response) => response.data)
+      .catch((error) => rejectWithValue(error?.response?.data))
+);
+
+export const updateSubCategory = createAsyncThunk(
+  "sub_category/update",
+  (data, { rejectWithValue }) =>
+    api
+      .updateSubCategory(data.id, data)
+      .then((response) => response.data)
+      .catch((error) => rejectWithValue(error?.response?.data))
+);
+
+export const postSubCategory = createAsyncThunk(
+  "sub_category/post",
+  (data, { rejectWithValue }) =>
+    api
+      .postSubCategory(data)
+      .then((response) => response.data)
       .catch((error) => rejectWithValue(error?.response?.data))
 );
 
@@ -99,6 +140,48 @@ export const subCategorySlice = createSlice({
       .addCase(changeSubCategoryStatus.rejected, (state, action) => {
         state.change_status.isLoading = false;
         state.change_status.error = action.payload;
+      })
+      // get sub category by id case
+
+      .addCase(getSubCategoryById.pending, (state) => {
+        state.get_sub_category_by_id.isLoading = true;
+        state.get_sub_category_by_id.error = null;
+      })
+      .addCase(getSubCategoryById.fulfilled, (state, action) => {
+        state.get_sub_category_by_id.isLoading = false;
+        state.get_sub_category_by_id.data = action.payload.data;
+      })
+      .addCase(getSubCategoryById.rejected, (state, action) => {
+        state.get_sub_category_by_id.isLoading = false;
+        state.get_sub_category_by_id.error = action.payload;
+      })
+      // update sub category case
+
+      .addCase(updateSubCategory.pending, (state) => {
+        state.update_sub_category.isLoading = true;
+        state.update_sub_category.error = null;
+      })
+      .addCase(updateSubCategory.fulfilled, (state, action) => {
+        state.update_sub_category.isLoading = false;
+        state.update_sub_category.data = action.payload.data;
+      })
+      .addCase(updateSubCategory.rejected, (state, action) => {
+        state.update_sub_category.isLoading = false;
+        state.update_sub_category.error = action.payload;
+      })
+      // post sub category case
+
+      .addCase(postSubCategory.pending, (state) => {
+        state.post_sub_category.isLoading = true;
+        state.post_sub_category.error = null;
+      })
+      .addCase(postSubCategory.fulfilled, (state, action) => {
+        state.post_sub_category.isLoading = false;
+        state.post_sub_category.data = action.payload.data;
+      })
+      .addCase(postSubCategory.rejected, (state, action) => {
+        state.post_sub_category.isLoading = false;
+        state.post_sub_category.error = action.payload;
       });
   },
 });
@@ -107,4 +190,10 @@ export const selectGetSubCategories = (state) => state.sub_category.get;
 export const selectDeleteSubCategories = (state) => state.sub_category.delete;
 export const selectChangeSubCategoriesStatus = (state) =>
   state.category.change_status;
+export const selectGetSubCategoryById = (state) =>
+  state.sub_category.get_sub_category_by_id;
+export const selectUpdateSubCategory = (state) =>
+  state.sub_category.update_sub_category;
+export const selectPostSubCategory = (state) =>
+  state.sub_category.post_sub_category;
 export default subCategorySlice.reducer;
