@@ -30,10 +30,12 @@ import {
   Button,
 } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
-import AddIcon from "@mui/icons-material/Add";
 import FormHelperText from '@mui/material/FormHelperText';
+import Avatar from "@mui/material/Avatar";
+import ListIcon from "@mui/icons-material/List";
 import constant from "../../../../constant";
 import useAuth from "../../../../hooks/useAuth";
+import formUtils from './formUtils';
 import "./style.scss";
 
 const Form = () => {
@@ -57,40 +59,34 @@ const Form = () => {
       : constant.ROUTES.PRODUCTS.path;
   }, [user]);
 
-  const [data, setData] = useState({
-    id,
-    name: "",
-    price: 0,
-    thumbnail_image: undefined,
-    banner_image: undefined,
-    short_name: "",
-    slug: "",
-    category_id: 0,
-    sub_category_id: 0,
-    child_category_id: 0,
-    user_id: undefined,
-    offer_price: 0,
-    stock_quantity: 0,
-    short_description: "",
-    long_description: "",
-    deactivated_at: null,
-    seo_title: "",
-    seo_description: "",
-  });
+  const [data, setData] = useState({ ...formUtils.initialValues });
 
-  // const enableSave = useMemo(() => {
-  //   let result = true;
-  //   if (
-  //     isEdit &&
-  //     initialData.name === data.name &&
-  //     data.image === initialData.image
-  //   ) {
-  //     result = false;
-  //   } else if (!isEdit && data.name === "" && data.image === "") {
-  //     result = false;
-  //   }
-  //   return result;
-  // }, [isEdit, data, initialData]);
+  const initialValidData = useMemo(() => formUtils.getValidData(initialData), [initialData]);
+
+  const enableSave = useMemo(() => {
+    let enable = formUtils.isValid(data);
+    if (enable && isEdit && formUtils.isEqual(data, initialValidData)) {
+      enable = false;
+    }
+    return enable;
+  }, [isEdit, data, initialValidData]);
+
+  const thumbnailImageURL = useMemo(() => { 
+    if (!data.thumbnail_image) return undefined;
+    if (typeof data.thumbnail_image === 'object') {
+      return URL.createObjectURL(data.thumbnail_image);
+    }
+    return data.thumbnail_image;
+  }, [data.thumbnail_image]);
+
+  const bannerImageURL = useMemo(() => {
+    if (!data.banner_image) return undefined;
+    if (typeof data.banner_image === "object") {
+      return URL.createObjectURL(data.banner_image);
+    }
+    return data.banner_image;
+  }, [data.banner_image]);
+
 
   const filteredSubCategories = useMemo(
     () => subCategories.filter((item) => item.id === data.category_id),
@@ -138,23 +134,26 @@ const Form = () => {
     dispatch(getChildCategories());
     if (isEdit) {
       dispatch(getProductById(id)).then(({ payload }) => {
-        setData(payload.data);
+        setData(formUtils.getValidData(payload.data));
       });
     }
   }, []);
 
   return (
     <section className="create-product-container">
-      <Button
-        variant="contained"
-        onClick={() => navigate(navigatePath)}
-      >
-        Products
+      <Button startIcon={<ListIcon />} variant="contained" onClick={() => navigate(navigatePath)}>
+        View Products
       </Button>
       <form onSubmit={handleSubmit} className="create-product-form">
         <FormHelperText error={!!(postError || putError)}>
           {postError || putError}
         </FormHelperText>
+
+        <FormControl style={{ marginTop: "15px" }} fullWidth>
+          <label>Thumnail Image Preview</label>
+          <Avatar src={thumbnailImageURL} />
+        </FormControl>
+
         <FormControl style={{ marginTop: "15px" }} fullWidth>
           <label>Thumnail Image</label>
           <OutlinedInput
@@ -166,6 +165,12 @@ const Form = () => {
             onChange={handleChangeImage}
           />
         </FormControl>
+
+        <FormControl style={{ marginTop: "15px" }} fullWidth>
+          <label>Banner Image Preview</label>
+          <Avatar src={bannerImageURL} />
+        </FormControl>
+
         <FormControl style={{ marginTop: "15px" }} fullWidth>
           <label>Banner Image</label>
           <OutlinedInput
@@ -351,7 +356,7 @@ const Form = () => {
           variant="contained"
           loading={updateIsLoading || postIsLoading}
           type="submit"
-          // disabled={!enableSave}
+          disabled={!enableSave}
         >
           {isEdit ? "Update" : "Save"}
         </LoadingButton>

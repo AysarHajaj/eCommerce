@@ -21,3 +21,7 @@
   font-weight: bold;
   text-transform: capitalize;
 }
+
+.MuiListItemButton-root.active, .MuiListItemButton-root.active svg {
+  color: #1DD0BE;
+}
