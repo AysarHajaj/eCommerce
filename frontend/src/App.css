@@ -15,3 +15,9 @@
   font-size: 13px;
   height:  28px;
 }
+
+.MuiButton-contained {
+  color: #fff;
+  font-weight: bold;
+  text-transform: capitalize;
+}
