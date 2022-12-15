@@ -33,7 +33,6 @@ const Form = () => {
   const { data: initialData } = useSelector(selectGetChildCategoryById);
   const { data: categories } = useSelector(selectGetCategories);
   const { data: subCategories } = useSelector(selectGetSubCategories);
-  const [subCategoriesState, setSubCategoriesState] = useState([]);
 
   const { isLoading: updateIsLoading } = useSelector(selectUpdateChildCategory);
   const { isLoading: postIsLoading } = useSelector(selectPostChildCategory);
@@ -43,8 +42,8 @@ const Form = () => {
   const [data, setData] = useState({
     id,
     name: "",
-    sub_category_id: undefined,
-    category_id: undefined,
+    sub_category_id: 0,
+    category_id: 0,
   });
 
   const enableSave = useMemo(() => {
@@ -57,10 +56,9 @@ const Form = () => {
     ) {
       result = false;
     } else if (
-      !isEdit &&
-      data.name === "" &&
-      data.sub_category_id === undefined &&
-      data.category_id === undefined
+      data.name === "" ||
+      data.sub_category_id === 0 ||
+      data.category_id === 0
     ) {
       result = false;
     }
@@ -83,31 +81,27 @@ const Form = () => {
   };
 
   useEffect(() => {
+    dispatch(getCategories());
+    dispatch(getSubCategories());
     if (isEdit) {
       dispatch(getChildCategoryById(id)).then(({ payload }) => {
-        setData(payload.data);
+        const { name, sub_category_id, category_id } = payload.data;
+        setData({ ...data, name, sub_category_id, category_id });
       });
     }
   }, []);
 
-  useEffect(() => {
-    dispatch(getCategories());
-    dispatch(getSubCategories());
-  }, []);
-
   const handleChangeCategory = (event) => {
-    setData({ ...data, category_id: event.target.value });
-    setSubCategoriesState(
-      subCategories.filter(
-        (subCategory) => subCategory.category_id === event.target.value
-      )
-    );
-    setData({ ...data, sub_category_id: undefined });
+    setData({ ...data, category_id: event.target.value, sub_category_id: 0 });
   };
   const handleChangeSubCategory = (event) => {
     setData({ ...data, sub_category_id: event.target.value });
   };
-  console.log(categories);
+  const filteredSubCategories = useMemo(() => {
+    return subCategories.filter(
+      (subCategory) => subCategory.category_id === data.category_id
+    );
+  }, [data.category_id]);
   return (
     <form>
       <FormControl fullWidth>
@@ -145,7 +139,7 @@ const Form = () => {
           onChange={handleChangeSubCategory}
           fullWidth
         >
-          {subCategoriesState.map((subCategory) => (
+          {filteredSubCategories.map((subCategory) => (
             <MenuItem key={subCategory.id} value={subCategory.id}>
               {subCategory.name}
             </MenuItem>
