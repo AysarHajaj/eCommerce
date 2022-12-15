@@ -89,7 +89,7 @@ const Products = () => {
       <div className="container-header">
         <Button
           variant="contained"
-          onClick={() => navigate(constant.ROUTES.CREATE_CATEGORY.path)}
+          onClick={() => navigate(constant.ROUTES.CREATE_PRODUCT.path)}
           startIcon={<AddIcon />}
         >
           Add New Product

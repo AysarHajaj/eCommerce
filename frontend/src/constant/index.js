@@ -69,5 +69,10 @@ export default {
       path: "/create_product",
       label: "Create Product",
     },
+    EDIT_PRODUCT: {
+      path: "/product/edit/:id",
+      label: "Edit Product",
+      dynamicPath: (id) => `/product/edit/${id}`,
+    },
   },
 };

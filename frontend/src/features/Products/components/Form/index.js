@@ -53,7 +53,7 @@ const Form = () => {
 
   const navigatePath = useMemo(() => { 
     return user?.type === constant.USER_ROLES.VENDOR
-      ? `${constant.ROUTES.VENDOR_PRODUCTS.path.replace("/:id", `${user?.id}`)}`
+      ? `${constant.ROUTES.VENDOR_PRODUCTS.path.replace("/:id", `/${user?.id}`)}`
       : constant.ROUTES.PRODUCTS.path;
   }, [user]);
 
@@ -148,9 +148,8 @@ const Form = () => {
       <Button
         variant="contained"
         onClick={() => navigate(navigatePath)}
-        startIcon={<AddIcon />}
       >
-        Add New Product
+        Products
       </Button>
       <form onSubmit={handleSubmit} className="create-product-form">
         <FormHelperText error={!!(postError || putError)}>
