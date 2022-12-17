@@ -93,68 +93,57 @@ const Form = () => {
 
   return (
     <form>
-      <FormControl fullWidth>
+      <FormControl>
         <label>Name</label>
         <TextField
           id="name"
-          variant="outlined"
           value={data.name}
           onChange={(e) => setData({ ...data, name: e.target.value })}
-          fullWidth
         />
       </FormControl>
 
-      <FormControl style={{ marginTop: "15px" }} fullWidth>
+      <FormControl style={{ marginTop: "15px" }}>
         <label>Email</label>
         <TextField
           id="email"
-          variant="outlined"
           value={data.email}
           onChange={(e) => setData({ ...data, email: e.target.value })}
-          fullWidth
         />
       </FormControl>
 
-      <FormControl style={{ marginTop: "15px" }} fullWidth>
+      <FormControl style={{ marginTop: "15px" }}>
         <label>Password</label>
         <TextField
           id="password"
-          variant="outlined"
           value={data.password}
           onChange={(e) => setData({ ...data, password: e.target.value })}
           type="password"
-          fullWidth
         />
       </FormControl>
 
-      <FormControl style={{ marginTop: "15px" }} fullWidth>
+      <FormControl style={{ marginTop: "15px" }}>
         <label>Confirm Password</label>
         <TextField
           id="confirm_password"
-          variant="outlined"
           value={data.confirm_password}
           onChange={(e) =>
             setData({ ...data, confirm_password: e.target.value })
           }
           type="password"
-          fullWidth
         />
       </FormControl>
 
-      <FormControl style={{ marginTop: "15px" }} fullWidth>
+      <FormControl style={{ marginTop: "15px" }}>
         <label>Image</label>
         <OutlinedInput
           id="image"
           type="file"
-          variant="outlined"
-          fullWidth
           label="Image"
           onChange={handleChangeImage}
         />
       </FormControl>
       <LoadingButton
         style={{ marginTop: "15px" }}
-        variant="contained"
         loading={updateIsLoading || postIsLoading}
         onClick={handleSubmit}
         disabled={!enableSave}

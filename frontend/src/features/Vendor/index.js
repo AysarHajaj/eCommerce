@@ -86,7 +86,6 @@ const Vendor = () => {
     <div className="wrapper vendor-wrapper">
       <div className="container-header">
         <Button
-          variant="contained"
           onClick={() => navigate(constant.ROUTES.CREATE_VENDOR.path)}
           startIcon={<AddIcon />}
         >

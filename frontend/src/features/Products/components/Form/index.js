@@ -156,7 +156,7 @@ const Form = () => {
 
   return (
     <section className="create-product-container">
-      <Button startIcon={<ListIcon />} variant="contained" onClick={() => navigate(navigatePath)}>
+      <Button startIcon={<ListIcon />} onClick={() => navigate(navigatePath)}>
         View Products
       </Button>
       <form onSubmit={handleSubmit} className="create-product-form">
@@ -164,82 +164,71 @@ const Form = () => {
           {postError || putError}
         </FormHelperText>
 
-        <FormControl style={{ marginTop: "15px" }} fullWidth>
+        <FormControl style={{ marginTop: "15px" }}>
           <label>Thumnail Image Preview</label>
           <Avatar src={thumbnailImageURL} />
         </FormControl>
 
-        <FormControl style={{ marginTop: "15px" }} fullWidth>
+        <FormControl style={{ marginTop: "15px" }}>
           <label>Thumnail Image</label>
           <OutlinedInput
             name="thumbnail_image"
             type="file"
-            variant="outlined"
-            fullWidth
             label="Thumbnail Image"
             onChange={handleChangeImage}
           />
         </FormControl>
 
-        <FormControl style={{ marginTop: "15px" }} fullWidth>
+        <FormControl style={{ marginTop: "15px" }}>
           <label>Banner Image Preview</label>
           <Avatar src={bannerImageURL} />
         </FormControl>
 
-        <FormControl style={{ marginTop: "15px" }} fullWidth>
+        <FormControl style={{ marginTop: "15px" }}>
           <label>Banner Image</label>
           <OutlinedInput
             name="banner_image"
             type="file"
-            variant="outlined"
-            fullWidth
             label="Banner Image"
             onChange={handleChangeImage}
           />
         </FormControl>
-        <FormControl fullWidth>
+        <FormControl>
           <label>Short Name</label>
           <TextField
             name="short_name"
-            variant="outlined"
             value={data.short_name}
             onChange={handleChange}
-            fullWidth
             required
           />
         </FormControl>
 
-        <FormControl fullWidth>
+        <FormControl>
           <label>Name</label>
           <TextField
             name="name"
-            variant="outlined"
             value={data.name}
             onChange={handleChange}
-            fullWidth
             required
           />
         </FormControl>
 
-        <FormControl fullWidth>
+        <FormControl>
           <label>Slug</label>
           <TextField
             name="slug"
-            variant="outlined"
             value={data.slug}
             onChange={handleChange}
-            fullWidth
             required
           />
         </FormControl>
 
-        <FormControl style={{ marginTop: "15px" }} fullWidth>
+        <FormControl style={{ marginTop: "15px" }}>
           <label>Category</label>
           <Select
             name="category_id"
             value={data.category_id}
             onChange={handleChange}
-            fullWidth
             required
           >
             {categories.map((category) => (
@@ -250,13 +239,12 @@ const Form = () => {
           </Select>
         </FormControl>
 
-        <FormControl style={{ marginTop: "15px" }} fullWidth>
+        <FormControl style={{ marginTop: "15px" }}>
           <label>SubCategory Category</label>
           <Select
             name="sub_category_id"
             value={data.sub_category_id}
             onChange={handleChange}
-            fullWidth
             required
           >
             {filteredSubCategories.map((childCategory) => (
@@ -267,13 +255,12 @@ const Form = () => {
           </Select>
         </FormControl>
 
-        <FormControl style={{ marginTop: "15px" }} fullWidth>
+        <FormControl style={{ marginTop: "15px" }}>
           <label>Child Category</label>
           <Select
             name="child_category_id"
             value={data.child_category_id}
             onChange={handleChange}
-            fullWidth
             required
           >
             {filteredChildCategories.map((childCategory) => (
@@ -284,91 +271,76 @@ const Form = () => {
           </Select>
         </FormControl>
 
-        <FormControl fullWidth>
+        <FormControl>
           <label>Price</label>
           <TextField
             name="price"
-            variant="outlined"
             type="number"
             value={data.price}
             onChange={handleChange}
-            fullWidth
           />
         </FormControl>
 
-        <FormControl fullWidth>
+        <FormControl>
           <label>Offer Price</label>
           <TextField
             name="offer_price"
-            variant="outlined"
             type="number"
             value={data.offer_price}
             onChange={handleChange}
-            fullWidth
           />
         </FormControl>
 
-        <FormControl fullWidth>
+        <FormControl>
           <label>Stock Quantity</label>
           <TextField
             name="stock_quantity"
-            variant="outlined"
             type="number"
             value={data.stock_quantity}
             onChange={handleChange}
-            fullWidth
           />
         </FormControl>
 
-        <FormControl fullWidth>
+        <FormControl>
           <label>Short Description</label>
           <TextField
             name="short_description"
-            variant="outlined"
             value={data.short_description}
             onChange={handleChange}
-            fullWidth
             required
           />
         </FormControl>
 
-        <FormControl fullWidth>
+        <FormControl>
           <label>Long Description</label>
           <TextField
             name="long_description"
-            variant="outlined"
             value={data.long_description}
             onChange={handleChange}
-            fullWidth
             required
           />
         </FormControl>
 
-        <FormControl fullWidth>
+        <FormControl>
           <label>SEO Title</label>
           <TextField
             name="seo_title"
-            variant="outlined"
             value={data.seo_title}
             onChange={handleChange}
-            fullWidth
           />
         </FormControl>
 
-        <FormControl fullWidth>
+        <FormControl>
           <label>SEO Description</label>
           <TextField
             name="seo_description"
-            variant="outlined"
             value={data.seo_description}
             onChange={handleChange}
-            fullWidth
           />
         </FormControl>
 
         <LoadingButton
           style={{ marginTop: "15px" }}
-          variant="contained"
           loading={updateIsLoading || postIsLoading}
           type="submit"
           disabled={!enableSave}

@@ -1,0 +1,44 @@
+@import '../src/styles/global.scss';
+
+*, *::after, *::after {
+  box-sizing: border-box;
+}
+
+.MuiDataGrid-root {
+  margin-top: 15px;
+  width: 100%;
+  height: 400px
+}
+
+.MuiFormHelperText-root.Mui-error  {
+  background: rgba(215,161,161,.368627);
+  padding: 3px;
+  margin: 0;
+  font-size: 13px;
+  height:  28px;
+}
+
+.MuiButton-contained {
+  font-weight: bold;
+  text-transform: capitalize;
+}
+
+.MuiListItemButton-root.active, .MuiListItemButton-root.active svg {
+  color: $colorPrimary;
+}
+
+.MuiLoadingButton-root {
+  font-weight: bold;
+  text-transform: capitalize;
+  font-size: 1em;
+
+  &:not(:disabled){
+    background-color: $colorPrimary;
+    color: $colorWhite;
+  }
+
+  &:disabled {
+    background-color: rgba($color: #000000, $alpha: .23);
+    color: rgba($color: #000000, $alpha: .38);
+  }
+}

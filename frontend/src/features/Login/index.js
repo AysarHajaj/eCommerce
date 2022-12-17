@@ -69,29 +69,23 @@ const Login = () => {
       </div>
       <form onSubmit={handleSubmit}>
         <FormHelperText error={!!error}>{error}</FormHelperText>
-        <FormControl fullWidth>
+        <FormControl>
           <TextField
             id="email"
-            variant="outlined"
             value={data.email}
             onChange={(e) => setData({ ...data, email: e.target.value })}
-            fullWidth
             inputRef={emailRef}
-            autoComplete="off"
             placeholder="Email"
             required
           />
         </FormControl>
 
-        <FormControl style={{ marginTop: "15px" }} fullWidth>
+        <FormControl style={{ marginTop: "15px" }}>
           <TextField
             id="password"
-            variant="outlined"
             value={data.password}
             onChange={(e) => setData({ ...data, password: e.target.value })}
             type="password"
-            fullWidth
-            autoComplete="off"
             placeholder="Password"
             required
           />
@@ -105,7 +99,6 @@ const Login = () => {
         >
           <LoadingButton
             style={{ marginTop: "15px" }}
-            variant="contained"
             loading={isLoading}
             disabled={!enableSave}
             type="submit"

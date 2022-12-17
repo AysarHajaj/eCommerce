@@ -81,7 +81,6 @@ const SubCategory = () => {
     <div className="wrapper category-wrapper">
       <div className="container-header">
         <Button
-          variant="contained"
           onClick={() => navigate(constant.ROUTES.CREATE_SUB_CATEGORY.path)}
           startIcon={<AddIcon />}
         >

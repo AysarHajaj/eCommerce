@@ -98,143 +98,120 @@ const Form = () => {
       <form onSubmit={handleSubmit} className="create-shop-form">
         <FormHelperText error={!!putError}>{putError}</FormHelperText>
 
-        <FormControl style={{ marginTop: "15px" }} fullWidth>
+        <FormControl style={{ marginTop: "15px" }} >
           <label>Banner Image Preview</label>
           <Avatar src={bannerImageURL} />
         </FormControl>
 
-        <FormControl style={{ marginTop: "15px" }} fullWidth>
+        <FormControl style={{ marginTop: "15px" }} >
           <label>Banner Image</label>
           <OutlinedInput
             name="banner_image"
             type="file"
-            variant="outlined"
-            fullWidth
             label="Banner Image"
             onChange={handleChangeImage}
           />
         </FormControl>
-        <FormControl fullWidth>
+        <FormControl>
           <label>Shop Name</label>
           <TextField
             name="name"
-            variant="outlined"
             value={data.name}
             onChange={handleChange}
-            fullWidth
             required
           />
         </FormControl>
 
-        <FormControl fullWidth>
+        <FormControl>
           <label>Email</label>
           <TextField
             name="email"
-            variant="outlined"
             value={data.email}
             onChange={handleChange}
-            fullWidth
             required
           />
         </FormControl>
 
-        <FormControl fullWidth>
+        <FormControl>
           <label>Phone</label>
           <TextField
             name="phone"
-            variant="outlined"
             value={data.phone}
             onChange={handleChange}
-            fullWidth
             required
           />
         </FormControl>
 
-        <FormControl fullWidth>
+        <FormControl>
           <label>Opens at</label>
           <TextField
             name="opens_at"
-            variant="outlined"
             type="time"
             value={data.opens_at}
             onChange={handleChange}
-            fullWidth
           />
         </FormControl>
 
-        <FormControl fullWidth>
+        <FormControl>
           <label>Closed at</label>
           <TextField
             name="closed_at"
-            variant="outlined"
             type="time"
             value={data.closed_at}
             onChange={handleChange}
-            fullWidth
           />
         </FormControl>
 
-        <FormControl fullWidth>
+        <FormControl>
           <label>Address</label>
           <TextField
             name="address"
-            variant="outlined"
             value={data.address}
             onChange={handleChange}
-            fullWidth
             required
           />
         </FormControl>
 
-        <FormControl fullWidth>
+        <FormControl>
           <label>Greeting Message</label>
           <TextField
             name="greeting_message"
-            variant="outlined"
             value={data.greeting_message}
             onChange={handleChange}
-            fullWidth
             required
           />
         </FormControl>
 
-        <FormControl fullWidth>
+        <FormControl>
           <label>Description</label>
           <TextField
             name="description"
-            variant="outlined"
             value={data.description}
             onChange={handleChange}
-            fullWidth
             required
           />
         </FormControl>
 
-        <FormControl fullWidth>
+        <FormControl>
           <label>SEO Title</label>
           <TextField
             name="seo_title"
-            variant="outlined"
             value={data.seo_title}
             onChange={handleChange}
-            fullWidth
           />
         </FormControl>
 
-        <FormControl fullWidth>
+        <FormControl>
           <label>SEO Description</label>
           <TextField
             name="seo_description"
-            variant="outlined"
             value={data.seo_description}
             onChange={handleChange}
-            fullWidth
           />
         </FormControl>
 
         <LoadingButton
           style={{ marginTop: "15px" }}
-          variant="contained"
           loading={updateIsLoading}
           type="submit"
           disabled={!enableSave}

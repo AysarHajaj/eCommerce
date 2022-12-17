@@ -84,24 +84,21 @@ const Form = () => {
 
   return (
     <form>
-      <FormControl fullWidth>
+      <FormControl>
         <label>Name</label>
         <TextField
           id="name"
-          variant="outlined"
           value={data.name}
           onChange={(e) => setData({ ...data, name: e.target.value })}
-          fullWidth
         />
       </FormControl>
 
-      <FormControl style={{ marginTop: "15px" }} fullWidth>
+      <FormControl style={{ marginTop: "15px" }}>
         <label>Category</label>
         <Select
           id="category"
           value={data.category_id}
           onChange={handleChangeCategory}
-          fullWidth
         >
           {categories.map((category) => (
             <MenuItem key={category.id} value={category.id}>
@@ -112,7 +109,6 @@ const Form = () => {
       </FormControl>
       <LoadingButton
         style={{ marginTop: "15px" }}
-        variant="contained"
         loading={updateIsLoading || postIsLoading}
         onClick={handleSubmit}
         disabled={!enableSave}

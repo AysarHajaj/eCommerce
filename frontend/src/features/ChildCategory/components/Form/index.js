@@ -104,24 +104,21 @@ const Form = () => {
   }, [data.category_id]);
   return (
     <form>
-      <FormControl fullWidth>
+      <FormControl>
         <label>Name</label>
         <TextField
           id="name"
-          variant="outlined"
           value={data.name}
           onChange={(e) => setData({ ...data, name: e.target.value })}
-          fullWidth
         />
       </FormControl>
 
-      <FormControl style={{ marginTop: "15px" }} fullWidth>
+      <FormControl style={{ marginTop: "15px" }}>
         <label>Category</label>
         <Select
           id="category"
           value={data.category_id}
           onChange={handleChangeCategory}
-          fullWidth
         >
           {categories.map((category) => (
             <MenuItem key={category.id} value={category.id}>
@@ -131,13 +128,12 @@ const Form = () => {
         </Select>
       </FormControl>
 
-      <FormControl style={{ marginTop: "15px" }} fullWidth>
+      <FormControl style={{ marginTop: "15px" }}>
         <label>Sub Category</label>
         <Select
           id="sub_category"
           value={data.sub_category_id}
           onChange={handleChangeSubCategory}
-          fullWidth
         >
           {filteredSubCategories.map((subCategory) => (
             <MenuItem key={subCategory.id} value={subCategory.id}>
@@ -149,7 +145,6 @@ const Form = () => {
 
       <LoadingButton
         style={{ marginTop: "15px" }}
-        variant="contained"
         loading={updateIsLoading || postIsLoading}
         onClick={handleSubmit}
         disabled={!enableSave}

@@ -1,3 +1,5 @@
+@import '../../styles/global.scss';
+
 .login-container {
   width: 380px;
   height: 600px;
@@ -18,8 +20,8 @@
     background-color: #fff;
     box-shadow: 0 4px 8px rgba($color: #000000, $alpha: .03);
     background-color: #fff;
-    border-top: 2px solid #1DD0BE;
-    border-bottom: 2px solid #1DD0BE;
+    border-top: 2px solid $colorPrimary;
+    border-bottom: 2px solid $colorPrimary;
     border-radius: 3px;
     padding: 15px 25px 25px;
 
