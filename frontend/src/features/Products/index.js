@@ -14,15 +14,18 @@ import {
   deleteProduct,
   changeProductStatus,
 } from "./productSlice";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Avatar from "@mui/material/Avatar";
 import constant from "../../constant";
+import useAuth from "../../hooks/useAuth";
+import ROUTES from '../../routes/routesConfig';
 
 const Products = () => {
+  const { auth: { user: { type: userType, id: userId } } } = useAuth(); 
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { data } = useSelector(selectGetProducts);
-  const { id } = useParams();
+  const isVendor = userType === constant.USER_ROLES.VENDOR;
 
   const handleDelete = useCallback((id) => {
     dispatch(deleteProduct(id));
@@ -81,14 +84,14 @@ const Products = () => {
   }, []);
 
   useEffect(() => {
-    dispatch(!id ? getProducts() : getVendorProducts(id));
+    dispatch(!isVendor ? getProducts() : getVendorProducts(userId));
   }, []);
 
   return (
     <div className="wrapper category-wrapper">
       <div className="container-header">
         <Button
-          onClick={() => navigate(constant.ROUTES.CREATE_PRODUCT.path)}
+          onClick={() => navigate(ROUTES.CREATE_PRODUCT.path)}
           startIcon={<AddIcon />}
         >
           Add New Product

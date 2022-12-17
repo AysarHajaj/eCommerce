@@ -16,6 +16,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import Avatar from "@mui/material/Avatar";
 import constant from "../../constant";
+import ROUTES from "../../routes/routesConfig";
 
 const Category = () => {
   const navigate = useNavigate();
@@ -84,7 +85,7 @@ const Category = () => {
     <div className="wrapper category-wrapper">
       <div className="container-header">
         <Button
-          onClick={() => navigate(constant.ROUTES.CREATE_CATEGORY.path)}
+          onClick={() => navigate(ROUTES.CREATE_CATEGORY.path)}
           startIcon={<AddIcon />}
         >
           Add New Category

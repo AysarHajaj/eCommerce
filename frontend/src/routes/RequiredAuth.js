@@ -1,6 +1,6 @@
 import { useLocation, Navigate, Outlet } from "react-router-dom";
-import constant from "../constant";
 import useAuth from "../hooks/useAuth";
+import ROUTES from './routesConfig'; 
 
 const RequireAuth = ({ allowedRoles }) => {
   const { auth } = useAuth();
@@ -8,7 +8,7 @@ const RequireAuth = ({ allowedRoles }) => {
 
   if(!auth?.user || !auth.accessToken) return (
     <Navigate
-      to={constant.ROUTES.LOGIN.path}
+      to="/"
       state={{ from: location }}
       replace
     />
@@ -18,7 +18,7 @@ const RequireAuth = ({ allowedRoles }) => {
 
   return (
     <Navigate
-      to={constant.ROUTES.UNAUTHORIZED.path}
+      to={ROUTES.UNAUTHORIZED.path}
       state={{ from: location }}
       replace
     />

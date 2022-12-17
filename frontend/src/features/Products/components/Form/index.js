@@ -36,6 +36,7 @@ import ListIcon from "@mui/icons-material/List";
 import constant from "../../../../constant";
 import useAuth from "../../../../hooks/useAuth";
 import formUtils from './formUtils';
+import ROUTES from '../../../../routes/routesConfig'
 import "./style.scss";
 
 const Form = () => {
@@ -50,14 +51,12 @@ const Form = () => {
   const isEdit = !!id;
   const navigate = useNavigate();
   const {
-    auth: { user },
-  } = useAuth();
+    auth: {
+      user: { type: userType, id: userId },
+    },
+  } = useAuth(); 
+  const isVendor = userType === constant.USER_ROLES.VENDOR;
 
-  const navigatePath = useMemo(() => { 
-    return user?.type === constant.USER_ROLES.VENDOR
-      ? `${constant.ROUTES.VENDOR_PRODUCTS.path.replace("/:id", `/${user?.id}`)}`
-      : constant.ROUTES.PRODUCTS.path;
-  }, [user]);
 
   const [data, setData] = useState({ ...formUtils.initialValues });
 
@@ -119,8 +118,8 @@ const Form = () => {
       result = dispatch(
         updateProduct({
           ...data,
-          ...(user?.type === constant.USER_ROLES.VENDOR
-            ? { user_id: user?.id }
+          ...(isVendor
+            ? { user_id: userId }
             : {}),
           banner_image:
             typeof data.banner_image === "object"
@@ -133,12 +132,12 @@ const Form = () => {
         })
       );
     } else {
-      result = dispatch(postProduct({...data, ...(user?.type === constant.USER_ROLES.VENDOR ? {user_id: user?.id} : {})}));
+      result = dispatch(postProduct({...data, ...(isVendor ? {user_id: userId} : {})}));
     }
 
     result.then(({ meta }) => {
       if (meta.requestStatus === "fulfilled") {
-        navigate(navigatePath);
+        navigate(constant.ROUTES.PRODUCTS.path);
       }
     });
   };
@@ -156,7 +155,10 @@ const Form = () => {
 
   return (
     <section className="create-product-container">
-      <Button startIcon={<ListIcon />} onClick={() => navigate(navigatePath)}>
+      <Button
+        startIcon={<ListIcon />}
+        onClick={() => navigate(ROUTES.PRODUCTS.path)}
+      >
         View Products
       </Button>
       <form onSubmit={handleSubmit} className="create-product-form">

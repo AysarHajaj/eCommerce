@@ -17,6 +17,7 @@ import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import ShopIcon from "@mui/icons-material/Shop";
 import MenuItem from "@mui/material/MenuItem";
 import constant from "../../constant";
+import ROUTES from '../../routes/routesConfig';
 import useAuth from "../../hooks/useAuth";
 import Divider from "@mui/material/Divider";
 
@@ -68,7 +69,7 @@ const AppBar = ({ open, handleDrawerOpen }) => {
   } = useAuth();
   const pageName = useMemo(() => {
     return (
-      Object.values(constant.ROUTES).find((route) => {
+      Object.values(ROUTES).find((route) => {
         return (
           route.path === location.pathname ||
           (!!route?.dynamicPath && route?.dynamicPath(id) === location.pathname)

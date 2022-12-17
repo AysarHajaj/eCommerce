@@ -13,9 +13,9 @@ import Collapse from "@mui/material/Collapse";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 import Config from "../../config";
+import ROUTES from '../../routes/routesConfig'
 import { useNavigate, useLocation } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
-import constant from "../../constant";
 
 const drawerWidth = 240;
 
@@ -35,7 +35,7 @@ const AppDrawer = ({ open, handleDrawerClose }) => {
   const {
     auth: { user },
   } = useAuth();
-  const [activeLink, setActiveLink] = useState(location.pathname === constant.ROUTES.DASHBOARD.path ? 1 : 0);
+  const [activeLink, setActiveLink] = useState(location.pathname === ROUTES.DASHBOARD.path ? 1 : 0);
 
   const theme = useTheme();
   const navItems = Config.nav_items;
@@ -53,6 +53,7 @@ const AppDrawer = ({ open, handleDrawerClose }) => {
     newData[id] = !newData[id];
     setCollapse(newData);
   };
+
   return (
     <Drawer
       sx={{
@@ -83,7 +84,7 @@ const AppDrawer = ({ open, handleDrawerClose }) => {
         aria-labelledby="nested-list-subheader"
       >
         {navItems
-          .filter((item) => item.roles.includes(user?.type))
+          .filter((item) => !item.allowedRoles || item.allowedRoles.includes(user?.type))
           .map((item) => {
             if (!item.sub_items) {
               return (
@@ -110,7 +111,7 @@ const AppDrawer = ({ open, handleDrawerClose }) => {
                 <Collapse in={collapse[item.id]} timeout="auto" unmountOnExit>
                   <List component="div" disablePadding>
                     {item.sub_items
-                      .filter((item) => item.roles.includes(user?.type))
+                      .filter((item) => !item.allowedRoles || item.allowedRoles.includes(user?.type))
                       .map((subItem) => {
                         return (
                           <ListItemButton

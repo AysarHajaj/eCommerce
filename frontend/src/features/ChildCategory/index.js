@@ -15,6 +15,8 @@ import {
 } from "./childCategorySlice";
 import { useNavigate } from "react-router-dom";
 import constant from "../../constant";
+import ROUTES from "../../routes/routesConfig";
+
 
 const ChildCategory = () => {
   const dispatch = useDispatch();
@@ -89,7 +91,7 @@ const ChildCategory = () => {
     <div className="wrapper category-wrapper">
       <div className="container-header">
         <Button
-          onClick={() => navigate(constant.ROUTES.CREATE_CHILD_CATEGORY.path)}
+          onClick={() => navigate(ROUTES.CREATE_CHILD_CATEGORY.path)}
           to="/"
           startIcon={<AddIcon />}
         >

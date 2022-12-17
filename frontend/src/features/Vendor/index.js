@@ -16,6 +16,8 @@ import {
 import { useNavigate } from "react-router-dom";
 import Avatar from "@mui/material/Avatar";
 import constant from "../../constant";
+import ROUTES from "../../routes/routesConfig";
+
 
 const Vendor = () => {
   const navigate = useNavigate();
@@ -86,7 +88,7 @@ const Vendor = () => {
     <div className="wrapper vendor-wrapper">
       <div className="container-header">
         <Button
-          onClick={() => navigate(constant.ROUTES.CREATE_VENDOR.path)}
+          onClick={() => navigate(ROUTES.CREATE_VENDOR.path)}
           startIcon={<AddIcon />}
         >
           Add New Vendor

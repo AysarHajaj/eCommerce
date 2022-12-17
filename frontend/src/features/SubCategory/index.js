@@ -15,6 +15,8 @@ import {
 } from "./subCategorySlice";
 import { useNavigate } from "react-router-dom";
 import constant from "../../constant";
+import ROUTES from "../../routes/routesConfig";
+
 
 const SubCategory = () => {
   const dispatch = useDispatch();
@@ -81,7 +83,7 @@ const SubCategory = () => {
     <div className="wrapper category-wrapper">
       <div className="container-header">
         <Button
-          onClick={() => navigate(constant.ROUTES.CREATE_SUB_CATEGORY.path)}
+          onClick={() => navigate(ROUTES.CREATE_SUB_CATEGORY.path)}
           startIcon={<AddIcon />}
         >
           Add New Sub Category
