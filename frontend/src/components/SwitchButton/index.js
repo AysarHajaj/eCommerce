@@ -2,8 +2,8 @@ import React, { useEffect } from "react";
 import Switch from "@mui/material/Switch";
 import FormControlLabel from "@mui/material/FormControlLabel";
 
-export default ({ isActive, changeStatus }) => {
-  const [checked, setChecked] = React.useState(isActive);
+const SwitchButton =  ({ checked: isChecked, changeStatus }) => {
+  const [checked, setChecked] = React.useState(isChecked);
   const [label, setLabel] = React.useState("");
 
   useEffect(() => {
@@ -12,8 +12,9 @@ export default ({ isActive, changeStatus }) => {
 
   const handleChange = (event) => {
     setChecked(event.target.checked);
-    changeStatus();
+    changeStatus(event.target.checked);
   };
+
   return (
     <FormControlLabel
       control={
@@ -27,3 +28,6 @@ export default ({ isActive, changeStatus }) => {
     />
   );
 };
+
+
+export default SwitchButton;

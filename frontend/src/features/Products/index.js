@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { DataGrid } from "@mui/x-data-grid";
 import EditIcon from "@mui/icons-material/Edit";
 import IconButton from "@mui/material/IconButton";
-import AppSwitch from "../../app/components/AppSwitch";
+import SwitchButton from "../../components/SwitchButton";
 import Button from "@mui/material/Button";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from "@mui/icons-material/Add";
@@ -51,8 +51,8 @@ const Products = () => {
         width: 130,
         renderCell: (params) => {
           return (
-            <AppSwitch
-              isActive={!params.row.deactivated_at}
+            <SwitchButton
+              checked={!params.row.deactivated_at}
               changeStatus={() => changeStatus(params.row.id)}
             />
           );

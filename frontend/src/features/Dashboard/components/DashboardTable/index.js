@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { DataGrid } from "@mui/x-data-grid";
 import IconButton from "@mui/material/IconButton";
-import AppSwitch from "../../../../app/components/AppSwitch";
+import SwitchButton from "../../../../components/SwitchButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import TextField from "@mui/material/TextField";
@@ -46,9 +46,9 @@ const DashboardTable = () => {
         width: 130,
         renderCell: (params) => {
           return (
-            <AppSwitch
-              isActive={!params.row.deactivated_at}
-              changeStatus={() => { }}
+            <SwitchButton
+              checked={!params.row.deactivated_at}
+              changeStatus={() => {}}
             />
           );
         },
