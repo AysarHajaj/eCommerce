@@ -1,5 +1,4 @@
 import { useLocation, Navigate, Outlet } from "react-router-dom";
-import Loader from "../components/Loader";
 import constant from "../constant";
 import useAuth from "../hooks/useAuth";
 
@@ -7,7 +6,6 @@ const RequireAuth = ({ allowedRoles }) => {
   const { auth } = useAuth();
   const location = useLocation();
 
-  if (auth?.isLoading) return <Loader />;
   if(!auth?.user || !auth.accessToken) return (
     <Navigate
       to={constant.ROUTES.LOGIN.path}

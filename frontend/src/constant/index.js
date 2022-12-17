@@ -14,7 +14,7 @@ export default {
       label: "Categories",
     },
     LOGIN: {
-      path: "/login",
+      path: "/",
       label: "Login",
     },
     CREATE_CATEGORY: {

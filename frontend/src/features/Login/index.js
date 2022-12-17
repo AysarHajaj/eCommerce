@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo, useRef } from "react";
-import { useNavigate, useLocation, Navigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { TextField, FormControl, FormHelperText } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 import "./style.scss";
@@ -14,7 +14,7 @@ const Login = () => {
   const emailRef = useRef();
   const navigate = useNavigate();
   const location = useLocation();
-  const fromPath = location.state?.from?.pathname || "/";
+  const fromPath = location.state?.from?.pathname || location.pathname || "/";
 
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
@@ -41,16 +41,11 @@ const Login = () => {
 
       setAuth({ user, accessToken });
       setData({ email: '', password: '' });
-      navigate(fromPath, { replace: true });
     } catch (err) {
       if (!err?.response) {
         setError("No Server Response");
-      } else if (err.response?.status === 400) {
-        setError("Missing Username or Password");
-      } else if (err.response?.status === 401) {
-        setError("Unauthorized");
       } else {
-        setError("Login Failed");
+        setError(err?.response?.data?.error);
       }
     } finally {
       setIsLoading(false);
@@ -61,7 +56,7 @@ const Login = () => {
     setError("");
   }, [data.email, data.password]);
 
-  if (!auth?.isLoading && auth?.user && auth?.accessToken) return <Navigate to={constant.ROUTES.DASHBOARD.path} />;
+  if (auth?.user && auth?.accessToken)  navigate(fromPath, { replace: true });
 
   return (
     <section className="login-container">
@@ -71,7 +66,7 @@ const Login = () => {
         </div>
       </div>
       <form onSubmit={handleSubmit}>
-        <FormHelperText error={!!error}>{error}</FormHelperText>
+        <FormHelperText error={!!error}>{error || ' '}</FormHelperText>
         <FormControl>
           <TextField
             id="email"
