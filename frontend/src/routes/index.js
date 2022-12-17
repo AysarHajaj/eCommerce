@@ -261,13 +261,7 @@ const AppRoutes = () => {
           />
         </Route>
 
-        <Route
-          element={
-            <RequiredAuth
-              allowedRoles={[USER_ROLES.ADMIN, USER_ROLES.VENDOR]}
-            />
-          }
-        >
+        <Route element={<RequiredAuth allowedRoles={[USER_ROLES.VENDOR]} />}>
           <Route
             path={ROUTES.EDIT_SHOP_SETTINGS.path}
             element={
