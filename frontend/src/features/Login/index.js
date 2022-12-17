@@ -1,15 +1,16 @@
 import React, { useState, useEffect, useMemo, useRef } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, Navigate } from "react-router-dom";
 import { TextField, FormControl, FormHelperText } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 import "./style.scss";
 import useAuth from "../../hooks/useAuth";
 import api from '../../api';
+import constant from "../../constant";
 
 const { PUBLIC_URL } = process.env;
 
 const Login = () => {
-  const { setAuth } = useAuth();
+  const { setAuth, auth } = useAuth();
   const emailRef = useRef();
   const navigate = useNavigate();
   const location = useLocation();
@@ -59,6 +60,8 @@ const Login = () => {
   useEffect(() => {
     setError("");
   }, [data.email, data.password]);
+
+  if (!auth?.isLoading && auth?.user && auth?.accessToken) return <Navigate to={constant.ROUTES.DASHBOARD.path} />;
 
   return (
     <section className="login-container">
