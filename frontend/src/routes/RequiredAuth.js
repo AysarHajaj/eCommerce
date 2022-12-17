@@ -1,4 +1,5 @@
 import { useLocation, Navigate, Outlet } from "react-router-dom";
+import Loader from "../components/Loader";
 import constant from "../constant";
 import useAuth from "../hooks/useAuth";
 
@@ -6,17 +7,20 @@ const RequireAuth = ({ allowedRoles }) => {
   const { auth } = useAuth();
   const location = useLocation();
 
-  return allowedRoles?.includes(auth?.user?.type) || !allowedRoles ? (
-    <Outlet />
-  ) : auth?.user ? (
+  if (auth?.isLoading) return <Loader />;
+  if(!auth?.user || !auth.accessToken) return (
     <Navigate
-      to={constant.ROUTES.UNAUTHORIZED.path}
+      to={constant.ROUTES.LOGIN.path}
       state={{ from: location }}
       replace
     />
-  ) : (
+  );
+
+  if (!allowedRoles || allowedRoles?.includes(auth?.user?.type)) return <Outlet />;
+
+  return (
     <Navigate
-      to={constant.ROUTES.LOGIN.path}
+      to={constant.ROUTES.UNAUTHORIZED.path}
       state={{ from: location }}
       replace
     />
