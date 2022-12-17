@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useMemo, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { TextField, FormControl, FormHelperText } from "@mui/material";
-import { LoadingButton } from "@mui/lab";
-import "./style.scss";
+import { TextField, FormHelperText } from "@mui/material";
+import LoadingButton from "@mui/lab/LoadingButton";
 import useAuth from "../../hooks/useAuth";
-import api from '../../api';
+import api from "../../api";
+import "./style.scss";
 
 const { PUBLIC_URL } = process.env;
 
@@ -37,11 +37,11 @@ const Login = () => {
       const accessToken = resData.data?.token;
       const user = resData.data?.user;
 
-      localStorage.setItem('token', accessToken);
+      localStorage.setItem("token", accessToken);
       localStorage.setItem("user", JSON.stringify(user));
 
       setAuth({ user, accessToken });
-      setData({ email: '', password: '' });
+      setData({ email: "", password: "" });
     } catch (err) {
       if (!err?.response) {
         setError("No Server Response");
@@ -59,8 +59,7 @@ const Login = () => {
 
   useEffect(() => {
     emailRef?.current?.focus();
-  }, [])
-
+  }, []);
 
   return (
     <section className="login-container">
@@ -70,44 +69,33 @@ const Login = () => {
         </div>
       </div>
       <form onSubmit={handleSubmit}>
-        <FormHelperText error={!!error}>{error || ' '}</FormHelperText>
-        <FormControl>
-          <TextField
-            id="email"
-            value={data.email}
-            onChange={(e) => setData({ ...data, email: e.target.value })}
-            inputRef={emailRef}
-            placeholder="Email"
-            required
-          />
-        </FormControl>
+        <FormHelperText error={!!error}>{error || " "}</FormHelperText>
+        <TextField
+          id="email"
+          value={data.email}
+          onChange={(e) => setData({ ...data, email: e.target.value })}
+          inputRef={emailRef}
+          placeholder="Email"
+          required
+        />
 
-        <FormControl style={{ marginTop: "15px" }}>
-          <TextField
-            id="password"
-            value={data.password}
-            onChange={(e) => setData({ ...data, password: e.target.value })}
-            type="password"
-            placeholder="Password"
-            required
-          />
-        </FormControl>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-          }}
+        <TextField
+          id="password"
+          value={data.password}
+          onChange={(e) => setData({ ...data, password: e.target.value })}
+          type="password"
+          placeholder="Password"
+          required
+        />
+
+        <LoadingButton
+          style={{ marginTop: "15px", flexBasis: 'auto' }}
+          loading={isLoading}
+          disabled={!enableSave}
+          type="submit"
         >
-          <LoadingButton
-            style={{ marginTop: "15px" }}
-            loading={isLoading}
-            disabled={!enableSave}
-            type="submit"
-          >
-            Login
-          </LoadingButton>
-        </div>
+          Login
+        </LoadingButton>
       </form>
     </section>
   );
