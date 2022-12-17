@@ -5,16 +5,17 @@ import { LoadingButton } from "@mui/lab";
 import "./style.scss";
 import useAuth from "../../hooks/useAuth";
 import api from '../../api';
-import constant from "../../constant";
 
 const { PUBLIC_URL } = process.env;
 
 const Login = () => {
   const { setAuth, auth } = useAuth();
-  const emailRef = useRef();
   const navigate = useNavigate();
   const location = useLocation();
   const fromPath = location.state?.from?.pathname || location.pathname || "/";
+  if (auth?.user && auth?.accessToken) navigate(fromPath, { replace: true });
+
+  const emailRef = useRef();
 
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
@@ -56,7 +57,10 @@ const Login = () => {
     setError("");
   }, [data.email, data.password]);
 
-  if (auth?.user && auth?.accessToken)  navigate(fromPath, { replace: true });
+  useEffect(() => {
+    emailRef?.current?.focus();
+  }, [])
+
 
   return (
     <section className="login-container">
