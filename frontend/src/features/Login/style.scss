@@ -1,4 +1,4 @@
-@import '../../styles/global.scss';
+@import "../../styles/global.scss";
 
 .login-container {
   width: 380px;
@@ -17,12 +17,13 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    background-color: #fff;
-    box-shadow: 0 4px 8px rgba($color: #000000, $alpha: .03);
-    background-color: #fff;
+    background-color: $colorWhite;
+    box-shadow: 4px 4px 8px rgba($color: #000000, $alpha: 0.07),
+      -4px -4px 8px rgba($color: #000000, $alpha: 0.07);
+    background-color: $colorWhite;
     border-top: 2px solid $colorPrimary;
     border-bottom: 2px solid $colorPrimary;
-    border-radius: 3px;
+    border-radius: 10px;
     padding: 15px 25px 25px;
   }
 }

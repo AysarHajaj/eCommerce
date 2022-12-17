@@ -1,7 +1,14 @@
 import React, { useState, useEffect, useMemo, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { TextField, FormHelperText } from "@mui/material";
+import FormHelperText from "@mui/material/FormHelperText";
+import TextField from "@mui/material/TextField";
+import FormControl from "@mui/material/FormControl";
 import LoadingButton from "@mui/lab/LoadingButton";
+import OutlinedInput from "@mui/material/OutlinedInput";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import InputAdornment from "@mui/material/InputAdornment";
+import IconButton from "@mui/material/IconButton";
 import useAuth from "../../hooks/useAuth";
 import api from "../../api";
 import "./style.scss";
@@ -19,10 +26,8 @@ const Login = () => {
 
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
-  const [data, setData] = useState({
-    password: "",
-    email: "",
-  });
+  const [data, setData] = useState({ password: "", email: "" });
+  const [showPassword, setShowPassword] = React.useState(false);
 
   const enableSave = useMemo(() => {
     return data.name !== "" && data.password !== "";
@@ -53,6 +58,17 @@ const Login = () => {
     }
   };
 
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
+
+  const handleChangeInputs = (e) => {
+    const property = e.target.name;
+    setData({ ...data, [property]: e.target.value });
+  };
+
   useEffect(() => {
     setError("");
   }, [data.email, data.password]);
@@ -72,24 +88,43 @@ const Login = () => {
         <FormHelperText error={!!error}>{error || " "}</FormHelperText>
         <TextField
           id="email"
+          name="email"
           value={data.email}
-          onChange={(e) => setData({ ...data, email: e.target.value })}
+          onChange={handleChangeInputs}
           inputRef={emailRef}
           placeholder="Email"
           required
+          margin="dense"
         />
 
-        <TextField
-          id="password"
-          value={data.password}
-          onChange={(e) => setData({ ...data, password: e.target.value })}
-          type="password"
-          placeholder="Password"
-          required
-        />
+        <FormControl>
+          <OutlinedInput
+            id="password"
+            name="password"
+            value={data.password}
+            onChange={handleChangeInputs}
+            type={showPassword ? "text" : "password"}
+            placeholder="Password"
+            required
+            margin="dense"
+            endAdornment={
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="toggle password visibility"
+                  onClick={handleClickShowPassword}
+                  onMouseDown={handleMouseDownPassword}
+                  edge="end"
+                >
+                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>
+            }
+          />
+        </FormControl>
 
         <LoadingButton
-          style={{ marginTop: "15px", flexBasis: 'auto' }}
+          loadingPosition="start"
+          startIcon=" "
           loading={isLoading}
           disabled={!enableSave}
           type="submit"
