@@ -29,10 +29,18 @@
   text-transform: capitalize;
 }
 
-.MuiListItemButton-root.active,
-.MuiListItemButton-root.active svg,
-.MuiListItemButton-root.child-is-active svg {
-  color: $colorPrimary;
+nav {
+  .MuiListItemButton-root.active,
+  .MuiListItemButton-root.active svg,
+  .MuiListItemButton-root.child-is-active svg {
+    color: $colorPrimary;
+  }
+
+  .MuiListItemButton-root .MuiTypography-root {
+    font-size: 1.1em;
+    letter-spacing: .5px;
+    // font-weight: bold;
+  }
 }
 
 .MuiLoadingButton-root {

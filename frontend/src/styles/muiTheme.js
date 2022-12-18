@@ -42,7 +42,6 @@ const theme = createTheme({
       }
     },
 
-
     MuiInputBase: {
       defaultProps: {
         inputProps: {
