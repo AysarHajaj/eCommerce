@@ -12,6 +12,7 @@ const constants = {
     ADMIN: USER_ROLES.ADMIN.NAME,
     VENDOR: USER_ROLES.VENDOR.NAME,
   },
+  DRAWER_WIDTH: 240 /* in px */
 };
 
 

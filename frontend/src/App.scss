@@ -30,7 +30,8 @@
 }
 
 .MuiListItemButton-root.active,
-.MuiListItemButton-root.active svg {
+.MuiListItemButton-root.active svg,
+.MuiListItemButton-root.child-is-active svg {
   color: $colorPrimary;
 }
 

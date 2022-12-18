@@ -21,8 +21,6 @@ import ROUTES from '../../routes/routesConfig';
 import useAuth from "../../hooks/useAuth";
 import Divider from "@mui/material/Divider";
 
-const drawerWidth = 240;
-
 const AppBarStyle = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== "open",
 })(({ theme, open }) => ({
@@ -31,8 +29,8 @@ const AppBarStyle = styled(MuiAppBar, {
     duration: theme.transitions.duration.leavingScreen,
   }),
   ...(open && {
-    width: `calc(100% - ${drawerWidth}px)`,
-    marginLeft: `${drawerWidth}px`,
+    width: `calc(100% - ${constant.DRAWER_WIDTH}px)`,
+    marginLeft: `${constant.DRAWER_WIDTH}px`,
     transition: theme.transitions.create(["margin", "width"], {
       easing: theme.transitions.easing.easeOut,
       duration: theme.transitions.duration.enteringScreen,
@@ -67,6 +65,8 @@ const AppBar = ({ open, handleDrawerOpen }) => {
   const {
     auth: { user },
   } = useAuth();
+  const isVendor = user?.type === constant.USER_ROLES.VENDOR;
+
   const pageName = useMemo(() => {
     return (
       Object.values(ROUTES).find((route) => {
@@ -76,7 +76,7 @@ const AppBar = ({ open, handleDrawerOpen }) => {
         );
       })?.label || "Not Found"
     );
-  }, [location.pathname]);
+  }, [id, location.pathname]);
 
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -163,28 +163,26 @@ const AppBar = ({ open, handleDrawerOpen }) => {
               </Typography>
             </MenuItem>
             <Divider />
-            {user?.type === constant.USER_ROLES.VENDOR && (
-              <React.Fragment>
-                <MenuItem
-                  onClick={() => {
-                    handleCloseUserMenu();
-                    navigate(`/shop/edit/${user.id}`);
-                  }}
-                >
-                  {settings.SHOP_PROFILE.icon}
-                  <Typography fontSize="14px" ml="10px" textAlign="center">
-                    {settings.SHOP_PROFILE.label}
-                  </Typography>
-                </MenuItem>
-                <Divider />
-              </React.Fragment>
+            {isVendor && (
+              <MenuItem
+                onClick={() => {
+                  handleCloseUserMenu();
+                  navigate(`/shop/edit/${user.id}`);
+                }}
+              >
+                {settings.SHOP_PROFILE.icon}
+                <Typography fontSize="14px" ml="10px" textAlign="center">
+                  {settings.SHOP_PROFILE.label}
+                </Typography>
+              </MenuItem>
             )}
+            {isVendor && <Divider />}
             <MenuItem
               style={{ color: "red" }}
               onClick={() => {
                 localStorage.clear();
                 setAuth({});
-                navigate('/');
+                navigate("/");
               }}
             >
               {settings.LOGOUT.icon}
