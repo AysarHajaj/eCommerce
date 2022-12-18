@@ -16,6 +16,7 @@ import Config from "../../config";
 import {  NavLink, useLocation } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import constants from "../../constant";
+import { Avatar } from "@mui/material";
 
 export const DrawerHeader = styled("div")(({ theme }) => ({
   display: "flex",
@@ -99,6 +100,7 @@ const AppDrawer = ({ open, handleDrawerClose }) => {
     >
       <DrawerHeader>
         <IconButton onClick={handleDrawerClose}>
+          <Avatar style={{ marginRight: '150px' }} src={`${process.env.PUBLIC_URL}/images/eCommerceLogo.png`} alt="" />
           {theme.direction === "ltr" ? (
             <ChevronLeftIcon />
           ) : (

@@ -38,8 +38,24 @@ nav {
 
   .MuiListItemButton-root .MuiTypography-root {
     font-size: 1.1em;
-    letter-spacing: .5px;
-    // font-weight: bold;
+    letter-spacing: 0.5px;
+  }
+}
+
+.MuiDrawer-paper {
+  background-color: rgba($color: #000000, $alpha: 0.85);
+  color: $colorWhite;
+
+  svg {
+    color: $colorWhite;
+  }
+
+  hr {
+    background-color: $colorWhite;
+  }
+
+  .MuiList-root {
+    background-color: transparent;
   }
 }
 
