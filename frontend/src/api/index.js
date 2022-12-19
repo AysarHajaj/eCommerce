@@ -1,8 +1,40 @@
 import axios from "axios";
+import { useNavigate } from 'react-router-dom';
+import useAuth from "../hooks/useAuth";
 
 const api = axios.create({
   baseURL: process.env.REACT_APP_API_BASE_URL,
 });
+
+
+api.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
+
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    const { setAuth } = useAuth();
+    const navigate = useNavigate();
+
+    if (error?.response?.status === 403 || error?.response?.status === 401) {
+      setAuth();
+      navigate('/');
+    }
+
+    return Promise.reject(error);
+  }
+);
+
 
 const getCategories = () => api.get("/categories");
 const deleteCategory = (id) => api.delete(`/categories/${id}`);
