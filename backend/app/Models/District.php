@@ -18,4 +18,14 @@ class District extends Model
         'deleted_at',
         'deactivated_at'
     ];
+
+    public function city()
+    {
+        return $this->belongsTo(City::class, 'city_id');
+    }
+
+    public function shops()
+    {
+        return $this->hasMany(Shop::class, 'district_id');
+    }
 }

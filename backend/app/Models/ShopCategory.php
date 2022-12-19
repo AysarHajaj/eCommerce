@@ -19,4 +19,9 @@ class ShopCategory extends Model
         'deleted_at',
         'deactivated_at'
     ];
+
+    public function shops()
+    {
+        return $this->hasMany(Shop::class, 'shop_category_id');
+    }
 }

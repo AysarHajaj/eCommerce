@@ -20,4 +20,9 @@ class ProductChoice extends Model
         "updated_at",
         "deleted_at",
     ];
+
+    public function productChoiceGroup()
+    {
+        return $this->belongsTo(ProductChoiceGroup::class, 'product_choice_group_id');
+    }
 }

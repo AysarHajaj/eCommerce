@@ -17,4 +17,9 @@ class Currency extends Model
         'deleted_at',
         'deactivated_at'
     ];
+
+    public function shops()
+    {
+        return $this->hasMany(Shop::class, 'currency_id');
+    }
 }

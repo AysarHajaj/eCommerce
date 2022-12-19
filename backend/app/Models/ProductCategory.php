@@ -19,4 +19,14 @@ class ProductCategory extends Model
         'deleted_at',
         'deactivated_at'
     ];
+
+    public function productSubCategories()
+    {
+        return $this->hasMany(ProductSubCategory::class, "product_category_id");
+    }
+
+    public function products()
+    {
+        return $this->hasMany(Product::class, "product_category_id");
+    }
 }

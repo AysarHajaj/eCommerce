@@ -36,4 +36,19 @@ class Product extends Model
     {
         return $this->belongsTo(User::class, "user_id");
     }
+
+    public function productCategory()
+    {
+        return $this->belongsTo(ProductCategory::class, "product_category_id");
+    }
+
+    public function productSubCategory()
+    {
+        return $this->belongsTo(ProductSubCategory::class, "product_sub_category_id");
+    }
+
+    public function productChoiceGroups()
+    {
+        return $this->hasMany(ProductChoiceGroup::class, 'product_id');
+    }
 }

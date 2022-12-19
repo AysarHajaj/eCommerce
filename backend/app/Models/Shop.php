@@ -48,4 +48,24 @@ class Shop extends Model
     {
         return $this->belongsTo(User::class, "user_id");
     }
+
+    public function shopCategory()
+    {
+        return $this->belongsTo(ShopCategory::class, 'sho_category_id');
+    }
+
+    public function city()
+    {
+        return $this->belongsTo(City::class, 'city_id');
+    }
+
+    public function district()
+    {
+        return $this->belongsTo(District::class, 'district_id');
+    }
+
+    public function currency()
+    {
+        return $this->belongsTo(Currency::class, 'currency_id');
+    }
 }

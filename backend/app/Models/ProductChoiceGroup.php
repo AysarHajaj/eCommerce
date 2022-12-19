@@ -21,4 +21,14 @@ class ProductChoiceGroup extends Model
         "updated_at",
         "deleted_at",
     ];
+
+    public function product()
+    {
+        return $this->belongsTo(Product::class, 'product_id');
+    }
+
+    public function productChoices()
+    {
+        return $this->hasMany(ProductChoice::class, 'product_choice_group_id');
+    }
 }
