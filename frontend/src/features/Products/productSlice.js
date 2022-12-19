@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import api from "../../api";
+import constants from "../../constant";
 
 const initialState = {
   get: {
@@ -35,7 +36,7 @@ const initialState = {
 };
 
 export const getProducts = createAsyncThunk(
-  "products/get",
+  constants.ACTION_TYPES.product.get_list,
   (data = null, { rejectWithValue }) =>
     api
       .getProducts()
@@ -44,7 +45,7 @@ export const getProducts = createAsyncThunk(
 );
 
 export const getVendorProducts = createAsyncThunk(
-  "products/vendor/get",
+  constants.ACTION_TYPES.product.get_vendor,
   (id, { rejectWithValue }) =>
     api
       .getVendorProducts(id)
@@ -53,23 +54,25 @@ export const getVendorProducts = createAsyncThunk(
 );
 
 export const deleteProduct = createAsyncThunk(
-  "products/delete",
+  constants.ACTION_TYPES.product.delete,
   (id, { rejectWithValue }) =>
     api
       .deleteProduct(id)
       .then((response) => ({ data: response.data, id }))
       .catch((error) => rejectWithValue(error?.response?.data))
 );
+
 export const changeProductStatus = createAsyncThunk(
-  "products/change_status",
+  constants.ACTION_TYPES.product.change_status,
   (id, { rejectWithValue }) =>
     api
       .changeProductStatus(id)
       .then((response) => ({ data: response.data, id }))
       .catch((error) => rejectWithValue(error?.response?.data))
 );
+
 export const getProductById = createAsyncThunk(
-  "product/get/id",
+  constants.ACTION_TYPES.product.get,
   (id, { rejectWithValue }) =>
     api
       .getProductById(id)
@@ -78,7 +81,7 @@ export const getProductById = createAsyncThunk(
 );
 
 export const updateProduct = createAsyncThunk(
-  "product/update",
+  constants.ACTION_TYPES.product.put,
   (data, { rejectWithValue }) =>
     api
       .updateProduct(data.id, data)
@@ -87,7 +90,7 @@ export const updateProduct = createAsyncThunk(
 );
 
 export const postProduct = createAsyncThunk(
-  "product/post",
+  constants.ACTION_TYPES.product.post,
   (data, { rejectWithValue }) =>
     api
       .postProduct(data)

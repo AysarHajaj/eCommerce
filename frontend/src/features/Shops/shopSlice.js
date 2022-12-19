@@ -1,5 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import api from "../../api";
+import constants from "../../constant";
+
 
 const initialState = {
   get_shop_by_vendor_id: {
@@ -15,7 +17,7 @@ const initialState = {
 };
 
 export const getShopByVendorId = createAsyncThunk(
-  "shop/get/vendor/id",
+  constants.ACTION_TYPES.shop.get,
   (id, { rejectWithValue }) =>
     api
       .getShopByVendorId(id)
@@ -24,7 +26,7 @@ export const getShopByVendorId = createAsyncThunk(
 );
 
 export const updateShop = createAsyncThunk(
-  "shop/update",
+  constants.ACTION_TYPES.shop.put,
   (data, { rejectWithValue }) =>
     api
       .updateShop(data.id, data)

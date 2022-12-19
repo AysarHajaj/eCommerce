@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import api from "../../api";
+import constants from "../../constant";
 
 const initialState = {
   get: {
@@ -35,31 +36,34 @@ const initialState = {
 };
 
 export const getCategories = createAsyncThunk(
-  "categories/get",
+  constants.ACTION_TYPES.category.get_list,
   (data = null, { rejectWithValue }) =>
     api
       .getCategories()
       .then((response) => response.data)
       .catch((error) => rejectWithValue(error?.response?.data))
 );
+
 export const deleteCategory = createAsyncThunk(
-  "categories/delete",
+  constants.ACTION_TYPES.category.delete,
   (id, { rejectWithValue }) =>
     api
       .deleteCategory(id)
       .then((response) => ({ data: response.data, id }))
       .catch((error) => rejectWithValue(error?.response?.data))
 );
+
 export const changeCategoryStatus = createAsyncThunk(
-  "categories/change_status",
+  constants.ACTION_TYPES.category.change_status,
   (id, { rejectWithValue }) =>
     api
       .changeCategoryStatus(id)
       .then((response) => ({ data: response.data, id }))
       .catch((error) => rejectWithValue(error?.response?.data))
 );
+
 export const getCategoryById = createAsyncThunk(
-  "category/get/id",
+  constants.ACTION_TYPES.category.get,
   (id, { rejectWithValue }) =>
     api
       .getCategoryById(id)
@@ -68,7 +72,7 @@ export const getCategoryById = createAsyncThunk(
 );
 
 export const updateCategory = createAsyncThunk(
-  "category/update",
+  constants.ACTION_TYPES.category.put,
   (data, { rejectWithValue }) =>
     api
       .updateCategory(data.id, data)
@@ -77,7 +81,7 @@ export const updateCategory = createAsyncThunk(
 );
 
 export const postCategory = createAsyncThunk(
-  "category/post",
+  constants.ACTION_TYPES.category.post,
   (data, { rejectWithValue }) =>
     api
       .postCategory(data)

@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import api from "../../api";
+import constants from "../../constant";
 
 const initialState = {
   get: {
@@ -35,31 +36,34 @@ const initialState = {
 };
 
 export const getVendors = createAsyncThunk(
-  "vendors/get",
+  constants.ACTION_TYPES.vendor.get_list,
   (data = null, { rejectWithValue }) =>
     api
       .getVendors()
       .then((response) => response.data)
       .catch((error) => rejectWithValue(error?.response?.data))
 );
+
 export const deleteVendor = createAsyncThunk(
-  "vendors/delete",
+  constants.ACTION_TYPES.vendor.delete,
   (id, { rejectWithValue }) =>
     api
       .deleteVendor(id)
       .then((response) => ({ data: response.data, id }))
       .catch((error) => rejectWithValue(error?.response?.data))
 );
+
 export const changeVendorStatus = createAsyncThunk(
-  "vendors/change_status",
+  constants.ACTION_TYPES.vendor.change_status,
   (id, { rejectWithValue }) =>
     api
       .changeVendorStatus(id)
       .then((response) => ({ data: response.data, id }))
       .catch((error) => rejectWithValue(error?.response?.data))
 );
+
 export const getVendorById = createAsyncThunk(
-  "vendor/get/id",
+  constants.ACTION_TYPES.vendor.get,
   (id, { rejectWithValue }) =>
     api
       .getVendorById(id)
@@ -68,7 +72,7 @@ export const getVendorById = createAsyncThunk(
 );
 
 export const updateVendor = createAsyncThunk(
-  "vendor/update",
+  constants.ACTION_TYPES.vendor.put,
   (data, { rejectWithValue }) =>
     api
       .updateVendor(data.id, data)
@@ -77,7 +81,7 @@ export const updateVendor = createAsyncThunk(
 );
 
 export const postVendor = createAsyncThunk(
-  "vendor/post",
+  constants.ACTION_TYPES.vendor.post,
   (data, { rejectWithValue }) =>
     api
       .postVendor(data)
