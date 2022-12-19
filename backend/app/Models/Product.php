@@ -11,39 +11,26 @@ class Product extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        "thumbnail_image",
-        "banner_image",
-        "short_name",
-        "name",
-        "slug",
-        "category_id",
-        "sub_category_id",
-        "child_category_id",
-        "user_id",
+        "image",
+        "arabic_name",
+        "english_name",
+        "arabic_description",
+        "english_description",
         "price",
-        "offer_price",
+        "product_category_id",
+        "product_sub_category_id",
+        "user_id",
         "stock_quantity",
-        "short_description",
-        "long_description",
+        "variation_price_from",
+        "variation_price_to",
+        "discount",
+        "qr_code",
+        "bar_code",
         "deactivated_at",
-        "seo_title",
-        "seo_description",
+        "created_at",
+        "updated_at",
+        "deleted_at",
     ];
-
-    public function category()
-    {
-        return $this->belongsTo(Category::class, "category_id");
-    }
-
-    public function subCategory()
-    {
-        return $this->belongsTo(SubCategory::class, "sub_category_id");
-    }
-
-    public function childCategory()
-    {
-        return $this->belongsTo(ChildCategory::class, "child_category_id");
-    }
 
     public function vendor()
     {
