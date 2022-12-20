@@ -7,9 +7,7 @@ use App\Traits\ImageTrait;
 use App\Traits\QrCodeTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
-use Image;
 
 class ShopCategoryController extends Controller
 {
@@ -71,6 +69,8 @@ class ShopCategoryController extends Controller
             $input['qr_code'] = $this->createQrCode();
 
             $category = ShopCategory::create($input);
+            $category->image = $this->getImageUrl($category->image);
+            $category->qr_code = $this->getImageUrl($category->qr_code);
 
             $response = ["data" => $category];
             DB::commit();
