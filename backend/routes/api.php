@@ -1,14 +1,13 @@
 <?php
 
 use App\Http\Controllers\AuthenticationController;
+use App\Http\Controllers\CityController;
 use App\Http\Controllers\ShopCategoryController;
 use App\Http\Controllers\ProductCategoryController;
-use App\Http\Controllers\ChildCategoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\ProductSubCategoryController;
 use App\Http\Controllers\UserController;
-use App\Models\Category;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -41,9 +40,10 @@ Route::post('product-categories/{id}/change_status', [ProductCategoryController:
 Route::resource('product-sub-categories', ProductSubCategoryController::class);
 Route::post('product-sub-categories/{id}/change_status', [ProductSubCategoryController::class, 'changeStatus']);
 
-//child categories apis
-Route::resource('child_categories', ChildCategoryController::class);
-Route::post('child_categories/{id}/change_status', [ChildCategoryController::class, 'changeStatus']);
+//city apis
+Route::resource('cities', CityController::class);
+Route::post('cities/{id}/change_status', [CityController::class, 'changeStatus']);
+
 
 //vendor apis
 Route::prefix('vendors')->group(function () {
