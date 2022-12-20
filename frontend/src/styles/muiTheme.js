@@ -1,37 +1,79 @@
-import { createTheme, adaptV4Theme } from "@mui/material";
+import { createTheme } from '@mui/material';
 
-const theme = createTheme(
-  adaptV4Theme({
-    typography: {
-      htmlFontSize: 10,
-      fontSize: 8,
+const theme = createTheme({
+  typography: {
+    htmlFontSize: 10,
+    fontSize: 8,
+  },
+
+  palette: {
+    primary: {
+      main: '#1DD0BE',
+      contrastText: '#fff',
     },
-    palette: {
-      primary: {
-        main: "#1DD0BE",
-      },
-      text: {
-        primary: "#2B3238",
-      },
-      secondary: {
-        main: "#757575",
-      },
+
+    text: {
+      primary: '#2B3238',
     },
-    props: {
-      MuiListItemIcon: {
-        style: {
-          minWidth: "35px",
+  },
+
+  components: {
+    MuiListItemIcon: {
+      styleOverrides: {
+        root: {
+          minWidth: '30px',
         },
       },
-      MuiTextField: {
+    },
+
+    MuiTextField: {
+      defaultProps: {
         inputProps: {
           style: {
-            height: "1em",
+            height: '1em',
           },
         },
       },
     },
-  })
-);
+
+    MuiButton: {
+      defaultProps: {
+        variant: 'contained',
+      },
+    },
+
+    MuiInputBase: {
+      defaultProps: {
+        inputProps: {
+          style: {
+            height: '1em',
+          },
+        },
+      },
+    },
+
+    MuiOutlinedInput: {
+      styleOverrides: {
+        input: {
+          height: '1em',
+        },
+      },
+    },
+
+    MuiFormControl: {
+      defaultProps: {
+        fullWidth: true,
+      },
+    },
+
+    MuiSelect: {
+      styleOverrides: {
+        select: {
+          padding: '13.32px 14px',
+        },
+      },
+    },
+  },
+});
 
 export default theme;

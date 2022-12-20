@@ -1,5 +1,8 @@
-import React, { useState, useEffect, useMemo } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState, useEffect, useMemo } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams, useNavigate } from 'react-router-dom';
+import { TextField, FormControl, Select, MenuItem } from '@mui/material';
+import { LoadingButton } from '@mui/lab';
 import {
   getChildCategoryById,
   selectGetChildCategoryById,
@@ -7,27 +10,11 @@ import {
   selectUpdateChildCategory,
   postChildCategory,
   selectPostChildCategory,
-} from "../../childCategorySlice";
-import {
-  selectGetCategories,
-  getCategories,
-} from "../../../Category/categorySlice";
-import {
-  selectGetSubCategories,
-  getSubCategories,
-} from "../../../SubCategory/subCategorySlice";
-import { useParams, useNavigate } from "react-router-dom";
-import {
-  TextField,
-  OutlinedInput,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-} from "@mui/material";
-import { LoadingButton } from "@mui/lab";
+} from '../../childCategorySlice';
+import { selectGetCategories, getCategories } from '../../../Category/categorySlice';
+import { selectGetSubCategories, getSubCategories } from '../../../SubCategory/subCategorySlice';
 
-const Form = () => {
+function Form() {
   const { id } = useParams();
   const dispatch = useDispatch();
   const { data: initialData } = useSelector(selectGetChildCategoryById);
@@ -41,7 +28,7 @@ const Form = () => {
 
   const [data, setData] = useState({
     id,
-    name: "",
+    name: '',
     sub_category_id: 0,
     category_id: 0,
   });
@@ -55,11 +42,7 @@ const Form = () => {
       data.category_id === initialData.category_id
     ) {
       result = false;
-    } else if (
-      data.name === "" ||
-      data.sub_category_id === 0 ||
-      data.category_id === 0
-    ) {
+    } else if (data.name === '' || data.sub_category_id === 0 || data.category_id === 0) {
       result = false;
     }
     return result;
@@ -74,8 +57,8 @@ const Form = () => {
     }
 
     result.then(({ meta }) => {
-      if (meta.requestStatus === "fulfilled") {
-        navigate("/child_category");
+      if (meta.requestStatus === 'fulfilled') {
+        navigate('/child_category');
       }
     });
   };
@@ -85,43 +68,45 @@ const Form = () => {
     dispatch(getSubCategories());
     if (isEdit) {
       dispatch(getChildCategoryById(id)).then(({ payload }) => {
+        // eslint-disable-next-line camelcase
         const { name, sub_category_id, category_id } = payload.data;
+        // eslint-disable-next-line camelcase
         setData({ ...data, name, sub_category_id, category_id });
       });
     }
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id, isEdit]);
 
   const handleChangeCategory = (event) => {
     setData({ ...data, category_id: event.target.value, sub_category_id: 0 });
   };
+
   const handleChangeSubCategory = (event) => {
     setData({ ...data, sub_category_id: event.target.value });
   };
-  const filteredSubCategories = useMemo(() => {
-    return subCategories.filter(
-      (subCategory) => subCategory.category_id === data.category_id
-    );
-  }, [data.category_id]);
+
+  const filteredSubCategories = useMemo(
+    () => subCategories.filter((subCategory) => subCategory.category_id === data.category_id),
+    [data.category_id, subCategories],
+  );
+
   return (
     <form>
-      <FormControl fullWidth>
-        <label>Name</label>
+      <FormControl>
         <TextField
           id="name"
-          variant="outlined"
+          placeholder="Name"
           value={data.name}
           onChange={(e) => setData({ ...data, name: e.target.value })}
-          fullWidth
         />
       </FormControl>
 
-      <FormControl style={{ marginTop: "15px" }} fullWidth>
-        <label>Category</label>
+      <FormControl style={{ marginTop: '15px' }}>
         <Select
+          placeholder="Category"
           id="category"
           value={data.category_id}
           onChange={handleChangeCategory}
-          fullWidth
         >
           {categories.map((category) => (
             <MenuItem key={category.id} value={category.id}>
@@ -131,13 +116,12 @@ const Form = () => {
         </Select>
       </FormControl>
 
-      <FormControl style={{ marginTop: "15px" }} fullWidth>
-        <label>Sub Category</label>
+      <FormControl style={{ marginTop: '15px' }}>
         <Select
+          placeholder="Sub Category"
           id="sub_category"
           value={data.sub_category_id}
           onChange={handleChangeSubCategory}
-          fullWidth
         >
           {filteredSubCategories.map((subCategory) => (
             <MenuItem key={subCategory.id} value={subCategory.id}>
@@ -148,16 +132,15 @@ const Form = () => {
       </FormControl>
 
       <LoadingButton
-        style={{ marginTop: "15px" }}
-        variant="contained"
+        style={{ marginTop: '15px' }}
         loading={updateIsLoading || postIsLoading}
         onClick={handleSubmit}
         disabled={!enableSave}
       >
-        {isEdit ? "Update" : "Save"}
+        {isEdit ? 'Update' : 'Save'}
       </LoadingButton>
     </form>
   );
-};
+}
 
 export default Form;

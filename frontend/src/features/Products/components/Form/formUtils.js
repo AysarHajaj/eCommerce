@@ -1,22 +1,22 @@
 const initialValues = {
   id: 0,
-  name: "",
+  name: '',
   price: 0,
   thumbnail_image: undefined,
   banner_image: undefined,
-  short_name: "",
-  slug: "",
+  short_name: '',
+  slug: '',
   category_id: 0,
   sub_category_id: 0,
   child_category_id: 0,
   user_id: undefined,
   offer_price: 0,
   stock_quantity: 0,
-  short_description: "",
-  long_description: "",
+  short_description: '',
+  long_description: '',
   deactivated_at: null,
-  seo_title: "",
-  seo_description: "",
+  seo_title: '',
+  seo_description: '',
 };
 
 const getValidData = (data) => ({
@@ -40,8 +40,8 @@ const getValidData = (data) => ({
   seo_description: data.seo_description || initialValues.seo_description,
 });
 
-
-const isEqual = (a, b) => a.id === b.id &&
+const isEqual = (a, b) =>
+  a.id === b.id &&
   a.name === b.name &&
   a.price === b.price &&
   a.thumbnail_image === b.thumbnail_image &&
@@ -58,16 +58,16 @@ const isEqual = (a, b) => a.id === b.id &&
   a.long_description === b.long_description &&
   a.deactivated_at === b.deactivated_at &&
   a.seo_title === b.seo_title &&
-  a.seo_description === b.seo_description
+  a.seo_description === b.seo_description;
 
 const isValid = (a) =>
-  !!a.name  &&
-  !!a.short_name  &&
-  !!a.slug  &&
-  !!a.category_id  &&
-  !!a.sub_category_id  &&
-  !!a.child_category_id  &&
-  !!a.short_description  &&
+  !!a.name &&
+  !!a.short_name &&
+  !!a.slug &&
+  !!a.category_id &&
+  !!a.sub_category_id &&
+  !!a.child_category_id &&
+  !!a.short_description &&
   !!a.long_description;
 
 const utils = {

@@ -1,5 +1,6 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import api from "../../api";
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import api from '../../api';
+import constants from '../../constant';
 
 const initialState = {
   get: {
@@ -8,12 +9,12 @@ const initialState = {
     error: null,
   },
   delete: {
-    data: "",
+    data: '',
     isLoading: false,
     error: null,
   },
   change_status: {
-    data: "",
+    data: '',
     isLoading: false,
     error: null,
   },
@@ -35,63 +36,66 @@ const initialState = {
 };
 
 export const getSubCategories = createAsyncThunk(
-  "sub_categories/get",
-  (data = null, { rejectWithValue }) =>
+  constants.ACTION_TYPES.sub_category.get_list,
+  (_, { rejectWithValue }) =>
     api
       .getSubCategories()
       .then((response) => response.data)
-      .catch((error) => rejectWithValue(error?.response?.data))
+      .catch((error) => rejectWithValue(error?.response?.data)),
 );
+
 export const deleteSubCategory = createAsyncThunk(
-  "sub_categories/delete",
+  constants.ACTION_TYPES.sub_category.delete,
   (id, { rejectWithValue }) =>
     api
       .deleteSubCategory(id)
       .then((response) => ({ data: response.data, id }))
-      .catch((error) => rejectWithValue(error?.response?.data))
+      .catch((error) => rejectWithValue(error?.response?.data)),
 );
+
 export const changeSubCategoryStatus = createAsyncThunk(
-  "sub_categories/change_status",
+  constants.ACTION_TYPES.sub_category.change_status,
   (id, { rejectWithValue }) =>
     api
       .changeSubCategoryStatus(id)
       .then((response) => ({ data: response.data, id }))
-      .catch((error) => rejectWithValue(error?.response?.data))
+      .catch((error) => rejectWithValue(error?.response?.data)),
 );
+
 export const getSubCategoryById = createAsyncThunk(
-  "sub_category/get/id",
+  constants.ACTION_TYPES.sub_category.get,
   (id, { rejectWithValue }) =>
     api
       .getSubCategoryById(id)
       .then((response) => response.data)
-      .catch((error) => rejectWithValue(error?.response?.data))
+      .catch((error) => rejectWithValue(error?.response?.data)),
 );
 
 export const updateSubCategory = createAsyncThunk(
-  "sub_category/update",
+  constants.ACTION_TYPES.sub_category.put,
   (data, { rejectWithValue }) =>
     api
       .updateSubCategory(data.id, data)
       .then((response) => response.data)
-      .catch((error) => rejectWithValue(error?.response?.data))
+      .catch((error) => rejectWithValue(error?.response?.data)),
 );
 
 export const postSubCategory = createAsyncThunk(
-  "sub_category/post",
+  constants.ACTION_TYPES.sub_category.post,
   (data, { rejectWithValue }) =>
     api
       .postSubCategory(data)
       .then((response) => response.data)
-      .catch((error) => rejectWithValue(error?.response?.data))
+      .catch((error) => rejectWithValue(error?.response?.data)),
 );
 
 export const subCategorySlice = createSlice({
-  name: "sub_category",
+  name: 'sub_category',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder
-      //get sub_categories case
+      // get sub_categories case
       .addCase(getSubCategories.pending, (state) => {
         state.get.isLoading = true;
         state.get.error = null;
@@ -104,7 +108,7 @@ export const subCategorySlice = createSlice({
         state.get.isLoading = false;
         state.get.error = action.payload;
       })
-      //delete sub_categories case
+      // delete sub_categories case
 
       .addCase(deleteSubCategory.pending, (state) => {
         state.delete.isLoading = true;
@@ -114,7 +118,7 @@ export const subCategorySlice = createSlice({
         state.delete.isLoading = false;
         state.delete.data = action.payload.data;
         state.get.data = state.get.data.filter(
-          (subCategory) => subCategory.id != action.payload.id
+          (subCategory) => subCategory.id !== action.payload.id,
         );
       })
       .addCase(deleteSubCategory.rejected, (state, action) => {
@@ -188,12 +192,8 @@ export const subCategorySlice = createSlice({
 
 export const selectGetSubCategories = (state) => state.sub_category.get;
 export const selectDeleteSubCategories = (state) => state.sub_category.delete;
-export const selectChangeSubCategoriesStatus = (state) =>
-  state.category.change_status;
-export const selectGetSubCategoryById = (state) =>
-  state.sub_category.get_sub_category_by_id;
-export const selectUpdateSubCategory = (state) =>
-  state.sub_category.update_sub_category;
-export const selectPostSubCategory = (state) =>
-  state.sub_category.post_sub_category;
+export const selectChangeSubCategoriesStatus = (state) => state.category.change_status;
+export const selectGetSubCategoryById = (state) => state.sub_category.get_sub_category_by_id;
+export const selectUpdateSubCategory = (state) => state.sub_category.update_sub_category;
+export const selectPostSubCategory = (state) => state.sub_category.post_sub_category;
 export default subCategorySlice.reducer;

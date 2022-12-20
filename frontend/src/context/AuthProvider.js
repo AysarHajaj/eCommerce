@@ -1,27 +1,28 @@
-import { createContext, useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { createContext, useState, useMemo } from 'react';
+import PropTypes from 'prop-types';
 
 const AuthContext = createContext({});
 
-export const AuthProvider = ({ children }) => {
-  const [auth, setAuth] = useState({});
-  const navigate = useNavigate();
+const getUserData = () => {
+  const token = localStorage.getItem('token');
+  const user = localStorage.getItem('user');
 
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    const user = localStorage.getItem("user");
+  if (token && user) {
+    return { accessToken: token, user: JSON.parse(user) };
+  }
+  return { accessToken: undefined, user: undefined };
+};
 
-    if (token && user) {
-      setAuth({ accessToken: token, user: JSON.parse(user) });
-      navigate("/", { replace: true });
-    }
-  }, []);
+export function AuthProvider({ children }) {
+  const [auth, setAuth] = useState(getUserData);
 
-  return (
-    <AuthContext.Provider value={{ auth, setAuth }}>
-      {children}
-    </AuthContext.Provider>
-  );
+  const providerValue = useMemo(() => ({ auth, setAuth }), [auth, setAuth]);
+
+  return <AuthContext.Provider value={providerValue}>{children}</AuthContext.Provider>;
+}
+
+AuthProvider.propTypes = {
+  children: PropTypes.any,
 };
 
 export default AuthContext;

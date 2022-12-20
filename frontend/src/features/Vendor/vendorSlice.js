@@ -1,5 +1,6 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import api from "../../api";
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import api from '../../api';
+import constants from '../../constant';
 
 const initialState = {
   get: {
@@ -8,12 +9,12 @@ const initialState = {
     error: null,
   },
   delete: {
-    data: "",
+    data: '',
     isLoading: false,
     error: null,
   },
   change_status: {
-    data: "",
+    data: '',
     isLoading: false,
     error: null,
   },
@@ -35,63 +36,66 @@ const initialState = {
 };
 
 export const getVendors = createAsyncThunk(
-  "vendors/get",
-  (data = null, { rejectWithValue }) =>
+  constants.ACTION_TYPES.vendor.get_list,
+  (_, { rejectWithValue }) =>
     api
       .getVendors()
       .then((response) => response.data)
-      .catch((error) => rejectWithValue(error?.response?.data))
+      .catch((error) => rejectWithValue(error?.response?.data)),
 );
+
 export const deleteVendor = createAsyncThunk(
-  "vendors/delete",
+  constants.ACTION_TYPES.vendor.delete,
   (id, { rejectWithValue }) =>
     api
       .deleteVendor(id)
       .then((response) => ({ data: response.data, id }))
-      .catch((error) => rejectWithValue(error?.response?.data))
+      .catch((error) => rejectWithValue(error?.response?.data)),
 );
+
 export const changeVendorStatus = createAsyncThunk(
-  "vendors/change_status",
+  constants.ACTION_TYPES.vendor.change_status,
   (id, { rejectWithValue }) =>
     api
       .changeVendorStatus(id)
       .then((response) => ({ data: response.data, id }))
-      .catch((error) => rejectWithValue(error?.response?.data))
+      .catch((error) => rejectWithValue(error?.response?.data)),
 );
+
 export const getVendorById = createAsyncThunk(
-  "vendor/get/id",
+  constants.ACTION_TYPES.vendor.get,
   (id, { rejectWithValue }) =>
     api
       .getVendorById(id)
       .then((response) => response.data)
-      .catch((error) => rejectWithValue(error?.response?.data))
+      .catch((error) => rejectWithValue(error?.response?.data)),
 );
 
 export const updateVendor = createAsyncThunk(
-  "vendor/update",
+  constants.ACTION_TYPES.vendor.put,
   (data, { rejectWithValue }) =>
     api
       .updateVendor(data.id, data)
       .then((response) => response.data)
-      .catch((error) => rejectWithValue(error?.response?.data))
+      .catch((error) => rejectWithValue(error?.response?.data)),
 );
 
 export const postVendor = createAsyncThunk(
-  "vendor/post",
+  constants.ACTION_TYPES.vendor.post,
   (data, { rejectWithValue }) =>
     api
       .postVendor(data)
       .then((response) => response.data)
-      .catch((error) => rejectWithValue(error?.response?.data))
+      .catch((error) => rejectWithValue(error?.response?.data)),
 );
 
 export const vendorSlice = createSlice({
-  name: "vendor",
+  name: 'vendor',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder
-      //get vendors case
+      // get vendors case
       .addCase(getVendors.pending, (state) => {
         state.get.isLoading = true;
         state.get.error = null;
@@ -104,7 +108,7 @@ export const vendorSlice = createSlice({
         state.get.isLoading = false;
         state.get.error = action.payload;
       })
-      //delete vendors case
+      // delete vendors case
 
       .addCase(deleteVendor.pending, (state) => {
         state.delete.isLoading = true;
@@ -113,9 +117,7 @@ export const vendorSlice = createSlice({
       .addCase(deleteVendor.fulfilled, (state, action) => {
         state.delete.isLoading = false;
         state.delete.data = action.payload.data;
-        state.get.data = state.get.data.filter(
-          (category) => category.id != action.payload.id
-        );
+        state.get.data = state.get.data.filter((category) => category.id !== action.payload.id);
       })
       .addCase(deleteVendor.rejected, (state, action) => {
         state.delete.isLoading = false;

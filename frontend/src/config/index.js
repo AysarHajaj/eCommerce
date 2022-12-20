@@ -1,8 +1,8 @@
-import HomeIcon from "@mui/icons-material/Home";
-import WindowIcon from "@mui/icons-material/Window";
-import StoreIcon from "@mui/icons-material/Store";
-import Constant from "../constant";
-const { USER_ROLES, ROUTES } = Constant;
+import React from 'react';
+import HomeIcon from '@mui/icons-material/Home';
+import WindowIcon from '@mui/icons-material/Window';
+import StoreIcon from '@mui/icons-material/Store';
+import ROUTES from '../routes/routesConfig';
 
 const config = {
   nav_items: [
@@ -11,59 +11,53 @@ const config = {
       label: ROUTES.DASHBOARD.label,
       to: ROUTES.DASHBOARD.path,
       icon: <HomeIcon />,
-      roles: [USER_ROLES.ADMIN, USER_ROLES.VENDOR],
+      allowedRoles: ROUTES.DASHBOARD.allowedRoles,
     },
     {
       id: 2,
-      label: "Manage Categories",
-      to: "",
+      label: 'Manage Categories',
+      to: '',
       icon: <WindowIcon />,
-      roles: [USER_ROLES.ADMIN],
+      allowedRoles: ROUTES.CATEGORY.allowedRoles,
       sub_items: [
         {
           id: 3,
           label: ROUTES.CATEGORY.label,
           to: ROUTES.CATEGORY.path,
-          roles: [USER_ROLES.ADMIN],
+          allowedRoles: ROUTES.CATEGORY.allowedRoles,
         },
         {
           id: 4,
           label: ROUTES.SUB_CATEGORY.label,
           to: ROUTES.SUB_CATEGORY.path,
-          roles: [USER_ROLES.ADMIN],
+          allowedRoles: ROUTES.SUB_CATEGORY.allowedRoles,
         },
         {
           id: 5,
           label: ROUTES.CHILD_CATEGORY.label,
           to: ROUTES.CHILD_CATEGORY.path,
-          roles: [USER_ROLES.ADMIN],
+          allowedRoles: ROUTES.CHILD_CATEGORY.allowedRoles,
         },
       ],
     },
     {
       id: 6,
-      label: "Manage Products",
-      to: "",
+      label: 'Manage Products',
+      to: '',
       icon: <WindowIcon />,
-      roles: [USER_ROLES.ADMIN, USER_ROLES.VENDOR],
+      roles: ROUTES.PRODUCTS.allowedRoles,
       sub_items: [
         {
           id: 7,
           label: ROUTES.CREATE_PRODUCT.label,
           to: ROUTES.CREATE_PRODUCT.path,
-          roles: [USER_ROLES.ADMIN, USER_ROLES.VENDOR],
+          allowedRoles: ROUTES.CREATE_PRODUCT.allowedRoles,
         },
         {
           id: 8,
           label: ROUTES.PRODUCTS.label,
           to: ROUTES.PRODUCTS.path,
-          roles: [USER_ROLES.ADMIN],
-        },
-        {
-          id: 8,
-          label: ROUTES.VENDOR_PRODUCTS.label,
-          to: ROUTES.VENDOR_PRODUCTS.path,
-          roles: [USER_ROLES.VENDOR],
+          allowedRoles: ROUTES.PRODUCTS.allowedRoles,
         },
       ],
     },
@@ -72,7 +66,7 @@ const config = {
       label: ROUTES.VENDORS.label,
       to: ROUTES.VENDORS.path,
       icon: <StoreIcon />,
-      roles: [USER_ROLES.ADMIN],
+      allowedRoles: ROUTES.VENDORS.allowedRoles,
     },
   ],
 };

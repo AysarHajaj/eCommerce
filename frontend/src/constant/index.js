@@ -1,96 +1,65 @@
-/* eslint-disable import/no-anonymous-default-export */
-export default {
-  USER_ROLES: {
-    ADMIN: "admin",
-    VENDOR: "vendor",
+const USER_ROLES = {
+  ADMIN: {
+    NAME: 'admin',
   },
-  ROUTES: {
-    DASHBOARD: {
-      path: "/",
-      label: "Dashboard",
+  VENDOR: {
+    NAME: 'vendor',
+  },
+};
+
+const constants = {
+  USER_ROLES: {
+    ADMIN: USER_ROLES.ADMIN.NAME,
+    VENDOR: USER_ROLES.VENDOR.NAME,
+  },
+  DRAWER_WIDTH: 240 /* in px */,
+  ACTION_TYPES: {
+    product: {
+      get: 'GET/PRODUCT',
+      get_vendor: 'GET/VENDOR/PRODUCT',
+      post: 'POST/PRODUCT',
+      put: 'PUT/PRODUCT',
+      delete: 'DELETE/PRODUCT',
+      change_status: 'PUT/PRODUCT/STATUS',
+      get_list: 'GET/PRODUCT/LIST',
     },
-    CATEGORY: {
-      path: "/category",
-      label: "Categories",
+    category: {
+      get: 'GET/CATEGORY',
+      post: 'POST/CATEGORY',
+      put: 'PUT/CATEGORY',
+      delete: 'DELETE/CATEGORY',
+      change_status: 'PUT/CATEGORY/STATUS',
+      get_list: 'GET/CATEGORY/LIST',
     },
-    LOGIN: {
-      path: "/login",
-      label: "Login",
+    sub_category: {
+      get: 'GET/SUB_CATEGORY',
+      post: 'POST/SUB_CATEGORY',
+      put: 'PUT/SUB_CATEGORY',
+      change_status: 'PUT/SUB_CATEGORY/STATUS',
+      delete: 'DELETE/SUB_CATEGORY',
+      get_list: 'GET/SUB_CATEGORY/LIST',
     },
-    CREATE_CATEGORY: {
-      path: "/category/create",
-      label: "Create Category",
+    child_category: {
+      get: 'GET/CHILD_CATEGORY',
+      post: 'POST/CHILD_CATEGORY',
+      put: 'PUT/CHILD_CATEGORY',
+      delete: 'DELETE/CHILD_CATEGORY',
+      change_status: 'PUT/CHILD_CATEGORY/STATUS',
+      get_list: 'GET/CHILD_CATEGORY/LIST',
     },
-    EDIT_CATEGORY: {
-      path: "/category/edit/:id",
-      label: "Edit Category",
-      dynamicPath: (id) => `/category/edit/${id}`,
+    vendor: {
+      get: 'GET/VENDOR',
+      post: 'POST/VENDOR',
+      put: 'PUT/VENDOR',
+      change_status: 'PUT/VENDOR/STATUS',
+      delete: 'DELETE/VENDOR',
+      get_list: 'GET/VENDOR/LIST',
     },
-    SUB_CATEGORY: {
-      path: "/sub_category",
-      label: "Sub Categories",
-    },
-    CREATE_SUB_CATEGORY: {
-      path: "/sub_category/create",
-      label: "Create Sub Category",
-    },
-    EDIT_SUB_CATEGORY: {
-      path: "/sub_category/edit/:id",
-      label: "Edit Sub Category",
-      dynamicPath: (id) => `/sub_category/edit/${id}`,
-    },
-    CHILD_CATEGORY: {
-      path: "/child_category",
-      label: "Child Categories",
-    },
-    CREATE_CHILD_CATEGORY: {
-      path: "/child_category/create",
-      label: "Create Child Category",
-    },
-    EDIT_CHILD_CATEGORY: {
-      path: "/child_category/edit/:id",
-      label: "Edit Child Category",
-      dynamicPath: (id) => `/child_category/edit/${id}`,
-    },
-    UNAUTHORIZED: {
-      path: "/unauthorized",
-      label: "Unauthorized",
-    },
-    PRODUCTS: {
-      path: "/products",
-      label: "Products",
-    },
-    VENDOR_PRODUCTS: {
-      path: "/vendor/products/:id",
-      dynamicPath: (id) => `/vendor/products/${id}`,
-      label: "Products",
-    },
-    CREATE_PRODUCT: {
-      path: "/create_product",
-      label: "Create Product",
-    },
-    EDIT_PRODUCT: {
-      path: "/product/edit/:id",
-      label: "Edit Product",
-      dynamicPath: (id) => `/product/edit/${id}`,
-    },
-    VENDORS: {
-      path: "/vendors",
-      label: "Vendors",
-    },
-    CREATE_VENDOR: {
-      path: "/vendor/create",
-      label: "Create Vendor",
-    },
-    EDIT_VENDOR: {
-      path: "/vendor/edit/:id",
-      label: "Edit Vendor",
-      dynamicPath: (id) => `/vendor/edit/${id}`,
-    },
-    EDIT_SHOP_SETTINGS: {
-      path: "/shop/edit/:id",
-      label: "Edit Shop Settings",
-      dynamicPath: (id) => `/shop/edit/${id}`,
+    shop: {
+      put: 'PUT/SHOP',
+      get: 'GET/SHOP',
     },
   },
 };
+
+export default constants;

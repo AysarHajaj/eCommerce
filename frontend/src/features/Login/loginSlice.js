@@ -1,5 +1,5 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import api from "../../api";
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import api from '../../api';
 
 const initialState = {
   login: {
@@ -9,15 +9,15 @@ const initialState = {
   },
 };
 
-export const login = createAsyncThunk("login", (data, { rejectWithValue }) =>
+export const login = createAsyncThunk('login', (data, { rejectWithValue }) =>
   api
     .login(data)
     .then((response) => response.data)
-    .catch((error) => rejectWithValue(error?.response?.data))
+    .catch((error) => rejectWithValue(error?.response?.data)),
 );
 
 export const loginSlice = createSlice({
-  name: "login",
+  name: 'login',
   initialState,
   reducers: {
     setToken: (state, action) => {
@@ -36,7 +36,7 @@ export const loginSlice = createSlice({
       .addCase(login.fulfilled, (state, action) => {
         state.login.isLoading = false;
         state.login.data = action.payload;
-        localStorage.setItem("token", action.payload.token);
+        localStorage.setItem('token', action.payload.token);
       })
       .addCase(login.rejected, (state, action) => {
         state.login.isLoading = false;

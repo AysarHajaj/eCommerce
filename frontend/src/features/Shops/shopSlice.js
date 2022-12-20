@@ -1,5 +1,6 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import api from "../../api";
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import api from '../../api';
+import constants from '../../constant';
 
 const initialState = {
   get_shop_by_vendor_id: {
@@ -15,25 +16,25 @@ const initialState = {
 };
 
 export const getShopByVendorId = createAsyncThunk(
-  "shop/get/vendor/id",
+  constants.ACTION_TYPES.shop.get,
   (id, { rejectWithValue }) =>
     api
       .getShopByVendorId(id)
       .then((response) => response.data)
-      .catch((error) => rejectWithValue(error?.response?.data))
+      .catch((error) => rejectWithValue(error?.response?.data)),
 );
 
 export const updateShop = createAsyncThunk(
-  "shop/update",
+  constants.ACTION_TYPES.shop.put,
   (data, { rejectWithValue }) =>
     api
       .updateShop(data.id, data)
       .then((response) => response.data)
-      .catch((error) => rejectWithValue(error?.response?.data))
+      .catch((error) => rejectWithValue(error?.response?.data)),
 );
 
 export const shopSlice = createSlice({
-  name: "shop",
+  name: 'shop',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
@@ -69,8 +70,7 @@ export const shopSlice = createSlice({
   },
 });
 
-export const selectGetShopByVendorId = (state) =>
-  state.shop.get_shop_by_vendor_id;
+export const selectGetShopByVendorId = (state) => state.shop.get_shop_by_vendor_id;
 export const selectUpdateShop = (state) => state.shop.update_shop;
 
 export default shopSlice.reducer;

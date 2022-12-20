@@ -1,5 +1,6 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import api from "../../api";
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import api from '../../api';
+import constants from '../../constant';
 
 const initialState = {
   get: {
@@ -8,12 +9,12 @@ const initialState = {
     error: null,
   },
   delete: {
-    data: "",
+    data: '',
     isLoading: false,
     error: null,
   },
   change_status: {
-    data: "",
+    data: '',
     isLoading: false,
     error: null,
   },
@@ -35,64 +36,66 @@ const initialState = {
 };
 
 export const getChildCategories = createAsyncThunk(
-  "child_categories/get",
-  (data = null, { rejectWithValue }) =>
+  constants.ACTION_TYPES.child_category.get_list,
+  (_, { rejectWithValue }) =>
     api
       .getChildCategories()
       .then((response) => response.data)
-      .catch((error) => rejectWithValue(error?.response?.data))
+      .catch((error) => rejectWithValue(error?.response?.data)),
 );
+
 export const deleteChildCategory = createAsyncThunk(
-  "child_categories/delete",
+  constants.ACTION_TYPES.child_category.delete,
   (id, { rejectWithValue }) =>
     api
       .deleteChildCategory(id)
       .then((response) => ({ data: response.data, id }))
-      .catch((error) => rejectWithValue(error?.response?.data))
+      .catch((error) => rejectWithValue(error?.response?.data)),
 );
+
 export const changeChildCategoryStatus = createAsyncThunk(
-  "child_categories/change_status",
+  constants.ACTION_TYPES.child_category.change_status,
   (id, { rejectWithValue }) =>
     api
       .changeChildCategoryStatus(id)
       .then((response) => ({ data: response.data, id }))
-      .catch((error) => rejectWithValue(error?.response?.data))
+      .catch((error) => rejectWithValue(error?.response?.data)),
 );
 
 export const getChildCategoryById = createAsyncThunk(
-  "child_category/get/id",
+  constants.ACTION_TYPES.child_category.get,
   (id, { rejectWithValue }) =>
     api
       .getChildCategoryById(id)
       .then((response) => response.data)
-      .catch((error) => rejectWithValue(error?.response?.data))
+      .catch((error) => rejectWithValue(error?.response?.data)),
 );
 
 export const updateChildCategory = createAsyncThunk(
-  "child_category/update",
+  constants.ACTION_TYPES.child_category.put,
   (data, { rejectWithValue }) =>
     api
       .updateChildCategory(data.id, data)
       .then((response) => response.data)
-      .catch((error) => rejectWithValue(error?.response?.data))
+      .catch((error) => rejectWithValue(error?.response?.data)),
 );
 
 export const postChildCategory = createAsyncThunk(
-  "child_category/post",
+  constants.ACTION_TYPES.child_category.post,
   (data, { rejectWithValue }) =>
     api
       .postChildCategory(data)
       .then((response) => response.data)
-      .catch((error) => rejectWithValue(error?.response?.data))
+      .catch((error) => rejectWithValue(error?.response?.data)),
 );
 
 export const childCategorySlice = createSlice({
-  name: "child_category",
+  name: 'child_category',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder
-      //get child_categories case
+      // get child_categories case
       .addCase(getChildCategories.pending, (state) => {
         state.get.isLoading = true;
         state.get.error = null;
@@ -105,7 +108,7 @@ export const childCategorySlice = createSlice({
         state.get.isLoading = false;
         state.get.error = action.payload;
       })
-      //delete sub_categories case
+      // delete sub_categories case
 
       .addCase(deleteChildCategory.pending, (state) => {
         state.delete.isLoading = true;
@@ -115,7 +118,7 @@ export const childCategorySlice = createSlice({
         state.delete.isLoading = false;
         state.delete.data = action.payload.data;
         state.get.data = state.get.data.filter(
-          (childCategory) => childCategory.id != action.payload.id
+          (childCategory) => childCategory.id !== action.payload.id,
         );
       })
       .addCase(deleteChildCategory.rejected, (state, action) => {
@@ -191,14 +194,9 @@ export const childCategorySlice = createSlice({
 });
 
 export const selectGetChildCategories = (state) => state.child_category.get;
-export const selectDeleteChildCategories = (state) =>
-  state.child_category.delete;
-export const selectChangeChildCategoriesStatus = (state) =>
-  state.child_category.change_status;
-export const selectGetChildCategoryById = (state) =>
-  state.child_category.get_child_category_by_id;
-export const selectUpdateChildCategory = (state) =>
-  state.child_category.update_child_category;
-export const selectPostChildCategory = (state) =>
-  state.child_category.post_child_category;
+export const selectDeleteChildCategories = (state) => state.child_category.delete;
+export const selectChangeChildCategoriesStatus = (state) => state.child_category.change_status;
+export const selectGetChildCategoryById = (state) => state.child_category.get_child_category_by_id;
+export const selectUpdateChildCategory = (state) => state.child_category.update_child_category;
+export const selectPostChildCategory = (state) => state.child_category.post_child_category;
 export default childCategorySlice.reducer;

@@ -1,5 +1,17 @@
-import React, { useState, useEffect, useMemo } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState, useEffect, useMemo } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams, useNavigate } from 'react-router-dom';
+import { TextField, OutlinedInput, FormControl, Select, MenuItem, Button } from '@mui/material';
+import { LoadingButton } from '@mui/lab';
+import FormHelperText from '@mui/material/FormHelperText';
+import Avatar from '@mui/material/Avatar';
+import ListIcon from '@mui/icons-material/List';
+import {
+  selectGetChildCategories,
+  getChildCategories,
+} from '../../../ChildCategory/childCategorySlice';
+import { selectGetSubCategories, getSubCategories } from '../../../SubCategory/subCategorySlice';
+import { selectGetCategories, getCategories } from '../../../Category/categorySlice';
 import {
   getProductById,
   selectGetProductById,
@@ -7,38 +19,14 @@ import {
   selectUpdateProduct,
   postProduct,
   selectPostProduct,
-} from "../../productSlice";
-import {
-  selectGetCategories,
-  getCategories,
-} from "../../../Category/categorySlice";
-import {
-  selectGetSubCategories,
-  getSubCategories,
-} from "../../../SubCategory/subCategorySlice";
-import {
-  selectGetChildCategories,
-  getChildCategories,
-} from "../../../ChildCategory/childCategorySlice";
-import { useParams, useNavigate } from "react-router-dom";
-import {
-  TextField,
-  OutlinedInput,
-  FormControl,
-  Select,
-  MenuItem,
-  Button,
-} from "@mui/material";
-import { LoadingButton } from "@mui/lab";
-import FormHelperText from '@mui/material/FormHelperText';
-import Avatar from "@mui/material/Avatar";
-import ListIcon from "@mui/icons-material/List";
-import constant from "../../../../constant";
-import useAuth from "../../../../hooks/useAuth";
+} from '../../productSlice';
+import constant from '../../../../constant';
+import useAuth from '../../../../hooks/useAuth';
 import formUtils from './formUtils';
-import "./style.scss";
+import ROUTES from '../../../../routes/routesPath';
+import './style.scss';
 
-const Form = () => {
+function Form() {
   const { id } = useParams();
   const dispatch = useDispatch();
   const { data: initialData } = useSelector(selectGetProductById);
@@ -50,14 +38,11 @@ const Form = () => {
   const isEdit = !!id;
   const navigate = useNavigate();
   const {
-    auth: { user },
+    auth: {
+      user: { type: userType, id: userId },
+    },
   } = useAuth();
-
-  const navigatePath = useMemo(() => { 
-    return user?.type === constant.USER_ROLES.VENDOR
-      ? `${constant.ROUTES.VENDOR_PRODUCTS.path.replace("/:id", `/${user?.id}`)}`
-      : constant.ROUTES.PRODUCTS.path;
-  }, [user]);
+  const isVendor = userType === constant.USER_ROLES.VENDOR;
 
   const [data, setData] = useState({ ...formUtils.initialValues });
 
@@ -71,7 +56,7 @@ const Form = () => {
     return enable;
   }, [isEdit, data, initialValidData]);
 
-  const thumbnailImageURL = useMemo(() => { 
+  const thumbnailImageURL = useMemo(() => {
     if (!data.thumbnail_image) return undefined;
     if (typeof data.thumbnail_image === 'object') {
       return URL.createObjectURL(data.thumbnail_image);
@@ -81,25 +66,24 @@ const Form = () => {
 
   const bannerImageURL = useMemo(() => {
     if (!data.banner_image) return undefined;
-    if (typeof data.banner_image === "object") {
+    if (typeof data.banner_image === 'object') {
       return URL.createObjectURL(data.banner_image);
     }
     return data.banner_image;
   }, [data.banner_image]);
 
-
   const filteredSubCategories = useMemo(
     () => subCategories.filter((item) => item.id === data.category_id),
-    [data.category_id]
+    [data.category_id, subCategories],
   );
 
   const filteredChildCategories = useMemo(
     () => childCategories.filter((item) => item.id === data.sub_category_id),
-    [data.sub_category_id]
+    [childCategories, data.sub_category_id],
   );
 
   const handleChangeImage = (e) => {
-    const files = e.target.files;
+    const { files } = e.target;
     const property = e.target.name;
     if (files?.length) {
       const file = e.target.files[0];
@@ -119,26 +103,19 @@ const Form = () => {
       result = dispatch(
         updateProduct({
           ...data,
-          ...(user?.type === constant.USER_ROLES.VENDOR
-            ? { user_id: user?.id }
-            : {}),
-          banner_image:
-            typeof data.banner_image === "object"
-              ? data.banner_image
-              : undefined,
+          ...(isVendor ? { user_id: userId } : {}),
+          banner_image: typeof data.banner_image === 'object' ? data.banner_image : undefined,
           thumbnail_image:
-            typeof data.thumbnail_image === "object"
-              ? data.thumbnail_image
-              : undefined,
-        })
+            typeof data.thumbnail_image === 'object' ? data.thumbnail_image : undefined,
+        }),
       );
     } else {
-      result = dispatch(postProduct({...data, ...(user?.type === constant.USER_ROLES.VENDOR ? {user_id: user?.id} : {})}));
+      result = dispatch(postProduct({ ...data, ...(isVendor ? { user_id: userId } : {}) }));
     }
 
     result.then(({ meta }) => {
-      if (meta.requestStatus === "fulfilled") {
-        navigate(navigatePath);
+      if (meta.requestStatus === 'fulfilled') {
+        navigate(constant.ROUTES.PRODUCTS.path);
       }
     });
   };
@@ -156,90 +133,67 @@ const Form = () => {
 
   return (
     <section className="create-product-container">
-      <Button startIcon={<ListIcon />} variant="contained" onClick={() => navigate(navigatePath)}>
+      <Button startIcon={<ListIcon />} onClick={() => navigate(ROUTES.PRODUCTS.path)}>
         View Products
       </Button>
       <form onSubmit={handleSubmit} className="create-product-form">
-        <FormHelperText error={!!(postError || putError)}>
-          {postError || putError}
-        </FormHelperText>
+        <FormHelperText error={!!(postError || putError)}>{postError || putError}</FormHelperText>
 
-        <FormControl style={{ marginTop: "15px" }} fullWidth>
-          <label>Thumnail Image Preview</label>
+        <FormControl style={{ marginTop: '15px' }}>
           <Avatar src={thumbnailImageURL} />
         </FormControl>
 
-        <FormControl style={{ marginTop: "15px" }} fullWidth>
-          <label>Thumnail Image</label>
+        <FormControl style={{ marginTop: '15px' }}>
           <OutlinedInput
             name="thumbnail_image"
             type="file"
-            variant="outlined"
-            fullWidth
             label="Thumbnail Image"
             onChange={handleChangeImage}
           />
         </FormControl>
 
-        <FormControl style={{ marginTop: "15px" }} fullWidth>
-          <label>Banner Image Preview</label>
+        <FormControl style={{ marginTop: '15px' }}>
           <Avatar src={bannerImageURL} />
         </FormControl>
 
-        <FormControl style={{ marginTop: "15px" }} fullWidth>
-          <label>Banner Image</label>
+        <FormControl style={{ marginTop: '15px' }}>
           <OutlinedInput
             name="banner_image"
             type="file"
-            variant="outlined"
-            fullWidth
             label="Banner Image"
             onChange={handleChangeImage}
           />
         </FormControl>
-        <FormControl fullWidth>
-          <label>Short Name</label>
-          <TextField
-            name="short_name"
-            variant="outlined"
-            value={data.short_name}
-            onChange={handleChange}
-            fullWidth
-            required
-          />
-        </FormControl>
+        <TextField
+          placeholder="Short Name"
+          name="short_name"
+          value={data.short_name}
+          onChange={handleChange}
+          required
+        />
 
-        <FormControl fullWidth>
-          <label>Name</label>
-          <TextField
-            name="name"
-            variant="outlined"
-            value={data.name}
-            onChange={handleChange}
-            fullWidth
-            required
-          />
-        </FormControl>
+        <TextField
+          placeholder="Name"
+          name="name"
+          value={data.name}
+          onChange={handleChange}
+          required
+        />
 
-        <FormControl fullWidth>
-          <label>Slug</label>
-          <TextField
-            name="slug"
-            variant="outlined"
-            value={data.slug}
-            onChange={handleChange}
-            fullWidth
-            required
-          />
-        </FormControl>
+        <TextField
+          placeholder="Slug"
+          name="slug"
+          value={data.slug}
+          onChange={handleChange}
+          required
+        />
 
-        <FormControl style={{ marginTop: "15px" }} fullWidth>
-          <label>Category</label>
+        <FormControl style={{ marginTop: '15px' }}>
           <Select
+            placeholder="Category"
             name="category_id"
             value={data.category_id}
             onChange={handleChange}
-            fullWidth
             required
           >
             {categories.map((category) => (
@@ -250,13 +204,12 @@ const Form = () => {
           </Select>
         </FormControl>
 
-        <FormControl style={{ marginTop: "15px" }} fullWidth>
-          <label>SubCategory Category</label>
+        <FormControl style={{ marginTop: '15px' }}>
           <Select
+            placeholder="SubCategory Category"
             name="sub_category_id"
             value={data.sub_category_id}
             onChange={handleChange}
-            fullWidth
             required
           >
             {filteredSubCategories.map((childCategory) => (
@@ -267,13 +220,12 @@ const Form = () => {
           </Select>
         </FormControl>
 
-        <FormControl style={{ marginTop: "15px" }} fullWidth>
-          <label>Child Category</label>
+        <FormControl style={{ marginTop: '15px' }}>
           <Select
+            placeholder="Child Category"
             name="child_category_id"
             value={data.child_category_id}
             onChange={handleChange}
-            fullWidth
             required
           >
             {filteredChildCategories.map((childCategory) => (
@@ -284,100 +236,71 @@ const Form = () => {
           </Select>
         </FormControl>
 
-        <FormControl fullWidth>
-          <label>Price</label>
-          <TextField
-            name="price"
-            variant="outlined"
-            type="number"
-            value={data.price}
-            onChange={handleChange}
-            fullWidth
-          />
-        </FormControl>
+        <TextField
+          placeholder="Price"
+          name="price"
+          type="number"
+          value={data.price}
+          onChange={handleChange}
+        />
 
-        <FormControl fullWidth>
-          <label>Offer Price</label>
-          <TextField
-            name="offer_price"
-            variant="outlined"
-            type="number"
-            value={data.offer_price}
-            onChange={handleChange}
-            fullWidth
-          />
-        </FormControl>
+        <TextField
+          placeholder="Offer Price"
+          name="offer_price"
+          type="number"
+          value={data.offer_price}
+          onChange={handleChange}
+        />
 
-        <FormControl fullWidth>
-          <label>Stock Quantity</label>
-          <TextField
-            name="stock_quantity"
-            variant="outlined"
-            type="number"
-            value={data.stock_quantity}
-            onChange={handleChange}
-            fullWidth
-          />
-        </FormControl>
+        <TextField
+          placeholder="Stock Quantity"
+          name="stock_quantity"
+          type="number"
+          value={data.stock_quantity}
+          onChange={handleChange}
+        />
 
-        <FormControl fullWidth>
-          <label>Short Description</label>
-          <TextField
-            name="short_description"
-            variant="outlined"
-            value={data.short_description}
-            onChange={handleChange}
-            fullWidth
-            required
-          />
-        </FormControl>
+        <TextField
+          placeholder="Short Description"
+          name="short_description"
+          value={data.short_description}
+          onChange={handleChange}
+          required
+        />
 
-        <FormControl fullWidth>
-          <label>Long Description</label>
-          <TextField
-            name="long_description"
-            variant="outlined"
-            value={data.long_description}
-            onChange={handleChange}
-            fullWidth
-            required
-          />
-        </FormControl>
+        <TextField
+          placeholder="Long Description<"
+          name="long_description"
+          value={data.long_description}
+          onChange={handleChange}
+          required
+        />
 
-        <FormControl fullWidth>
-          <label>SEO Title</label>
-          <TextField
-            name="seo_title"
-            variant="outlined"
-            value={data.seo_title}
-            onChange={handleChange}
-            fullWidth
-          />
-        </FormControl>
+        <TextField
+          placeholder="SEO Title<"
+          name="seo_title"
+          value={data.seo_title}
+          onChange={handleChange}
+        />
 
-        <FormControl fullWidth>
-          <label>SEO Description</label>
-          <TextField
-            name="seo_description"
-            variant="outlined"
-            value={data.seo_description}
-            onChange={handleChange}
-            fullWidth
-          />
-        </FormControl>
+        <TextField
+          placeholder="SEO Description"
+          name="seo_description"
+          value={data.seo_description}
+          onChange={handleChange}
+        />
 
         <LoadingButton
-          style={{ marginTop: "15px" }}
-          variant="contained"
+          style={{ marginTop: '15px' }}
           loading={updateIsLoading || postIsLoading}
           type="submit"
           disabled={!enableSave}
         >
-          {isEdit ? "Update" : "Save"}
+          {isEdit ? 'Update' : 'Save'}
         </LoadingButton>
       </form>
     </section>
   );
-};
+}
 
 export default Form;

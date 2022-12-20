@@ -1,30 +1,35 @@
-import React, { useState, useEffect, useMemo, useRef } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
-import { TextField, FormControl, FormHelperText } from "@mui/material";
-import { LoadingButton } from "@mui/lab";
-import "./style.scss";
-import useAuth from "../../hooks/useAuth";
+import React, { useState, useEffect, useMemo, useRef } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
+import FormHelperText from '@mui/material/FormHelperText';
+import TextField from '@mui/material/TextField';
+import FormControl from '@mui/material/FormControl';
+import LoadingButton from '@mui/lab/LoadingButton';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import InputAdornment from '@mui/material/InputAdornment';
+import IconButton from '@mui/material/IconButton';
+import useAuth from '../../hooks/useAuth';
 import api from '../../api';
+import './style.scss';
 
 const { PUBLIC_URL } = process.env;
 
-const Login = () => {
-  const { setAuth } = useAuth();
-  const emailRef = useRef();
+function Login() {
+  const { setAuth, auth } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
-  const fromPath = location.state?.from?.pathname || "/";
+  const fromPath = location.state?.from?.pathname || location.pathname || '/';
+  if (auth?.user && auth?.accessToken) navigate(fromPath, { replace: true });
+
+  const emailRef = useRef();
 
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState("");
-  const [data, setData] = useState({
-    password: "",
-    email: "",
-  });
+  const [error, setError] = useState('');
+  const [data, setData] = useState({ password: '', email: '' });
+  const [showPassword, setShowPassword] = React.useState(false);
 
-  const enableSave = useMemo(() => {
-    return data.name !== "" && data.password !== "";
-  }, [data]);
+  const enableSave = useMemo(() => data.name !== '' && data.password !== '', [data]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -36,29 +41,39 @@ const Login = () => {
       const user = resData.data?.user;
 
       localStorage.setItem('token', accessToken);
-      localStorage.setItem("user", JSON.stringify(user));
+      localStorage.setItem('user', JSON.stringify(user));
 
       setAuth({ user, accessToken });
       setData({ email: '', password: '' });
-      navigate(fromPath, { replace: true });
     } catch (err) {
       if (!err?.response) {
-        setError("No Server Response");
-      } else if (err.response?.status === 400) {
-        setError("Missing Username or Password");
-      } else if (err.response?.status === 401) {
-        setError("Unauthorized");
+        setError('No Server Response');
       } else {
-        setError("Login Failed");
+        setError(err?.response?.data?.error);
       }
     } finally {
       setIsLoading(false);
     }
   };
 
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
+
+  const handleChangeInputs = (e) => {
+    const property = e.target.name;
+    setData({ ...data, [property]: e.target.value });
+  };
+
   useEffect(() => {
-    setError("");
+    setError('');
   }, [data.email, data.password]);
+
+  useEffect(() => {
+    emailRef?.current?.focus();
+  }, []);
 
   return (
     <section className="login-container">
@@ -68,54 +83,55 @@ const Login = () => {
         </div>
       </div>
       <form onSubmit={handleSubmit}>
-        <FormHelperText error={!!error}>{error}</FormHelperText>
-        <FormControl fullWidth>
-          <TextField
-            id="email"
-            variant="outlined"
-            value={data.email}
-            onChange={(e) => setData({ ...data, email: e.target.value })}
-            fullWidth
-            inputRef={emailRef}
-            autoComplete="off"
-            placeholder="Email"
+        <FormHelperText error={!!error}>{error || ' '}</FormHelperText>
+        <TextField
+          id="email"
+          name="email"
+          value={data.email}
+          onChange={handleChangeInputs}
+          inputRef={emailRef}
+          placeholder="Email"
+          required
+          margin="dense"
+        />
+
+        <FormControl>
+          <OutlinedInput
+            id="password"
+            name="password"
+            value={data.password}
+            onChange={handleChangeInputs}
+            type={showPassword ? 'text' : 'password'}
+            placeholder="Password"
             required
+            margin="dense"
+            endAdornment={
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="toggle password visibility"
+                  onClick={handleClickShowPassword}
+                  onMouseDown={handleMouseDownPassword}
+                  edge="end"
+                >
+                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>
+            }
           />
         </FormControl>
 
-        <FormControl style={{ marginTop: "15px" }} fullWidth>
-          <TextField
-            id="password"
-            variant="outlined"
-            value={data.password}
-            onChange={(e) => setData({ ...data, password: e.target.value })}
-            type="password"
-            fullWidth
-            autoComplete="off"
-            placeholder="Password"
-            required
-          />
-        </FormControl>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-          }}
+        <LoadingButton
+          loadingPosition="start"
+          startIcon=" "
+          loading={isLoading}
+          disabled={!enableSave}
+          type="submit"
         >
-          <LoadingButton
-            style={{ marginTop: "15px" }}
-            variant="contained"
-            loading={isLoading}
-            disabled={!enableSave}
-            type="submit"
-          >
-            Login
-          </LoadingButton>
-        </div>
+          Login
+        </LoadingButton>
       </form>
     </section>
   );
-};
+}
 
 export default Login;
