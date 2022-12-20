@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\CityController;
+use App\Http\Controllers\DistrictController;
 use App\Http\Controllers\ShopCategoryController;
 use App\Http\Controllers\ProductCategoryController;
 use App\Http\Controllers\ProductController;
@@ -43,6 +44,10 @@ Route::post('product-sub-categories/{id}/change_status', [ProductSubCategoryCont
 //city apis
 Route::resource('cities', CityController::class);
 Route::post('cities/{id}/change_status', [CityController::class, 'changeStatus']);
+
+//district apis
+Route::resource('districts', DistrictController::class);
+Route::post('districts/{id}/change_status', [DistrictController::class, 'changeStatus']);
 
 
 //vendor apis
