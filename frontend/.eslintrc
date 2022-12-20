@@ -13,7 +13,7 @@
     "prettier/prettier": ["error"],
     "no-underscore-dangle": "off",
     "implicit-arrow-linebreak": "off",
-    "no-console":"error",
+    "no-console":"warn",
     "no-param-reassign": [
       "error",
       {
