@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\SubCategory;
+use App\Models\ProductSubCategory;
+use App\Traits\ImageTrait;
+use App\Traits\QrCodeTrait;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
-class SubCategoryController extends Controller
+class ProductSubCategoryController extends Controller
 {
+    use ImageTrait, QrCodeTrait;
     /**
      * Display a listing of the resource.
      *
@@ -15,13 +19,20 @@ class SubCategoryController extends Controller
      */
     public function index()
     {
+        DB::beginTransaction();
         try {
-            $subCategories = SubCategory::with('category')->get();
-            $response = ["data" => $subCategories];
+            $subCategories = ProductSubCategory::with('productCategory')->get();
+            $subCategories->map(function ($subCategory) {
+                $subCategory->qr_code = $this->getImageUrl($subCategory->qr_code);
+                return $subCategory;
+            });
 
+            $response = ["data" => $subCategories];
+            DB::commit();
             return response()->json($response, 200);
         } catch (\Throwable $th) {
             $response = ["error" => $th->getMessage()];
+            DB::rollBack();
             return response()->json($response, 500);
         }
     }
@@ -34,10 +45,11 @@ class SubCategoryController extends Controller
      */
     public function store(Request $request)
     {
+        DB::beginTransaction();
         try {
             $validator = Validator::make($request->all(), [
                 "name" => "required",
-                "category_id" => 'required'
+                "product_category_id" => 'required'
             ]);
 
             if ($validator->fails()) {
@@ -46,13 +58,16 @@ class SubCategoryController extends Controller
             }
 
             $input = $request->all();
-            $subCategory = SubCategory::create($input);
+            $input['qr_code'] = $this->createQrCode();
+            $subCategory = ProductSubCategory::create($input);
+            $subCategory->qr_code = $this->getImageUrl($subCategory->qr_code);
 
             $response = ["data" => $subCategory];
-
+            DB::commit();
             return response()->json($response, 200);
         } catch (\Throwable $th) {
             $response = ["error" => $th->getMessage()];
+            DB::rollBack();
             return response()->json($response, 500);
         }
     }
@@ -65,12 +80,22 @@ class SubCategoryController extends Controller
      */
     public function show($id)
     {
+        DB::beginTransaction();
         try {
-            $subCategory = SubCategory::with('category')->find($id);
+            $subCategory = ProductSubCategory::with('productCategory')->find($id);
+            if ($subCategory) {
+                $subCategory->qr_code = $this->getImageUrl($subCategory->qr_code);
+            } else {
+                $response = ["error" => "model not found"];
+                return response()->json($response, 404);
+            }
+
             $response = ["data" => $subCategory];
+            DB::commit();
             return response()->json($response, 200);
         } catch (\Throwable $th) {
             $response = ["error" => $th->getMessage()];
+            DB::rollBack();
             return response()->json($response, 500);
         }
     }
@@ -84,10 +109,11 @@ class SubCategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
+        DB::beginTransaction();
         try {
             $validator = Validator::make($request->all(), [
                 "name" => "required",
-                "category_id" => 'required'
+                "product_category_id" => 'required'
             ]);
 
             if ($validator->fails()) {
@@ -97,11 +123,14 @@ class SubCategoryController extends Controller
             }
 
             $input = $request->all();
-            SubCategory::where('id', $id)->update($input);
+            ProductSubCategory::where('id', $id)->update($input);
+
             $response = ["data" => "success"];
+            DB::commit();
             return response()->json($response, 200);
         } catch (\Throwable $th) {
             $response = ["error" => $th->getMessage()];
+            DB::rollBack();
             return response()->json($response, 500);
         }
     }
@@ -114,32 +143,50 @@ class SubCategoryController extends Controller
      */
     public function destroy($id)
     {
+        DB::beginTransaction();
         try {
-            $subCategory = SubCategory::find($id);
-            $subCategory->delete();
+            $subCategory = ProductSubCategory::find($id);
+            if ($subCategory) {
+                $subCategory->delete();
+            } else {
+                $response = ["error" => "model not found"];
+                return response()->json($response, 404);
+            }
+
             $response = ["data" => 'success'];
+            DB::commit();
             return response()->json($response, 200);
         } catch (\Throwable $th) {
             $response = ["error" => $th->getMessage()];
+            DB::rollBack();
             return response()->json($response, 500);
         }
     }
 
     public function changeStatus(Request $request, $id)
     {
+        DB::beginTransaction();
         try {
-            $subCategory = SubCategory::find($id);
-            if ($subCategory->deactivated_at) {
-                $subCategory->deactivated_at = null;
+            $subCategory = ProductSubCategory::find($id);
+            if ($subCategory) {
+                if ($subCategory->deactivated_at) {
+                    $subCategory->deactivated_at = null;
+                } else {
+                    $subCategory->deactivated_at = now();
+                }
             } else {
-                $subCategory->deactivated_at = now();
+                $response = ["error" => "model not found"];
+                return response()->json($response, 404);
             }
 
             $subCategory->save();
+
             $response = ["data" => $subCategory->deactivated_at];
+            DB::commit();
             return response()->json($response, 200);
         } catch (\Throwable $th) {
             $response = ["error" => $th->getMessage()];
+            DB::rollBack();
             return response()->json($response, 500);
         }
     }

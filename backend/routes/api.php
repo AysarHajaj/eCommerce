@@ -6,7 +6,7 @@ use App\Http\Controllers\ProductCategoryController;
 use App\Http\Controllers\ChildCategoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ShopController;
-use App\Http\Controllers\SubCategoryController;
+use App\Http\Controllers\ProductSubCategoryController;
 use App\Http\Controllers\UserController;
 use App\Models\Category;
 use Illuminate\Support\Facades\Route;
@@ -37,9 +37,9 @@ Route::resource('product-categories', ProductCategoryController::class);
 Route::post('product-categories/{id}', [ProductCategoryController::class, 'update']);
 Route::post('product-categories/{id}/change_status', [ProductCategoryController::class, 'changeStatus']);
 
-//sub categories apis
-Route::resource('sub_categories', SubCategoryController::class);
-Route::post('sub_categories/{id}/change_status', [SubCategoryController::class, 'changeStatus']);
+//product sub categories apis
+Route::resource('product-sub-categories', ProductSubCategoryController::class);
+Route::post('product-sub-categories/{id}/change_status', [ProductSubCategoryController::class, 'changeStatus']);
 
 //child categories apis
 Route::resource('child_categories', ChildCategoryController::class);
