@@ -25,13 +25,13 @@ return new class extends Migration
             $table->text("description")->nullable();
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
-            $table->unsignedBigInteger('shop_category_id');
+            $table->unsignedBigInteger('shop_category_id')->nullable();
             $table->foreign('shop_category_id')->references('id')->on('shop_categories');
-            $table->unsignedBigInteger('city_id');
+            $table->unsignedBigInteger('city_id')->nullable();
             $table->foreign('city_id')->references('id')->on('cities');
-            $table->unsignedBigInteger('district_id');
+            $table->unsignedBigInteger('district_id')->nullable();
             $table->foreign('district_id')->references('id')->on('districts');
-            $table->unsignedBigInteger('currency_id');
+            $table->unsignedBigInteger('currency_id')->nullable();
             $table->foreign('currency_id')->references('id')->on('currencies');
             $table->time("monday_opens_at")->nullable();
             $table->time("monday_closed_at")->nullable();
