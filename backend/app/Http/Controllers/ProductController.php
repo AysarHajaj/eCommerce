@@ -3,39 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\ProductChoice;
+use App\Models\ProductChoiceGroup;
+use App\Traits\BarCodeTrait;
+use App\Traits\ImageTrait;
+use App\Traits\QrCodeTrait;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Image;
 
 class ProductController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        try {
-            $products = Product::whereNull('user_id')->get();
-            $products->map(function ($product) {
-                if ($product->thumbnail_image) {
-                    $product->thumbnail_image = env('APP_URL') . 'storage/' . $product->thumbnail_image;
-                }
-                if ($product->banner_image) {
-                    $product->banner_image = env('APP_URL') . 'storage/' . $product->banner_image;
-                }
-
-                return $product;
-            });
-            $response = ["data" => $products];
-
-            return response()->json($response, 200);
-        } catch (\Throwable $th) {
-            $response = ["error" => $th->getMessage()];
-            return response()->json($response, 500);
-        }
-    }
+    use ImageTrait, QrCodeTrait, BarCodeTrait;
 
     /**
      * Store a newly created resource in storage.
@@ -45,21 +25,13 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
+        DB::beginTransaction();
         try {
             $validator = Validator::make($request->all(), [
-                "thumbnail_image" => 'image|mimes:jpg,jpeg,png,gif,svg|max:2048',
-                "banner_image" => 'image|mimes:jpg,jpeg,png,gif,svg|max:2048',
-                "short_name" => "required",
-                "name" => "required",
-                "slug" => "required",
-                "category_id" => "required",
-                "sub_category_id",
-                "child_category_id",
-                "price" => "required",
-                "offer_price",
-                "stock_quantity" => "required",
-                "short_description" => "required",
-                "long_description" => "required",
+                "image" => 'image|mimes:jpg,jpeg,png,gif,svg|max:2048',
+                "english_name" => "required",
+                "user_id" => "required",
+                "product_category_id" => "required",
             ]);
 
             if ($validator->fails()) {
@@ -67,37 +39,49 @@ class ProductController extends Controller
                 return response()->json($response, 400);
             }
 
-            $input = $request->except(['thumbnail_image', 'banner_image']);
-            $thumbnailImage = $request->file('thumbnail_image');
-
-            if ($thumbnailImage) {
-                $input['thumbnail_image'] = 'products/thumbnails/' . time() . '.' . $thumbnailImage->getClientOriginalExtension();
-                $imgFile = Image::make($thumbnailImage->getRealPath());
-                $imgFile->resize(150, 150, function ($constraint) {
-                    $constraint->aspectRatio();
-                })->save(storage_path('app/public/'  . $input['thumbnail_image']));
+            $input = $request->except(['image', 'product_choice_groups']);
+            $image = $request->file('image');
+            if ($image) {
+                $input['image'] = $this->saveImage($image, 'products');
             } else {
-                $input['thumbnail_image'] = null;
+                $input['image'] = null;
             }
 
-            $bannerImage = $request->file('banner_image');
-
-            if ($bannerImage) {
-                $input['banner_image'] = 'products/banners/' . time() . '.' . $bannerImage->getClientOriginalExtension();
-                $imgFile = Image::make($bannerImage->getRealPath());
-                $imgFile->resize(150, 150, function ($constraint) {
-                    $constraint->aspectRatio();
-                })->save(storage_path('app/public/'  . $input['banner_image']));
-            } else {
-                $input['banner_image'] = null;
-            }
+            $input['qr_code'] = $this->createQrCode();
+            $input['bar_code'] = $this->createBarCode();
 
             $product = Product::create($input);
-            $response = ["data" => $product];
 
+
+            if (isset($request->product_choice_groups)) {
+                foreach ($request->product_choice_groups as $group) {
+                    $choiceGroup = ProductChoiceGroup::create([
+                        'arabic_name' => isset($group['arabic_name']) ? $group['arabic_name'] : null,
+                        'english_name' => isset($group['english_name']) ? $group['english_name'] : null,
+                        'min_number' => isset($group['min_number']) ? $group['min_number'] : null,
+                        'max_number' => isset($group['max_number']) ? $group['max_number'] : null,
+                        'product_id' => $product->id,
+
+                    ]);
+
+                    if (isset($group['product_choices'])) {
+                        foreach ($group['product_choices'] as $choice)
+                            $productChoice = ProductChoice::create([
+                                'arabic_name' => isset($choice['arabic_name']) ? $choice['arabic_name'] : null,
+                                'english_name' => isset($choice['english_name']) ? $choice['english_name'] : null,
+                                'price' => isset($choice['price']) ? $choice['price'] : null,
+                                'product_choice_group_id' => $choiceGroup->id
+                            ]);
+                    }
+                }
+            }
+
+            $response = ["result" => $product];
+            DB::commit();
             return response()->json($response, 200);
         } catch (\Throwable $th) {
             $response = ["error" => $th->getMessage()];
+            DB::rollBack();
             return response()->json($response, 500);
         }
     }
@@ -110,22 +94,31 @@ class ProductController extends Controller
      */
     public function show($id)
     {
+        DB::beginTransaction();
         try {
-            $product = Product::find($id);
-            if ($product->thumbnail_image) {
-                $product->thumbnail_image = env('APP_URL') . 'storage/' . $product->thumbnail_image;
-            }
-            if ($product->banner_image) {
-                $product->banner_image = env('APP_URL') . 'storage/' . $product->banner_image;
+            $product = Product::with([
+                'productChoiceGroups' => function ($q) {
+                    $q->with(['productChoices']);
+                }
+            ])->find($id);
+
+            if ($product) {
+                $product->image = $this->getImageUrl($product->image);
+                $product->qr_code = $this->getImageUrl($product->qr_code);
+                $product->bar_code = $this->getImageUrl($product->bar_code);
+            } else {
+                $response = ["error" => "model not found"];
+                return response()->json($response, 404);
             }
 
             $response = [
-                "data" => $product
+                "result" => $product
             ];
-
+            DB::commit();
             return response()->json($response, 200);
         } catch (\Throwable $th) {
             $response = ["error" => $th->getMessage()];
+            DB::rollBack();
             return response()->json($response, 500);
         }
     }
@@ -139,22 +132,12 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
+        DB::beginTransaction();
         try {
             $validator = Validator::make($request->all(), [
-                "thumbnail_image" => 'image|mimes:jpg,jpeg,png,gif,svg|max:2048',
-                "banner_image" => 'image|mimes:jpg,jpeg,png,gif,svg|max:2048',
-                "short_name" => "required",
-                "name" => "required",
-                "slug" => "required",
-                "category_id" => "required",
-                "sub_category_id",
-                "child_category_id",
-                "user_id",
-                "price" => "required",
-                "offer_price",
-                "stock_quantity" => "required",
-                "short_description" => "required",
-                "long_description" => "required",
+                "image" => 'image|mimes:jpg,jpeg,png,gif,svg|max:2048',
+                "english_name" => "required",
+                "product_category_id" => "required",
             ]);
 
             if ($validator->fails()) {
@@ -162,32 +145,56 @@ class ProductController extends Controller
                 return response()->json($response, 400);
             }
 
-            $input = $request->except(['thumbnail_image', 'banner_image']);
-            $thumbnailImage = $request->file('thumbnail_image');
-
-            if ($thumbnailImage) {
-                $input['thumbnail_image'] = 'products/' . time() . '.' . $thumbnailImage->getClientOriginalExtension();
-                $imgFile = Image::make($thumbnailImage->getRealPath());
-                $imgFile->resize(150, 150, function ($constraint) {
-                    $constraint->aspectRatio();
-                })->save(storage_path('app/public/'  . $input['thumbnail_image']));
-            }
-
-            $bannerImage = $request->file('banner_image');
-
-            if ($bannerImage) {
-                $input['banner_image'] = 'products/' . time() . '.' . $bannerImage->getClientOriginalExtension();
-                $imgFile = Image::make($bannerImage->getRealPath());
-                $imgFile->resize(150, 150, function ($constraint) {
-                    $constraint->aspectRatio();
-                })->save(storage_path('app/public/'  . $input['banner_image']));
+            $input = $request->except(['image', 'product_choice_groups']);
+            $image = $request->file('image');
+            if ($image) {
+                $input['image'] = $this->saveImage($image, 'products');
             }
 
             product::where('id', $id)->update($input);
-            $response = ["data" => "success"];
+
+            $product = Product::with([
+                'productChoiceGroups' => function ($q) {
+                    $q->with(['productChoices']);
+                }
+            ])->find($id);
+
+            $groups = $product->productChoiceGroups;
+            if ($groups->count() > 0) {
+                $ids = $groups->pluck('id');
+                ProductChoice::whereIn('product_choice_group_id', $ids)->delete();
+                ProductChoiceGroup::where('product_id', $product->id)->delete();
+            }
+
+            if (isset($request->product_choice_groups)) {
+                foreach ($request->product_choice_groups as $group) {
+                    $choiceGroup = ProductChoiceGroup::create([
+                        'arabic_name' => isset($group['arabic_name']) ? $group['arabic_name'] : null,
+                        'english_name' => isset($group['english_name']) ? $group['english_name'] : null,
+                        'min_number' => isset($group['min_number']) ? $group['min_number'] : null,
+                        'max_number' => isset($group['max_number']) ? $group['max_number'] : null,
+                        'product_id' => $product->id,
+
+                    ]);
+
+                    if (isset($group['product_choices'])) {
+                        foreach ($group['product_choices'] as $choice)
+                            $productChoice = ProductChoice::create([
+                                'arabic_name' => isset($choice['arabic_name']) ? $choice['arabic_name'] : null,
+                                'english_name' => isset($choice['english_name']) ? $choice['english_name'] : null,
+                                'price' => isset($choice['price']) ? $choice['price'] : null,
+                                'product_choice_group_id' => $choiceGroup->id
+                            ]);
+                    }
+                }
+            }
+
+            $response = ["result" => "success"];
+            DB::commit();
             return response()->json($response, 200);
         } catch (\Throwable $th) {
             $response = ["error" => $th->getMessage()];
+            DB::rollBack();
             return response()->json($response, 500);
         }
     }
@@ -200,55 +207,80 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
+        DB::beginTransaction();
         try {
             $product = Product::find($id);
-            $product->delete();
-            $response = ["data" => "success"];
+            if ($product) {
+                $product->delete();
+            } else {
+                $response = ["error" => "model not found"];
+                return response()->json($response, 404);
+            }
+
+            $response = ["result" => true];
+            DB::commit();
             return response()->json($response, 200);
         } catch (\Throwable $th) {
             $response = ["error" => $th->getMessage()];
+            DB::rollBack();
             return response()->json($response, 500);
         }
     }
 
     public function changeStatus(Request $request, $id)
     {
+        DB::beginTransaction();
         try {
             $product = Product::find($id);
-            if ($product->deactivated_at) {
-                $product->deactivated_at = null;
+            if ($product) {
+                if ($product->deactivated_at) {
+                    $product->deactivated_at = null;
+                } else {
+                    $product->deactivated_at = now();
+                }
             } else {
-                $product->deactivated_at = now();
+                $response = ["error" => "model not found"];
+                return response()->json($response, 404);
             }
 
             $product->save();
-            $response = ["data" => $product->deactivated_at];
+
+            $response = ["result" => $product->deactivated_at];
+            DB::commit();
             return response()->json($response, 200);
         } catch (\Throwable $th) {
             $response = ["error" => $th->getMessage()];
+            DB::rollBack();
             return response()->json($response, 500);
         }
     }
 
     public function getProductsByVendorId($vendorId)
     {
+        DB::beginTransaction();
         try {
-            $products = Product::where('user_id', $vendorId)->get();
+            $products = Product::with([
+                'productCategory',
+                'productSubCategory',
+                'productChoiceGroups' => function ($q) {
+                    $q->with(['productChoices']);
+                }
+            ])->where('user_id', $vendorId)->get();
+
             $products->map(function ($product) {
-                if ($product->thumbnail_image) {
-                    $product->thumbnail_image = env('APP_URL') . 'storage/' . $product->thumbnail_image;
-                }
-                if ($product->banner_image) {
-                    $product->banner_image = env('APP_URL') . 'storage/' . $product->banner_image;
-                }
+                $product->image = $this->getImageUrl($product->image);
+                $product->qr_code = $this->getImageUrl($product->qr_code);
+                $product->bar_code = $this->getImageUrl($product->bar_code);
 
                 return $product;
             });
-            $response = ["data" => $products];
 
+            $response = ["result" => $products];
+            DB::commit();
             return response()->json($response, 200);
         } catch (\Throwable $th) {
             $response = ["error" => $th->getMessage()];
+            DB::rollBack();
             return response()->json($response, 500);
         }
     }
