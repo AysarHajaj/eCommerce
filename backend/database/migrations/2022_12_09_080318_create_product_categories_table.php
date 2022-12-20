@@ -18,6 +18,8 @@ return new class extends Migration
             $table->string('name')->nullable();
             $table->string('image')->nullable();
             $table->string('qr_code')->nullable();
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->foreign('user_id')->references('id')->on('users');
             $table->timestamp('deactivated_at')->nullable();
             $table->softDeletes();
             $table->timestamps();
@@ -31,6 +33,9 @@ return new class extends Migration
      */
     public function down()
     {
+        Schema::table('product_categories', function (Blueprint $table) {
+            $table->dropForeign(['user_id']);
+        });
         Schema::dropIfExists('product_categories');
     }
 };

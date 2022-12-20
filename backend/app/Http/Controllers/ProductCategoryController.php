@@ -51,6 +51,7 @@ class ProductCategoryController extends Controller
         try {
             $validator = Validator::make($request->all(), [
                 "name" => "required",
+                "user_id" => "required",
                 "image" => 'image|mimes:jpg,jpeg,png,gif,svg|max:2048'
             ]);
 
@@ -59,7 +60,7 @@ class ProductCategoryController extends Controller
                 return response()->json($response, 400);
             }
 
-            $input = $request->only(['name']);
+            $input = $request->only(['name', 'user_id']);
             $image = $request->file('image');
 
             $input['image'] = null;

@@ -14,6 +14,7 @@ class ProductCategory extends Model
         'name',
         'image',
         'qr_code',
+        'user_id',
         'created_at',
         'updated_at',
         'deleted_at',
