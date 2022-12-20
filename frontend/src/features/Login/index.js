@@ -1,37 +1,35 @@
-import React, { useState, useEffect, useMemo, useRef } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
-import FormHelperText from "@mui/material/FormHelperText";
-import TextField from "@mui/material/TextField";
-import FormControl from "@mui/material/FormControl";
-import LoadingButton from "@mui/lab/LoadingButton";
-import OutlinedInput from "@mui/material/OutlinedInput";
-import Visibility from "@mui/icons-material/Visibility";
-import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import InputAdornment from "@mui/material/InputAdornment";
-import IconButton from "@mui/material/IconButton";
-import useAuth from "../../hooks/useAuth";
-import api from "../../api";
-import "./style.scss";
+import React, { useState, useEffect, useMemo, useRef } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
+import FormHelperText from '@mui/material/FormHelperText';
+import TextField from '@mui/material/TextField';
+import FormControl from '@mui/material/FormControl';
+import LoadingButton from '@mui/lab/LoadingButton';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import InputAdornment from '@mui/material/InputAdornment';
+import IconButton from '@mui/material/IconButton';
+import useAuth from '../../hooks/useAuth';
+import api from '../../api';
+import './style.scss';
 
 const { PUBLIC_URL } = process.env;
 
-const Login = () => {
+function Login() {
   const { setAuth, auth } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
-  const fromPath = location.state?.from?.pathname || location.pathname || "/";
+  const fromPath = location.state?.from?.pathname || location.pathname || '/';
   if (auth?.user && auth?.accessToken) navigate(fromPath, { replace: true });
 
   const emailRef = useRef();
 
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState("");
-  const [data, setData] = useState({ password: "", email: "" });
+  const [error, setError] = useState('');
+  const [data, setData] = useState({ password: '', email: '' });
   const [showPassword, setShowPassword] = React.useState(false);
 
-  const enableSave = useMemo(() => {
-    return data.name !== "" && data.password !== "";
-  }, [data]);
+  const enableSave = useMemo(() => data.name !== '' && data.password !== '', [data]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -42,14 +40,14 @@ const Login = () => {
       const accessToken = resData.data?.token;
       const user = resData.data?.user;
 
-      localStorage.setItem("token", accessToken);
-      localStorage.setItem("user", JSON.stringify(user));
+      localStorage.setItem('token', accessToken);
+      localStorage.setItem('user', JSON.stringify(user));
 
       setAuth({ user, accessToken });
-      setData({ email: "", password: "" });
+      setData({ email: '', password: '' });
     } catch (err) {
       if (!err?.response) {
-        setError("No Server Response");
+        setError('No Server Response');
       } else {
         setError(err?.response?.data?.error);
       }
@@ -70,7 +68,7 @@ const Login = () => {
   };
 
   useEffect(() => {
-    setError("");
+    setError('');
   }, [data.email, data.password]);
 
   useEffect(() => {
@@ -85,7 +83,7 @@ const Login = () => {
         </div>
       </div>
       <form onSubmit={handleSubmit}>
-        <FormHelperText error={!!error}>{error || " "}</FormHelperText>
+        <FormHelperText error={!!error}>{error || ' '}</FormHelperText>
         <TextField
           id="email"
           name="email"
@@ -103,7 +101,7 @@ const Login = () => {
             name="password"
             value={data.password}
             onChange={handleChangeInputs}
-            type={showPassword ? "text" : "password"}
+            type={showPassword ? 'text' : 'password'}
             placeholder="Password"
             required
             margin="dense"
@@ -134,6 +132,6 @@ const Login = () => {
       </form>
     </section>
   );
-};
+}
 
 export default Login;

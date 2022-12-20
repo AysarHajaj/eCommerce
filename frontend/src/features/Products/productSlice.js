@@ -1,6 +1,6 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import api from "../../api";
-import constants from "../../constant";
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import api from '../../api';
+import constants from '../../constant';
 
 const initialState = {
   get: {
@@ -9,12 +9,12 @@ const initialState = {
     error: null,
   },
   delete: {
-    data: "",
+    data: '',
     isLoading: false,
     error: null,
   },
   change_status: {
-    data: "",
+    data: '',
     isLoading: false,
     error: null,
   },
@@ -37,11 +37,11 @@ const initialState = {
 
 export const getProducts = createAsyncThunk(
   constants.ACTION_TYPES.product.get_list,
-  (data = null, { rejectWithValue }) =>
+  (_, { rejectWithValue }) =>
     api
       .getProducts()
       .then((response) => response.data)
-      .catch((error) => rejectWithValue(error?.response?.data))
+      .catch((error) => rejectWithValue(error?.response?.data)),
 );
 
 export const getVendorProducts = createAsyncThunk(
@@ -50,7 +50,7 @@ export const getVendorProducts = createAsyncThunk(
     api
       .getVendorProducts(id)
       .then((response) => response.data)
-      .catch((error) => rejectWithValue(error?.response?.data))
+      .catch((error) => rejectWithValue(error?.response?.data)),
 );
 
 export const deleteProduct = createAsyncThunk(
@@ -59,7 +59,7 @@ export const deleteProduct = createAsyncThunk(
     api
       .deleteProduct(id)
       .then((response) => ({ data: response.data, id }))
-      .catch((error) => rejectWithValue(error?.response?.data))
+      .catch((error) => rejectWithValue(error?.response?.data)),
 );
 
 export const changeProductStatus = createAsyncThunk(
@@ -68,7 +68,7 @@ export const changeProductStatus = createAsyncThunk(
     api
       .changeProductStatus(id)
       .then((response) => ({ data: response.data, id }))
-      .catch((error) => rejectWithValue(error?.response?.data))
+      .catch((error) => rejectWithValue(error?.response?.data)),
 );
 
 export const getProductById = createAsyncThunk(
@@ -77,7 +77,7 @@ export const getProductById = createAsyncThunk(
     api
       .getProductById(id)
       .then((response) => response.data)
-      .catch((error) => rejectWithValue(error?.response?.data))
+      .catch((error) => rejectWithValue(error?.response?.data)),
 );
 
 export const updateProduct = createAsyncThunk(
@@ -86,7 +86,7 @@ export const updateProduct = createAsyncThunk(
     api
       .updateProduct(data.id, data)
       .then((response) => response.data)
-      .catch((error) => rejectWithValue(error?.response?.data))
+      .catch((error) => rejectWithValue(error?.response?.data)),
 );
 
 export const postProduct = createAsyncThunk(
@@ -95,16 +95,16 @@ export const postProduct = createAsyncThunk(
     api
       .postProduct(data)
       .then((response) => response.data)
-      .catch((error) => rejectWithValue(error?.response?.data))
+      .catch((error) => rejectWithValue(error?.response?.data)),
 );
 
 export const productSlice = createSlice({
-  name: "product",
+  name: 'product',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder
-      //get products case
+      // get products case
       .addCase(getProducts.pending, (state) => {
         state.get.isLoading = true;
         state.get.error = null;
@@ -118,7 +118,7 @@ export const productSlice = createSlice({
         state.get.error = action.payload;
       })
 
-      //get vendor products case
+      // get vendor products case
       .addCase(getVendorProducts.pending, (state) => {
         state.get.isLoading = true;
         state.get.error = null;
@@ -132,7 +132,7 @@ export const productSlice = createSlice({
         state.get.error = action.payload;
       })
 
-      //delete products case
+      // delete products case
 
       .addCase(deleteProduct.pending, (state) => {
         state.delete.isLoading = true;
@@ -141,9 +141,7 @@ export const productSlice = createSlice({
       .addCase(deleteProduct.fulfilled, (state, action) => {
         state.delete.isLoading = false;
         state.delete.data = action.payload.data;
-        state.get.data = state.get.data.filter(
-          (product) => product.id != action.payload.id
-        );
+        state.get.data = state.get.data.filter((product) => product.id !== action.payload.id);
       })
       .addCase(deleteProduct.rejected, (state, action) => {
         state.delete.isLoading = false;
@@ -216,10 +214,8 @@ export const productSlice = createSlice({
 
 export const selectGetProducts = (state) => state.product.get;
 export const selectDeleteProducts = (state) => state.product.delete;
-export const selectChangeProductsStatus = (state) =>
-  state.product.change_status;
-export const selectGetProductById = (state) =>
-  state.product.get_product_by_id;
+export const selectChangeProductsStatus = (state) => state.product.change_status;
+export const selectGetProductById = (state) => state.product.get_product_by_id;
 export const selectUpdateProduct = (state) => state.product.update_product;
 export const selectPostProduct = (state) => state.product.post_product;
 

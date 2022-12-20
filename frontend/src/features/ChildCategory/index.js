@@ -1,92 +1,91 @@
-import React, { useEffect, useMemo, useCallback } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { DataGrid } from "@mui/x-data-grid";
-import EditIcon from "@mui/icons-material/Edit";
-import IconButton from "@mui/material/IconButton";
-import SwitchButton from "../../components/SwitchButton";
-import Button from "@mui/material/Button";
-import DeleteIcon from "@mui/icons-material/Delete";
-import AddIcon from "@mui/icons-material/Add";
+import React, { useEffect, useMemo, useCallback } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { DataGrid } from '@mui/x-data-grid';
+import EditIcon from '@mui/icons-material/Edit';
+import IconButton from '@mui/material/IconButton';
+import Button from '@mui/material/Button';
+import DeleteIcon from '@mui/icons-material/Delete';
+import AddIcon from '@mui/icons-material/Add';
+import { useNavigate } from 'react-router-dom';
 import {
   getChildCategories,
   selectGetChildCategories,
   deleteChildCategory,
   changeChildCategoryStatus,
-} from "./childCategorySlice";
-import { useNavigate } from "react-router-dom";
-import constant from "../../constant";
-import ROUTES from "../../routes/routesConfig";
+} from './childCategorySlice';
+import SwitchButton from '../../components/SwitchButton';
+import ROUTES from '../../routes/routesPath';
 
-
-const ChildCategory = () => {
+function ChildCategory() {
   const dispatch = useDispatch();
   const { data } = useSelector(selectGetChildCategories);
   const navigate = useNavigate();
 
-  const handleDelete = useCallback((id) => {
-    dispatch(deleteChildCategory(id));
-  });
+  const handleDelete = useCallback(
+    (id) => {
+      dispatch(deleteChildCategory(id));
+    },
+    [dispatch],
+  );
 
-  const changeStatus = useCallback((id) => {
-    dispatch(changeChildCategoryStatus(id));
-  });
+  const changeStatus = useCallback(
+    (id) => {
+      dispatch(changeChildCategoryStatus(id));
+    },
+    [dispatch],
+  );
 
-  const columns = useMemo(() => {
-    return [
-      { field: "id", headerName: "ID", width: 70 },
-      { field: "name", headerName: "Name", width: 130 },
+  const columns = useMemo(
+    () => [
+      { field: 'id', headerName: 'ID', width: 70 },
+      { field: 'name', headerName: 'Name', width: 130 },
       {
-        field: "category",
-        headerName: "Category",
+        field: 'category',
+        headerName: 'Category',
         width: 130,
         valueGetter: (params) => params.row.category.name,
       },
       {
-        field: "sub_category",
-        headerName: "Sub Category",
+        field: 'sub_category',
+        headerName: 'Sub Category',
         width: 130,
         valueGetter: (params) => params.row.sub_category.name,
       },
       {
-        field: "status",
-        headerName: "Status",
+        field: 'status',
+        headerName: 'Status',
         width: 130,
-        renderCell: (params) => {
-          return (
-            <SwitchButton
-              checked={!params.row.deactivated_at}
-              changeStatus={() => changeStatus(params.row.id)}
-            />
-          );
-        },
+        renderCell: (params) => (
+          <SwitchButton
+            checked={!params.row.deactivated_at}
+            changeStatus={() => changeStatus(params.row.id)}
+          />
+        ),
       },
       {
-        field: "action",
-        headerName: "Action",
+        field: 'action',
+        headerName: 'Action',
         width: 100,
-        renderCell: (params) => {
-          return (
-            <React.Fragment>
-              <IconButton
-                onClick={() =>
-                  navigate(`/child_category/edit/${params.row.id}`)
-                }
-              >
-                <EditIcon />
-              </IconButton>
-              <IconButton onClick={() => handleDelete(params.row.id)}>
-                <DeleteIcon />
-              </IconButton>
-            </React.Fragment>
-          );
-        },
+        renderCell: (params) => (
+          <React.Fragment>
+            <IconButton onClick={() => navigate(`/child_category/edit/${params.row.id}`)}>
+              <EditIcon />
+            </IconButton>
+            <IconButton onClick={() => handleDelete(params.row.id)}>
+              <DeleteIcon />
+            </IconButton>
+          </React.Fragment>
+        ),
       },
-    ];
-  }, []);
+    ],
+    [],
+  );
 
   useEffect(() => {
     dispatch(getChildCategories());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
   return (
     <div className="wrapper category-wrapper">
       <div className="container-header">
@@ -98,14 +97,9 @@ const ChildCategory = () => {
           Add New Child Category
         </Button>
       </div>
-      <DataGrid
-        rows={data}
-        columns={columns}
-        pageSize={5}
-        rowsPerPageOptions={[5]}
-      />
+      <DataGrid rows={data} columns={columns} pageSize={5} rowsPerPageOptions={[5]} />
     </div>
   );
-};
+}
 
 export default ChildCategory;

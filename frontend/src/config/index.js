@@ -1,6 +1,7 @@
-import HomeIcon from "@mui/icons-material/Home";
-import WindowIcon from "@mui/icons-material/Window";
-import StoreIcon from "@mui/icons-material/Store";
+import React from 'react';
+import HomeIcon from '@mui/icons-material/Home';
+import WindowIcon from '@mui/icons-material/Window';
+import StoreIcon from '@mui/icons-material/Store';
 import ROUTES from '../routes/routesConfig';
 
 const config = {
@@ -14,8 +15,8 @@ const config = {
     },
     {
       id: 2,
-      label: "Manage Categories",
-      to: "",
+      label: 'Manage Categories',
+      to: '',
       icon: <WindowIcon />,
       allowedRoles: ROUTES.CATEGORY.allowedRoles,
       sub_items: [
@@ -41,8 +42,8 @@ const config = {
     },
     {
       id: 6,
-      label: "Manage Products",
-      to: "",
+      label: 'Manage Products',
+      to: '',
       icon: <WindowIcon />,
       roles: ROUTES.PRODUCTS.allowedRoles,
       sub_items: [

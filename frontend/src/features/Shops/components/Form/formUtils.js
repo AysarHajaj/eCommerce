@@ -1,17 +1,17 @@
 const initialValues = {
   id: 0,
   user_id: 0,
-  name: "",
-  email: "",
+  name: '',
+  email: '',
   banner_image: undefined,
-  phone: "",
-  opens_at: "",
-  closed_at: "",
-  address: "",
-  greeting_message: "",
-  description: "",
-  seo_title: "",
-  seo_description: "",
+  phone: '',
+  opens_at: '',
+  closed_at: '',
+  address: '',
+  greeting_message: '',
+  description: '',
+  seo_title: '',
+  seo_description: '',
 };
 
 const getValidData = (data) => ({

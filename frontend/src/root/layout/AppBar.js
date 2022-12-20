@@ -1,37 +1,38 @@
-import React, { useMemo } from "react";
-import { styled } from "@mui/material/styles";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
-import MuiAppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
-import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
-import MenuIcon from "@mui/icons-material/Menu";
-import Avatar from "@mui/material/Avatar";
-import Box from "@mui/material/Box";
-import Menu from "@mui/material/Menu";
-import Tooltip from "@mui/material/Tooltip";
-import PersonIcon from "@mui/icons-material/Person";
-import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
-import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
-import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
-import ShopIcon from "@mui/icons-material/Shop";
-import MenuItem from "@mui/material/MenuItem";
-import constant from "../../constant";
+import React, { useMemo } from 'react';
+import PropTypes from 'prop-types';
+import { styled } from '@mui/material/styles';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import MuiAppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
+import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
+import MenuIcon from '@mui/icons-material/Menu';
+import Avatar from '@mui/material/Avatar';
+import Box from '@mui/material/Box';
+import Menu from '@mui/material/Menu';
+import Tooltip from '@mui/material/Tooltip';
+import PersonIcon from '@mui/icons-material/Person';
+import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
+import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import ShopIcon from '@mui/icons-material/Shop';
+import MenuItem from '@mui/material/MenuItem';
+import Divider from '@mui/material/Divider';
+import constant from '../../constant';
 import ROUTES from '../../routes/routesConfig';
-import useAuth from "../../hooks/useAuth";
-import Divider from "@mui/material/Divider";
+import useAuth from '../../hooks/useAuth';
 
 const AppBarStyle = styled(MuiAppBar, {
-  shouldForwardProp: (prop) => prop !== "open",
+  shouldForwardProp: (prop) => prop !== 'open',
 })(({ theme, open }) => ({
-  transition: theme.transitions.create(["margin", "width"], {
+  transition: theme.transitions.create(['margin', 'width'], {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,
   }),
   ...(open && {
     width: `calc(100% - ${constant.DRAWER_WIDTH}px)`,
     marginLeft: `${constant.DRAWER_WIDTH}px`,
-    transition: theme.transitions.create(["margin", "width"], {
+    transition: theme.transitions.create(['margin', 'width'], {
       easing: theme.transitions.easing.easeOut,
       duration: theme.transitions.duration.enteringScreen,
     }),
@@ -40,23 +41,23 @@ const AppBarStyle = styled(MuiAppBar, {
 
 const settings = {
   PROFILE: {
-    label: "Profile",
+    label: 'Profile',
     icon: <PersonIcon />,
-    to: "/settings/profile",
+    to: '/settings/profile',
   },
   SHOP_PROFILE: {
-    label: "Shop Profile",
+    label: 'Shop Profile',
     icon: <ShopIcon />,
-    to: "/settings/shop_profile",
+    to: '/settings/shop_profile',
   },
   LOGOUT: {
-    label: "Logout",
+    label: 'Logout',
     icon: <LogoutRoundedIcon />,
-    to: "/logout",
+    to: '/logout',
   },
 };
 
-const AppBar = ({ open, handleDrawerOpen }) => {
+function AppBar({ open, handleDrawerOpen }) {
   const location = useLocation();
   const navigate = useNavigate();
   const { setAuth } = useAuth();
@@ -67,16 +68,15 @@ const AppBar = ({ open, handleDrawerOpen }) => {
   } = useAuth();
   const isVendor = user?.type === constant.USER_ROLES.VENDOR;
 
-  const pageName = useMemo(() => {
-    return (
-      Object.values(ROUTES).find((route) => {
-        return (
+  const pageName = useMemo(
+    () =>
+      Object.values(ROUTES).find(
+        (route) =>
           route.path === location.pathname ||
-          (!!route?.dynamicPath && route?.dynamicPath(id) === location.pathname)
-        );
-      })?.label || "Not Found"
-    );
-  }, [id, location.pathname]);
+          (!!route?.dynamicPath && route?.dynamicPath(id) === location.pathname),
+      )?.label || 'Not Found',
+    [id, location.pathname],
+  );
 
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -96,39 +96,29 @@ const AppBar = ({ open, handleDrawerOpen }) => {
           aria-label="open drawer"
           onClick={handleDrawerOpen}
           edge="start"
-          sx={{ mr: 2, ...(open && { display: "none" }) }}
+          sx={{ mr: 2, ...(open && { display: 'none' }) }}
         >
           <MenuIcon htmlColor="white" />
         </IconButton>
-        <Typography
-          color="white"
-          variant="h6"
-          noWrap
-          component="div"
-          sx={{ flexGrow: 1 }}
-        >
+        <Typography color="white" variant="h6" noWrap component="div" sx={{ flexGrow: 1 }}>
           {pageName}
         </Typography>
 
         <Box display="flex" sx={{ flexGrow: 0 }}>
           <Tooltip title="Open settings">
-            <IconButton
-              disableRipple
-              onClick={handleOpenUserMenu}
-              sx={{ p: 0 }}
-            >
+            <IconButton disableRipple onClick={handleOpenUserMenu} sx={{ p: 0 }}>
               <Avatar alt={user?.name} src={user?.image} />
               <Typography
                 color="white"
                 variant="h6"
                 noWrap
                 component="div"
-                sx={{ ml: "10px" }}
+                sx={{ ml: '10px' }}
                 textTransform="capitalize"
               >
                 {user?.name}
               </Typography>
-              {Boolean(anchorElUser) ? (
+              {anchorElUser ? (
                 <ArrowDropUpIcon htmlColor="white" />
               ) : (
                 <ArrowDropDownIcon htmlColor="white" />
@@ -136,22 +126,22 @@ const AppBar = ({ open, handleDrawerOpen }) => {
             </IconButton>
           </Tooltip>
           <Menu
-            sx={{ mt: "45px" }}
+            sx={{ mt: '45px' }}
             MenuListProps={{
               style: {
-                width: "150px",
+                width: '150px',
               },
             }}
             id="menu-appbar"
             anchorEl={anchorElUser}
             anchorOrigin={{
-              vertical: "top",
-              horizontal: "right",
+              vertical: 'top',
+              horizontal: 'right',
             }}
             keepMounted
             transformOrigin={{
-              vertical: "top",
-              horizontal: "right",
+              vertical: 'top',
+              horizontal: 'right',
             }}
             open={Boolean(anchorElUser)}
             onClose={handleCloseUserMenu}
@@ -178,11 +168,11 @@ const AppBar = ({ open, handleDrawerOpen }) => {
             )}
             {isVendor && <Divider />}
             <MenuItem
-              style={{ color: "red" }}
+              style={{ color: 'red' }}
               onClick={() => {
                 localStorage.clear();
                 setAuth({});
-                navigate("/");
+                navigate('/');
               }}
             >
               {settings.LOGOUT.icon}
@@ -195,6 +185,11 @@ const AppBar = ({ open, handleDrawerOpen }) => {
       </Toolbar>
     </AppBarStyle>
   );
+}
+
+AppBar.propTypes = {
+  open: PropTypes.bool,
+  handleDrawerOpen: PropTypes.func.isRequired,
 };
 
 export default AppBar;

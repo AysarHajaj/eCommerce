@@ -1,10 +1,11 @@
-import { createContext, useState } from "react";
+import React, { createContext, useState, useMemo } from 'react';
+import PropTypes from 'prop-types';
 
 const AuthContext = createContext({});
 
 const getUserData = () => {
-  const token = localStorage.getItem("token");
-  const user = localStorage.getItem("user");
+  const token = localStorage.getItem('token');
+  const user = localStorage.getItem('user');
 
   if (token && user) {
     return { accessToken: token, user: JSON.parse(user) };
@@ -12,14 +13,16 @@ const getUserData = () => {
   return { accessToken: undefined, user: undefined };
 };
 
-export const AuthProvider = ({ children }) => {
+export function AuthProvider({ children }) {
   const [auth, setAuth] = useState(getUserData);
 
-  return (
-    <AuthContext.Provider value={{ auth, setAuth }}>
-      {children}
-    </AuthContext.Provider>
-  );
+  const providerValue = useMemo(() => ({ auth, setAuth }), [auth, setAuth]);
+
+  return <AuthContext.Provider value={providerValue}>{children}</AuthContext.Provider>;
+}
+
+AuthProvider.propTypes = {
+  children: PropTypes.any,
 };
 
 export default AuthContext;

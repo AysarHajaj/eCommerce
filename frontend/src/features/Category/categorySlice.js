@@ -1,6 +1,6 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import api from "../../api";
-import constants from "../../constant";
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import api from '../../api';
+import constants from '../../constant';
 
 const initialState = {
   get: {
@@ -9,12 +9,12 @@ const initialState = {
     error: null,
   },
   delete: {
-    data: "",
+    data: '',
     isLoading: false,
     error: null,
   },
   change_status: {
-    data: "",
+    data: '',
     isLoading: false,
     error: null,
   },
@@ -37,11 +37,11 @@ const initialState = {
 
 export const getCategories = createAsyncThunk(
   constants.ACTION_TYPES.category.get_list,
-  (data = null, { rejectWithValue }) =>
+  (_, { rejectWithValue }) =>
     api
       .getCategories()
       .then((response) => response.data)
-      .catch((error) => rejectWithValue(error?.response?.data))
+      .catch((error) => rejectWithValue(error?.response?.data)),
 );
 
 export const deleteCategory = createAsyncThunk(
@@ -50,7 +50,7 @@ export const deleteCategory = createAsyncThunk(
     api
       .deleteCategory(id)
       .then((response) => ({ data: response.data, id }))
-      .catch((error) => rejectWithValue(error?.response?.data))
+      .catch((error) => rejectWithValue(error?.response?.data)),
 );
 
 export const changeCategoryStatus = createAsyncThunk(
@@ -59,7 +59,7 @@ export const changeCategoryStatus = createAsyncThunk(
     api
       .changeCategoryStatus(id)
       .then((response) => ({ data: response.data, id }))
-      .catch((error) => rejectWithValue(error?.response?.data))
+      .catch((error) => rejectWithValue(error?.response?.data)),
 );
 
 export const getCategoryById = createAsyncThunk(
@@ -68,7 +68,7 @@ export const getCategoryById = createAsyncThunk(
     api
       .getCategoryById(id)
       .then((response) => response.data)
-      .catch((error) => rejectWithValue(error?.response?.data))
+      .catch((error) => rejectWithValue(error?.response?.data)),
 );
 
 export const updateCategory = createAsyncThunk(
@@ -77,7 +77,7 @@ export const updateCategory = createAsyncThunk(
     api
       .updateCategory(data.id, data)
       .then((response) => response.data)
-      .catch((error) => rejectWithValue(error?.response?.data))
+      .catch((error) => rejectWithValue(error?.response?.data)),
 );
 
 export const postCategory = createAsyncThunk(
@@ -86,16 +86,16 @@ export const postCategory = createAsyncThunk(
     api
       .postCategory(data)
       .then((response) => response.data)
-      .catch((error) => rejectWithValue(error?.response?.data))
+      .catch((error) => rejectWithValue(error?.response?.data)),
 );
 
 export const categorySlice = createSlice({
-  name: "category",
+  name: 'category',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder
-      //get categories case
+      // get categories case
       .addCase(getCategories.pending, (state) => {
         state.get.isLoading = true;
         state.get.error = null;
@@ -108,7 +108,7 @@ export const categorySlice = createSlice({
         state.get.isLoading = false;
         state.get.error = action.payload;
       })
-      //delete categories case
+      // delete categories case
 
       .addCase(deleteCategory.pending, (state) => {
         state.delete.isLoading = true;
@@ -117,9 +117,7 @@ export const categorySlice = createSlice({
       .addCase(deleteCategory.fulfilled, (state, action) => {
         state.delete.isLoading = false;
         state.delete.data = action.payload.data;
-        state.get.data = state.get.data.filter(
-          (category) => category.id != action.payload.id
-        );
+        state.get.data = state.get.data.filter((category) => category.id !== action.payload.id);
       })
       .addCase(deleteCategory.rejected, (state, action) => {
         state.delete.isLoading = false;
@@ -192,10 +190,8 @@ export const categorySlice = createSlice({
 
 export const selectGetCategories = (state) => state.category.get;
 export const selectDeleteCategories = (state) => state.category.delete;
-export const selectChangeCategoriesStatus = (state) =>
-  state.category.change_status;
-export const selectGetCategoryById = (state) =>
-  state.category.get_category_by_id;
+export const selectChangeCategoriesStatus = (state) => state.category.change_status;
+export const selectGetCategoryById = (state) => state.category.get_category_by_id;
 export const selectUpdateCategory = (state) => state.category.update_category;
 export const selectPostCategory = (state) => state.category.post_category;
 

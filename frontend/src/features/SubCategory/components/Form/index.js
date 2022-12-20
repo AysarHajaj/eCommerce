@@ -1,5 +1,9 @@
-import React, { useState, useEffect, useMemo } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState, useEffect, useMemo } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams, useNavigate } from 'react-router-dom';
+import { TextField, Select, MenuItem } from '@mui/material';
+import { LoadingButton } from '@mui/lab';
+import { selectGetCategories, getCategories } from '../../../Category/categorySlice';
 import {
   getSubCategoryById,
   selectGetSubCategoryById,
@@ -7,22 +11,9 @@ import {
   selectUpdateSubCategory,
   postSubCategory,
   selectPostSubCategory,
-} from "../../subCategorySlice";
-import {
-  selectGetCategories,
-  getCategories,
-} from "../../../Category/categorySlice";
-import { useParams, useNavigate } from "react-router-dom";
-import {
-  TextField,
-  OutlinedInput,
-  FormControl,
-  Select,
-  MenuItem,
-} from "@mui/material";
-import { LoadingButton } from "@mui/lab";
+} from '../../subCategorySlice';
 
-const Form = () => {
+function Form() {
   const { id } = useParams();
   const dispatch = useDispatch();
   const { data: initialData } = useSelector(selectGetSubCategoryById);
@@ -34,19 +25,15 @@ const Form = () => {
 
   const [data, setData] = useState({
     id,
-    name: "",
+    name: '',
     category_id: 0,
   });
 
   const enableSave = useMemo(() => {
     let result = true;
-    if (
-      isEdit &&
-      initialData.name === data.name &&
-      data.category_id === initialData.category_id
-    ) {
+    if (isEdit && initialData.name === data.name && data.category_id === initialData.category_id) {
       result = false;
-    } else if (!isEdit && data.name === "" && data.category_id === undefined) {
+    } else if (!isEdit && data.name === '' && data.category_id === undefined) {
       result = false;
     }
     return result;
@@ -65,8 +52,8 @@ const Form = () => {
     }
 
     result.then(({ meta }) => {
-      if (meta.requestStatus === "fulfilled") {
-        navigate("/sub_category");
+      if (meta.requestStatus === 'fulfilled') {
+        navigate('/sub_category');
       }
     });
   };
@@ -75,48 +62,45 @@ const Form = () => {
     dispatch(getCategories());
     if (isEdit) {
       dispatch(getSubCategoryById(id)).then(({ payload }) => {
+        // eslint-disable-next-line camelcase
         const { name, category_id } = payload.data;
+        // eslint-disable-next-line camelcase
         setData({ ...data, name, category_id });
       });
     }
   }, []);
-  console.log("aysar", typeof data.category_id);
 
   return (
     <form>
-      <FormControl>
-        <label>Name</label>
-        <TextField
-          id="name"
-          value={data.name}
-          onChange={(e) => setData({ ...data, name: e.target.value })}
-        />
-      </FormControl>
+      <TextField
+        id="name"
+        placeholder="Name"
+        value={data.name}
+        onChange={(e) => setData({ ...data, name: e.target.value })}
+      />
 
-      <FormControl style={{ marginTop: "15px" }}>
-        <label>Category</label>
-        <Select
-          id="category"
-          value={data.category_id}
-          onChange={handleChangeCategory}
-        >
-          {categories.map((category) => (
-            <MenuItem key={category.id} value={category.id}>
-              {category.name}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
+      <Select
+        placeholder="Category"
+        id="category"
+        value={data.category_id}
+        onChange={handleChangeCategory}
+      >
+        {categories.map((category) => (
+          <MenuItem key={category.id} value={category.id}>
+            {category.name}
+          </MenuItem>
+        ))}
+      </Select>
       <LoadingButton
-        style={{ marginTop: "15px" }}
+        style={{ marginTop: '15px' }}
         loading={updateIsLoading || postIsLoading}
         onClick={handleSubmit}
         disabled={!enableSave}
       >
-        {isEdit ? "Update" : "Save"}
+        {isEdit ? 'Update' : 'Save'}
       </LoadingButton>
     </form>
   );
-};
+}
 
 export default Form;

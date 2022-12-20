@@ -1,13 +1,14 @@
-import React, { useEffect } from "react";
-import Switch from "@mui/material/Switch";
-import FormControlLabel from "@mui/material/FormControlLabel";
+import React, { useEffect } from 'react';
+import Switch from '@mui/material/Switch';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import PropTypes from 'prop-types';
 
-const SwitchButton =  ({ checked: isChecked, changeStatus }) => {
+function SwitchButton({ checked: isChecked, changeStatus }) {
   const [checked, setChecked] = React.useState(isChecked);
-  const [label, setLabel] = React.useState("");
+  const [label, setLabel] = React.useState('');
 
   useEffect(() => {
-    setLabel(checked ? "Active" : "Inactive");
+    setLabel(checked ? 'Active' : 'Inactive');
   }, [checked]);
 
   const handleChange = (event) => {
@@ -21,13 +22,17 @@ const SwitchButton =  ({ checked: isChecked, changeStatus }) => {
         <Switch
           checked={checked}
           onChange={handleChange}
-          inputProps={{ "aria-label": "controlled" }}
+          inputProps={{ 'aria-label': 'controlled' }}
         />
       }
       label={label}
     />
   );
-};
+}
 
+SwitchButton.propTypes = {
+  checked: PropTypes.bool,
+  changeStatus: PropTypes.func.isRequired,
+};
 
 export default SwitchButton;

@@ -1,4 +1,4 @@
-import { createTheme } from "@mui/material";
+import { createTheme } from '@mui/material';
 
 const theme = createTheme({
   typography: {
@@ -8,12 +8,12 @@ const theme = createTheme({
 
   palette: {
     primary: {
-      main: "#1DD0BE",
-      contrastText: "#fff",
+      main: '#1DD0BE',
+      contrastText: '#fff',
     },
 
     text: {
-      primary: "#2B3238",
+      primary: '#2B3238',
     },
   },
 
@@ -21,7 +21,7 @@ const theme = createTheme({
     MuiListItemIcon: {
       styleOverrides: {
         root: {
-          minWidth: "30px",
+          minWidth: '30px',
         },
       },
     },
@@ -30,7 +30,7 @@ const theme = createTheme({
       defaultProps: {
         inputProps: {
           style: {
-            height: "1em",
+            height: '1em',
           },
         },
       },
@@ -38,15 +38,15 @@ const theme = createTheme({
 
     MuiButton: {
       defaultProps: {
-        variant: "contained"
-      }
+        variant: 'contained',
+      },
     },
 
     MuiInputBase: {
       defaultProps: {
         inputProps: {
           style: {
-            height: "1em",
+            height: '1em',
           },
         },
       },
@@ -55,26 +55,25 @@ const theme = createTheme({
     MuiOutlinedInput: {
       styleOverrides: {
         input: {
-          height: "1em",
-        }
-      }
+          height: '1em',
+        },
+      },
     },
 
     MuiFormControl: {
       defaultProps: {
         fullWidth: true,
-      }
+      },
     },
 
     MuiSelect: {
       styleOverrides: {
         select: {
-          padding: "13.32px 14px",
+          padding: '13.32px 14px',
         },
       },
     },
   },
-
 });
 
 export default theme;

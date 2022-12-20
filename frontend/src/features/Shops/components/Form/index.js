@@ -1,39 +1,29 @@
-import React, { useState, useEffect, useMemo } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState, useEffect, useMemo } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams, useNavigate } from 'react-router-dom';
+import { TextField, OutlinedInput, FormControl } from '@mui/material';
+import Avatar from '@mui/material/Avatar';
+import { LoadingButton } from '@mui/lab';
+import FormHelperText from '@mui/material/FormHelperText';
 import {
   getShopByVendorId,
   selectGetShopByVendorId,
   updateShop,
   selectUpdateShop,
-} from "../../shopSlice";
-import { useParams, useNavigate } from "react-router-dom";
-import {
-  TextField,
-  OutlinedInput,
-  FormControl,
-} from "@mui/material";
-import Avatar from "@mui/material/Avatar";
-import { LoadingButton } from "@mui/lab";
-import FormHelperText from "@mui/material/FormHelperText";
-import formUtils from "./formUtils";
-import "./style.scss";
+} from '../../shopSlice';
+import formUtils from './formUtils';
+import './style.scss';
 
-const Form = () => {
+function Form() {
   const { id } = useParams();
   const dispatch = useDispatch();
   const { data: initialData } = useSelector(selectGetShopByVendorId);
-  const { isLoading: updateIsLoading, error: putError } =
-    useSelector(selectUpdateShop);
+  const { isLoading: updateIsLoading, error: putError } = useSelector(selectUpdateShop);
   const navigate = useNavigate();
 
   const [data, setData] = useState({ ...formUtils.initialValues });
 
-
-  const initialValidData = useMemo(
-    () => formUtils.getValidData(initialData),
-    [initialData]
-  );
-
+  const initialValidData = useMemo(() => formUtils.getValidData(initialData), [initialData]);
 
   const enableSave = useMemo(() => {
     let enable = formUtils.isValid(data);
@@ -43,17 +33,16 @@ const Form = () => {
     return enable;
   }, [data, initialValidData]);
 
-  
   const bannerImageURL = useMemo(() => {
     if (!data.banner_image) return undefined;
-    if (typeof data.banner_image === "object") {
+    if (typeof data.banner_image === 'object') {
       return URL.createObjectURL(data.banner_image);
     }
     return data.banner_image;
   }, [data.banner_image]);
 
   const handleChangeImage = (e) => {
-    const files = e.target.files;
+    const { files } = e.target;
     const property = e.target.name;
     if (files?.length) {
       const file = e.target.files[0];
@@ -68,21 +57,17 @@ const Form = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    let result;
 
-    result = dispatch(
+    const result = dispatch(
       updateShop({
         ...data,
-        banner_image:
-          typeof data.banner_image === "object"
-            ? data.banner_image
-            : undefined,
-      })
+        banner_image: typeof data.banner_image === 'object' ? data.banner_image : undefined,
+      }),
     );
 
     result.then(({ meta }) => {
-      if (meta.requestStatus === "fulfilled") {
-        navigate("/");
+      if (meta.requestStatus === 'fulfilled') {
+        navigate('/');
       }
     });
   };
@@ -98,13 +83,11 @@ const Form = () => {
       <form onSubmit={handleSubmit} className="create-shop-form">
         <FormHelperText error={!!putError}>{putError}</FormHelperText>
 
-        <FormControl style={{ marginTop: "15px" }} >
-          <label>Banner Image Preview</label>
+        <FormControl style={{ marginTop: '15px' }}>
           <Avatar src={bannerImageURL} />
         </FormControl>
 
-        <FormControl style={{ marginTop: "15px" }} >
-          <label>Banner Image</label>
+        <FormControl style={{ marginTop: '15px' }}>
           <OutlinedInput
             name="banner_image"
             type="file"
@@ -112,106 +95,87 @@ const Form = () => {
             onChange={handleChangeImage}
           />
         </FormControl>
-        <FormControl>
-          <label>Shop Name</label>
-          <TextField
-            name="name"
-            value={data.name}
-            onChange={handleChange}
-            required
-          />
-        </FormControl>
 
-        <FormControl>
-          <label>Email</label>
-          <TextField
-            name="email"
-            value={data.email}
-            onChange={handleChange}
-            required
-          />
-        </FormControl>
+        <TextField
+          placeholder="Shop Name"
+          name="name"
+          value={data.name}
+          onChange={handleChange}
+          required
+        />
 
-        <FormControl>
-          <label>Phone</label>
-          <TextField
-            name="phone"
-            value={data.phone}
-            onChange={handleChange}
-            required
-          />
-        </FormControl>
+        <TextField
+          placeholder="Email"
+          name="email"
+          value={data.email}
+          onChange={handleChange}
+          required
+        />
 
-        <FormControl>
-          <label>Opens at</label>
-          <TextField
-            name="opens_at"
-            type="time"
-            value={data.opens_at}
-            onChange={handleChange}
-          />
-        </FormControl>
+        <TextField
+          placeholder="Phone"
+          name="phone"
+          value={data.phone}
+          onChange={handleChange}
+          required
+        />
 
-        <FormControl>
-          <label>Closed at</label>
-          <TextField
-            name="closed_at"
-            type="time"
-            value={data.closed_at}
-            onChange={handleChange}
-          />
-        </FormControl>
+        <TextField
+          placeholder="Opens at"
+          name="opens_at"
+          type="time"
+          value={data.opens_at}
+          onChange={handleChange}
+        />
 
-        <FormControl>
-          <label>Address</label>
-          <TextField
-            name="address"
-            value={data.address}
-            onChange={handleChange}
-            required
-          />
-        </FormControl>
+        <TextField
+          placeholder="Closed at"
+          name="closed_at"
+          type="time"
+          value={data.closed_at}
+          onChange={handleChange}
+        />
 
-        <FormControl>
-          <label>Greeting Message</label>
-          <TextField
-            name="greeting_message"
-            value={data.greeting_message}
-            onChange={handleChange}
-            required
-          />
-        </FormControl>
+        <TextField
+          placeholder="Address"
+          name="address"
+          value={data.address}
+          onChange={handleChange}
+          required
+        />
 
-        <FormControl>
-          <label>Description</label>
-          <TextField
-            name="description"
-            value={data.description}
-            onChange={handleChange}
-            required
-          />
-        </FormControl>
+        <TextField
+          placeholder="Greeting Message"
+          name="greeting_message"
+          value={data.greeting_message}
+          onChange={handleChange}
+          required
+        />
 
-        <FormControl>
-          <label>SEO Title</label>
-          <TextField
-            name="seo_title"
-            value={data.seo_title}
-            onChange={handleChange}
-          />
-        </FormControl>
+        <TextField
+          placeholder="Description"
+          name="description"
+          value={data.description}
+          onChange={handleChange}
+          required
+        />
 
-        <FormControl>
-          <label>SEO Description</label>
-          <TextField
-            name="seo_description"
-            value={data.seo_description}
-            onChange={handleChange}
-          />
-        </FormControl>
+        <TextField
+          placeholder="SEO Title"
+          name="seo_title"
+          value={data.seo_title}
+          onChange={handleChange}
+        />
+
+        <TextField
+          placeholder="SEO Description"
+          name="seo_description"
+          value={data.seo_description}
+          onChange={handleChange}
+        />
 
         <LoadingButton
-          style={{ marginTop: "15px" }}
+          style={{ marginTop: '15px' }}
           loading={updateIsLoading}
           type="submit"
           disabled={!enableSave}
@@ -221,6 +185,6 @@ const Form = () => {
       </form>
     </section>
   );
-};
+}
 
 export default Form;

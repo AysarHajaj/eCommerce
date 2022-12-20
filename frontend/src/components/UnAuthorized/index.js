@@ -1,8 +1,9 @@
-import { useNavigate } from "react-router-dom";
-import Button from '@mui/material/Button'
-import UndoIcon from "@mui/icons-material/Undo";
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import Button from '@mui/material/Button';
+import UndoIcon from '@mui/icons-material/Undo';
 
-const Unauthorized = () => {
+function Unauthorized() {
   const navigate = useNavigate();
 
   const goBack = () => navigate(-1);
@@ -10,27 +11,24 @@ const Unauthorized = () => {
   return (
     <article
       style={{
-        margin: "200px auto",
-        width: "100%",
-        maxWidth: "600px",
-        display: "flex",
-        flexWrap: 'wrap'
+        margin: '200px auto',
+        width: '100%',
+        maxWidth: '600px',
+        display: 'flex',
+        flexWrap: 'wrap',
       }}
     >
-      <div
-        style={{ flex: "0 0 50%", display: "grid", alignItems: "center" }}
-        className="left-side"
-      >
-        <h1 style={{ fontSize: "2em" }}>
+      <div style={{ flex: '0 0 50%', display: 'grid', alignItems: 'center' }} className="left-side">
+        <h1 style={{ fontSize: '2em' }}>
           <i>Unauthorized</i>
         </h1>
       </div>
       <div
         style={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "space-around",
-          flexBasis: "50%",
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'space-around',
+          flexBasis: '50%',
         }}
         className="right-side"
       >
@@ -42,6 +40,6 @@ const Unauthorized = () => {
       </div>
     </article>
   );
-};
+}
 
 export default Unauthorized;
