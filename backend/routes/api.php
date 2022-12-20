@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\ShopCategoryController;
+use App\Http\Controllers\ProductCategoryController;
 use App\Http\Controllers\ChildCategoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ShopController;
@@ -30,6 +31,11 @@ Route::get('unauthenticated', [AuthenticationController::class, 'unauthenticated
 Route::resource('shop-categories', ShopCategoryController::class);
 Route::post('shop-categories/{id}', [ShopCategoryController::class, 'update']);
 Route::post('shop-categories/{id}/change_status', [ShopCategoryController::class, 'changeStatus']);
+
+//product categories apis
+Route::resource('product-categories', ProductCategoryController::class);
+Route::post('product-categories/{id}', [ProductCategoryController::class, 'update']);
+Route::post('product-categories/{id}/change_status', [ProductCategoryController::class, 'changeStatus']);
 
 //sub categories apis
 Route::resource('sub_categories', SubCategoryController::class);
