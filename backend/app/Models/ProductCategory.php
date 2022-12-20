@@ -30,4 +30,9 @@ class ProductCategory extends Model
     {
         return $this->hasMany(Product::class, "product_category_id");
     }
+
+    public function vendor()
+    {
+        return $this->belongsTo(User::class, "user_id");
+    }
 }
