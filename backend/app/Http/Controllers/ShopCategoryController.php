@@ -2,14 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
+use App\Models\ShopCategory;
+use App\Traits\ImageTrait;
+use App\Traits\QrCodeTrait;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Image;
 
-class CategoryController extends Controller
+class ShopCategoryController extends Controller
 {
+    use ImageTrait, QrCodeTrait;
     /**
      * Display a listing of the resource.
      *
@@ -17,18 +21,22 @@ class CategoryController extends Controller
      */
     public function index()
     {
+        DB::beginTransaction();
         try {
-            $categories = Category::all();
+            $categories = ShopCategory::all();
             $categories->map(function ($category) {
-                if ($category->image) {
-                    return $category->image = env('APP_URL') . 'storage/' . $category->image;
-                }
-            });
-            $response = ["data" => $categories];
+                $category->image = $this->getImageUrl($category->image);
+                $category->qr_code = $this->getImageUrl($category->qr_code);
 
+                return $category;
+            });
+
+            $response = ["data" => $categories];
+            DB::commit();
             return response()->json($response, 200);
         } catch (\Throwable $th) {
             $response = ["error" => $th->getMessage()];
+            DB::rollBack();
             return response()->json($response, 500);
         }
     }
@@ -41,6 +49,7 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
+        DB::beginTransaction();
         try {
             $validator = Validator::make($request->all(), [
                 "name" => "required",
@@ -55,22 +64,20 @@ class CategoryController extends Controller
             $input = $request->only(['name']);
             $image = $request->file('image');
 
+            $input['image'] = null;
             if ($image) {
-                $input['image'] = 'categories/' . time() . '.' . $image->getClientOriginalExtension();
-                $imgFile = Image::make($image->getRealPath());
-                $imgFile->resize(150, 150, function ($constraint) {
-                    $constraint->aspectRatio();
-                })->save(storage_path('app/public/'  . $input['image']));
-            } else {
-                $input['image'] = null;
+                $input['image'] = $this->saveImage($image, 'shopCategories');
             }
+            $input['qr_code'] = $this->createQrCode();
 
-            $category = Category::create($input);
+            $category = ShopCategory::create($input);
+
             $response = ["data" => $category];
-
+            DB::commit();
             return response()->json($response, 200);
         } catch (\Throwable $th) {
             $response = ["error" => $th->getMessage()];
+            DB::rollBack();
             return response()->json($response, 500);
         }
     }
@@ -83,19 +90,23 @@ class CategoryController extends Controller
      */
     public function show($id)
     {
+        DB::beginTransaction();
         try {
-            $category = Category::find($id);
-            if ($category->image) {
-                $category->image = env('APP_URL') . 'storage/' . $category->image;
+            $category = ShopCategory::find($id);
+            if ($category) {
+                $category->image = $this->getImageUrl($category->image);
+                $category->qr_code = $this->getImageUrl($category->qr_code);
+            } else {
+                $response = ["error" => "model not found"];
+                return response()->json($response, 404);
             }
 
-            $response = [
-                "data" => $category
-            ];
-
+            $response = ["data" => $category];
+            DB::commit();
             return response()->json($response, 200);
         } catch (\Throwable $th) {
             $response = ["error" => $th->getMessage()];
+            DB::rollBack();
             return response()->json($response, 500);
         }
     }
@@ -109,6 +120,7 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
+        DB::beginTransaction();
         try {
             $validator = Validator::make($request->all(), [
                 "name" => "required",
@@ -123,18 +135,17 @@ class CategoryController extends Controller
             $input = $request->only(['name']);
             $image = $request->file('image');
             if ($image) {
-                $input['image'] = 'categories/' . time() . '.' . $image->getClientOriginalExtension();
-                $imgFile = Image::make($image->getRealPath());
-                $imgFile->resize(150, 150, function ($constraint) {
-                    $constraint->aspectRatio();
-                })->save(storage_path('app/public/'  . $input['image']));
+                $input['image'] = $this->saveImage($image, 'shopCategories');
             }
 
-            Category::where('id', $id)->update($input);
+            ShopCategory::where('id', $id)->update($input);
+
             $response = ["data" => "success"];
+            DB::commit();
             return response()->json($response, 200);
         } catch (\Throwable $th) {
             $response = ["error" => $th->getMessage()];
+            DB::rollBack();
             return response()->json($response, 500);
         }
     }
@@ -147,32 +158,50 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
+        DB::beginTransaction();
         try {
-            $category = Category::find($id);
-            $category->delete();
+            $category = ShopCategory::find($id);
+            if ($category) {
+                $category->delete();
+            } else {
+                $response = ["error" => "model not found"];
+                return response()->json($response, 404);
+            }
+
             $response = ["data" => "success"];
+            DB::commit();
             return response()->json($response, 200);
         } catch (\Throwable $th) {
             $response = ["error" => $th->getMessage()];
+            DB::rollBack();
             return response()->json($response, 500);
         }
     }
 
     public function changeStatus(Request $request, $id)
     {
+        DB::beginTransaction();
         try {
-            $category = Category::find($id);
-            if ($category->deactivated_at) {
-                $category->deactivated_at = null;
+            $category = ShopCategory::find($id);
+            if ($category) {
+                if ($category->deactivated_at) {
+                    $category->deactivated_at = null;
+                } else {
+                    $category->deactivated_at = now();
+                }
             } else {
-                $category->deactivated_at = now();
+                $response = ["error" => "model not found"];
+                return response()->json($response, 404);
             }
 
             $category->save();
+
             $response = ["data" => $category->deactivated_at];
+            DB::commit();
             return response()->json($response, 200);
         } catch (\Throwable $th) {
             $response = ["error" => $th->getMessage()];
+            DB::rollBack();
             return response()->json($response, 500);
         }
     }

@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthenticationController;
-use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ShopCategoryController;
 use App\Http\Controllers\ChildCategoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ShopController;
@@ -26,10 +26,10 @@ Route::post('login', [AuthenticationController::class, 'login']);
 Route::middleware("auth:api")->get('logout', [AuthenticationController::class, 'logout']);
 Route::get('unauthenticated', [AuthenticationController::class, 'unauthenticated'])->name('unauthenticated');
 
-//categories apis
-Route::resource('categories', CategoryController::class);
-Route::post('categories/{id}', [CategoryController::class, 'update']);
-Route::post('categories/{id}/change_status', [CategoryController::class, 'changeStatus']);
+//shop categories apis
+Route::resource('shop-categories', ShopCategoryController::class);
+Route::post('shop-categories/{id}', [ShopCategoryController::class, 'update']);
+Route::post('shop-categories/{id}/change_status', [ShopCategoryController::class, 'changeStatus']);
 
 //sub categories apis
 Route::resource('sub_categories', SubCategoryController::class);
