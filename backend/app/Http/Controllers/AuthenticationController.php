@@ -4,15 +4,20 @@ namespace App\Http\Controllers;
 
 use App\Constants\UserTypes;
 use App\Models\User;
+use App\Traits\ImageTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Image;
 
 class AuthenticationController extends Controller
 {
+    use ImageTrait;
+
     public function register(Request $request)
     {
+        DB::beginTransaction();
         try {
             $validator = Validator::make($request->all(), [
                 "name" => "required",
@@ -30,11 +35,7 @@ class AuthenticationController extends Controller
 
             $image = $request->file('image');
             if ($image) {
-                $input['image'] = 'users/' . time() . '.' . $image->getClientOriginalExtension();
-                $imgFile = Image::make($image->getRealPath());
-                $imgFile->resize(150, 150, function ($constraint) {
-                    $constraint->aspectRatio();
-                })->save(storage_path('app/public/'  . $input['image']));
+                $input['image'] = $this->saveImage($image, 'users');
             } else {
                 $input['image'] = null;
             }
@@ -45,21 +46,23 @@ class AuthenticationController extends Controller
             $user = User::create($input);
 
             $response = [
-                "data" => [
+                "result" => [
                     "user" => $user,
                     "token" => $user->createToken('eCommerce')->accessToken
                 ]
             ];
-
+            DB::commit();
             return response()->json($response, 200);
         } catch (\Throwable $th) {
             $response = ["error" => $th->getMessage()];
+            DB::rollBack();
             return response()->json($response, 500);
         }
     }
 
     public function login(Request $request)
     {
+        DB::beginTransaction();
         try {
             $validator = Validator::make($request->all(), [
                 "email" => "required|email",
@@ -75,33 +78,42 @@ class AuthenticationController extends Controller
 
             if (Auth::attempt($input)) {
                 $user = Auth::user();
-                if ($user->image) {
-                    $user->image = env('APP_URL') . 'storage/' . $user->image;
-                }
+                $user->image = $this->getImageUrl($user->image);
                 $response = [
-                    "data" => [
+                    "result" => [
                         "user" => $user,
                         "token" => $user->createToken('eCommerce')->accessToken
                     ]
                 ];
-
+                DB::commit();
                 return response()->json($response, 200);
             } else {
                 $response = ["error" => "Incorrect Email or Password"];
+                DB::rollBack();
                 return response()->json($response, 401);
             }
         } catch (\Throwable $th) {
             $response = ["error" => $th->getMessage()];
+            DB::rollBack();
             return response()->json($response, 500);
         }
     }
 
     public function logout()
     {
-        $user = Auth::user();
-        $user->token()->revoke();
+        DB::beginTransaction();
+        try {
+            $user = Auth::user();
+            $user->token()->revoke();
 
-        return response()->json(["success" => "Logout"], 200);
+            $response = ["result" => true];
+            DB::commit();
+            return response()->json($response, 200);
+        } catch (\Throwable $th) {
+            $response = ["error" => $th->getMessage()];
+            DB::rollBack();
+            return response()->json($response, 500);
+        }
     }
 
     public function unauthenticated()
