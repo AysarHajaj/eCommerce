@@ -4,43 +4,22 @@ namespace App\Http\Controllers;
 
 use App\Models\Shop;
 use App\Models\User;
+use App\Traits\ImageTrait;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Image;
 
 class ShopController extends Controller
 {
-    public function show($id)
-    {
-        try {
-            $shop = Shop::find($id);
-            if ($shop->banner_image) {
-                $shop->banner_image = env('APP_URL') . 'storage/' . $shop->banner_image;
-            }
-            $response = ["data" => $shop];
-
-            return response()->json($response, 200);
-        } catch (\Throwable $th) {
-            $response = ["error" => $th->getMessage()];
-            return response()->json($response, 500);
-        }
-    }
+    use ImageTrait;
 
     public function update(Request $request, $id)
     {
+        DB::beginTransaction();
         try {
             $validator = Validator::make($request->all(), [
-                "name" => "required",
-                "email" => "required|unique:users,email," . $id,
-                "banner_image" => 'image|mimes:jpg,jpeg,png,gif,svg|max:2048',
-                "phone" => "required",
-                "opens_at" => "required",
-                "closed_at" => "required",
-                "address" => "required",
-                "greeting_message" => "required",
-                "description" => "required",
-                "seo_title" => "required",
-                "seo_description" => "required",
+                "image" => 'image|mimes:jpg,jpeg,png,gif,svg|max:2048',
             ]);
 
             if ($validator->fails()) {
@@ -48,39 +27,46 @@ class ShopController extends Controller
                 return response()->json($response, 400);
             }
 
-            $input = $request->except(['banner_image']);
-            $image = $request->file('banner_image');
+            $input = $request->except(['image']);
+            $image = $request->file('image');
             if ($image) {
-                $input['banner_image'] = 'banners/' . time() . '.' . $image->getClientOriginalExtension();
-                $imgFile = Image::make($image->getRealPath());
-                $imgFile->resize(150, 150, function ($constraint) {
-                    $constraint->aspectRatio();
-                })->save(storage_path('app/public/'  . $input['banner_image']));
+                $input['image'] = $this->saveImage($image, 'shops');
             }
 
             Shop::where('id', $id)->update($input);
 
-            $response = ["data" => "success"];
+            $response = ["result" => "success"];
+            DB::commit();
             return response()->json($response, 200);
         } catch (\Throwable $th) {
             $response = ["error" => $th->getMessage()];
+            DB::rollBack();
             return response()->json($response, 500);
         }
     }
 
     public function showByVendorId($vendorId)
     {
+        DB::beginTransaction();
         try {
             $vendor = User::find($vendorId);
-            $shop = $vendor->shop;
-            if ($shop->banner_image) {
-                $shop->banner_image = env('APP_URL') . 'storage/' . $shop->banner_image;
+            if (!$vendor) {
+                $response = ["error" => "model not found"];
+                return response()->json($response, 404);
             }
-            $response = ["data" => $shop];
+            $shop = $vendor->shop;
+            if (!$shop) {
+                $response = ["error" => "model not found"];
+                return response()->json($response, 404);
+            }
 
+            $shop->image = $this->getImageUrl($shop->image);
+            $response = ["result" => $shop];
+            DB::commit();
             return response()->json($response, 200);
         } catch (\Throwable $th) {
             $response = ["error" => $th->getMessage()];
+            DB::rollBack();
             return response()->json($response, 500);
         }
     }
