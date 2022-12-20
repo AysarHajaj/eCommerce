@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\CityController;
+use App\Http\Controllers\CurrencyController;
 use App\Http\Controllers\DistrictController;
 use App\Http\Controllers\ShopCategoryController;
 use App\Http\Controllers\ProductCategoryController;
@@ -48,6 +49,10 @@ Route::post('cities/{id}/change_status', [CityController::class, 'changeStatus']
 //district apis
 Route::resource('districts', DistrictController::class);
 Route::post('districts/{id}/change_status', [DistrictController::class, 'changeStatus']);
+
+//currency apis
+Route::resource('currencies', CurrencyController::class);
+Route::post('currencies/{id}/change_status', [CurrencyController::class, 'changeStatus']);
 
 
 //vendor apis
