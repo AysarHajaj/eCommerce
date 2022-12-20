@@ -29,7 +29,7 @@ class ShopCategoryController extends Controller
                 return $category;
             });
 
-            $response = ["data" => $categories];
+            $response = ["result" => $categories];
             DB::commit();
             return response()->json($response, 200);
         } catch (\Throwable $th) {
@@ -72,7 +72,7 @@ class ShopCategoryController extends Controller
             $category->image = $this->getImageUrl($category->image);
             $category->qr_code = $this->getImageUrl($category->qr_code);
 
-            $response = ["data" => $category];
+            $response = ["result" => $category];
             DB::commit();
             return response()->json($response, 200);
         } catch (\Throwable $th) {
@@ -101,7 +101,7 @@ class ShopCategoryController extends Controller
                 return response()->json($response, 404);
             }
 
-            $response = ["data" => $category];
+            $response = ["result" => $category];
             DB::commit();
             return response()->json($response, 200);
         } catch (\Throwable $th) {
@@ -140,7 +140,7 @@ class ShopCategoryController extends Controller
 
             ShopCategory::where('id', $id)->update($input);
 
-            $response = ["data" => "success"];
+            $response = ["result" => "success"];
             DB::commit();
             return response()->json($response, 200);
         } catch (\Throwable $th) {
@@ -168,7 +168,7 @@ class ShopCategoryController extends Controller
                 return response()->json($response, 404);
             }
 
-            $response = ["data" => "success"];
+            $response = ["result" => true];
             DB::commit();
             return response()->json($response, 200);
         } catch (\Throwable $th) {
@@ -196,7 +196,7 @@ class ShopCategoryController extends Controller
 
             $category->save();
 
-            $response = ["data" => $category->deactivated_at];
+            $response = ["result" => $category->deactivated_at];
             DB::commit();
             return response()->json($response, 200);
         } catch (\Throwable $th) {

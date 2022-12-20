@@ -20,7 +20,7 @@ class CityController extends Controller
         try {
             $cities = City::all();
 
-            $response = ["data" => $cities];
+            $response = ["result" => $cities];
             DB::commit();
             return response()->json($response, 200);
         } catch (\Throwable $th) {
@@ -54,7 +54,7 @@ class CityController extends Controller
 
             $city = City::create($input);
 
-            $response = ["data" => $city];
+            $response = ["result" => $city];
             DB::commit();
             return response()->json($response, 200);
         } catch (\Throwable $th) {
@@ -80,7 +80,7 @@ class CityController extends Controller
                 return response()->json($response, 404);
             }
 
-            $response = ["data" => $city];
+            $response = ["result" => $city];
             DB::commit();
             return response()->json($response, 200);
         } catch (\Throwable $th) {
@@ -114,7 +114,7 @@ class CityController extends Controller
 
             City::where('id', $id)->update($input);
 
-            $response = ["data" => "success"];
+            $response = ["result" => "success"];
             DB::commit();
             return response()->json($response, 200);
         } catch (\Throwable $th) {
@@ -142,7 +142,7 @@ class CityController extends Controller
                 return response()->json($response, 404);
             }
 
-            $response = ["data" => "success"];
+            $response = ["result" => true];
             DB::commit();
             return response()->json($response, 200);
         } catch (\Throwable $th) {
@@ -170,7 +170,7 @@ class CityController extends Controller
 
             $city->save();
 
-            $response = ["data" => $city->deactivated_at];
+            $response = ["result" => $city->deactivated_at];
             DB::commit();
             return response()->json($response, 200);
         } catch (\Throwable $th) {

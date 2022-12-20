@@ -45,7 +45,7 @@ class UserController extends Controller
                 'user_id' => $user->id
             ]);
 
-            $response = ["data" => "success"];
+            $response = ["result" => "success"];
             DB::commit();
             return response()->json($response, 200);
         } catch (\Throwable $th) {
@@ -72,7 +72,7 @@ class UserController extends Controller
                 return $vendor;
             });
 
-            $response = ["data" => $vendors];
+            $response = ["result" => $vendors];
             DB::commit();
             return response()->json($response, 200);
         } catch (\Throwable $th) {
@@ -94,7 +94,7 @@ class UserController extends Controller
                 return response()->json($response, 404);
             }
 
-            $response = ["data" => $vendor];
+            $response = ["result" => $vendor];
             DB::commit();
             return response()->json($response, 200);
         } catch (\Throwable $th) {
@@ -116,7 +116,7 @@ class UserController extends Controller
                 return response()->json($response, 404);
             }
 
-            $response = ["data" => "success"];
+            $response = ["result" => true];
             DB::commit();
             return response()->json($response, 200);
         } catch (\Throwable $th) {
@@ -152,7 +152,7 @@ class UserController extends Controller
 
             User::where('id', $id)->update($input);
             DB::commit();
-            $response = ["data" => "success"];
+            $response = ["result" => "success"];
             return response()->json($response, 200);
         } catch (\Throwable $th) {
             $response = ["error" => $th->getMessage()];
@@ -180,7 +180,7 @@ class UserController extends Controller
 
             $user->save();
 
-            $response = ["data" => $user->deactivated_at];
+            $response = ["result" => $user->deactivated_at];
             DB::commit();
             return response()->json($response, 200);
         } catch (\Throwable $th) {

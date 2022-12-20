@@ -20,7 +20,7 @@ class DistrictController extends Controller
         try {
             $districts = District::with(['city'])->get();
 
-            $response = ["data" => $districts];
+            $response = ["result" => $districts];
             DB::commit();
             return response()->json($response, 200);
         } catch (\Throwable $th) {
@@ -55,7 +55,7 @@ class DistrictController extends Controller
 
             $district = District::create($input);
 
-            $response = ["data" => $district];
+            $response = ["result" => $district];
             DB::commit();
             return response()->json($response, 200);
         } catch (\Throwable $th) {
@@ -81,7 +81,7 @@ class DistrictController extends Controller
                 return response()->json($response, 404);
             }
 
-            $response = ["data" => $district];
+            $response = ["result" => $district];
             DB::commit();
             return response()->json($response, 200);
         } catch (\Throwable $th) {
@@ -116,7 +116,7 @@ class DistrictController extends Controller
 
             District::where('id', $id)->update($input);
 
-            $response = ["data" => "success"];
+            $response = ["result" => "success"];
             DB::commit();
             return response()->json($response, 200);
         } catch (\Throwable $th) {
@@ -144,7 +144,7 @@ class DistrictController extends Controller
                 return response()->json($response, 404);
             }
 
-            $response = ["data" => "success"];
+            $response = ["result" => true];
             DB::commit();
             return response()->json($response, 200);
         } catch (\Throwable $th) {
@@ -172,7 +172,7 @@ class DistrictController extends Controller
 
             $district->save();
 
-            $response = ["data" => $district->deactivated_at];
+            $response = ["result" => $district->deactivated_at];
             DB::commit();
             return response()->json($response, 200);
         } catch (\Throwable $th) {

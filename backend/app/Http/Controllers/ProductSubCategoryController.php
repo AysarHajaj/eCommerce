@@ -27,7 +27,7 @@ class ProductSubCategoryController extends Controller
                 return $subCategory;
             });
 
-            $response = ["data" => $subCategories];
+            $response = ["result" => $subCategories];
             DB::commit();
             return response()->json($response, 200);
         } catch (\Throwable $th) {
@@ -62,7 +62,7 @@ class ProductSubCategoryController extends Controller
             $subCategory = ProductSubCategory::create($input);
             $subCategory->qr_code = $this->getImageUrl($subCategory->qr_code);
 
-            $response = ["data" => $subCategory];
+            $response = ["result" => $subCategory];
             DB::commit();
             return response()->json($response, 200);
         } catch (\Throwable $th) {
@@ -90,7 +90,7 @@ class ProductSubCategoryController extends Controller
                 return response()->json($response, 404);
             }
 
-            $response = ["data" => $subCategory];
+            $response = ["result" => $subCategory];
             DB::commit();
             return response()->json($response, 200);
         } catch (\Throwable $th) {
@@ -125,7 +125,7 @@ class ProductSubCategoryController extends Controller
             $input = $request->all();
             ProductSubCategory::where('id', $id)->update($input);
 
-            $response = ["data" => "success"];
+            $response = ["result" => "success"];
             DB::commit();
             return response()->json($response, 200);
         } catch (\Throwable $th) {
@@ -153,7 +153,7 @@ class ProductSubCategoryController extends Controller
                 return response()->json($response, 404);
             }
 
-            $response = ["data" => 'success'];
+            $response = ["result" => true];
             DB::commit();
             return response()->json($response, 200);
         } catch (\Throwable $th) {
@@ -181,7 +181,7 @@ class ProductSubCategoryController extends Controller
 
             $subCategory->save();
 
-            $response = ["data" => $subCategory->deactivated_at];
+            $response = ["result" => $subCategory->deactivated_at];
             DB::commit();
             return response()->json($response, 200);
         } catch (\Throwable $th) {

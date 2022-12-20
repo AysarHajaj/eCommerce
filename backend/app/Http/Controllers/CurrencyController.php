@@ -20,7 +20,7 @@ class CurrencyController extends Controller
         try {
             $currencies = Currency::all();
 
-            $response = ["data" => $currencies];
+            $response = ["result" => $currencies];
             DB::commit();
             return response()->json($response, 200);
         } catch (\Throwable $th) {
@@ -54,7 +54,7 @@ class CurrencyController extends Controller
 
             $currency = Currency::create($input);
 
-            $response = ["data" => $currency];
+            $response = ["result" => $currency];
             DB::commit();
             return response()->json($response, 200);
         } catch (\Throwable $th) {
@@ -80,7 +80,7 @@ class CurrencyController extends Controller
                 return response()->json($response, 404);
             }
 
-            $response = ["data" => $currency];
+            $response = ["result" => $currency];
             DB::commit();
             return response()->json($response, 200);
         } catch (\Throwable $th) {
@@ -114,7 +114,7 @@ class CurrencyController extends Controller
 
             Currency::where('id', $id)->update($input);
 
-            $response = ["data" => "success"];
+            $response = ["result" => "success"];
             DB::commit();
             return response()->json($response, 200);
         } catch (\Throwable $th) {
@@ -142,7 +142,7 @@ class CurrencyController extends Controller
                 return response()->json($response, 404);
             }
 
-            $response = ["data" => "success"];
+            $response = ["result" => true];
             DB::commit();
             return response()->json($response, 200);
         } catch (\Throwable $th) {
@@ -170,7 +170,7 @@ class CurrencyController extends Controller
 
             $currency->save();
 
-            $response = ["data" => $currency->deactivated_at];
+            $response = ["result" => $currency->deactivated_at];
             DB::commit();
             return response()->json($response, 200);
         } catch (\Throwable $th) {
