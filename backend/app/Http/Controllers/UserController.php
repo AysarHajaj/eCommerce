@@ -5,14 +5,18 @@ namespace App\Http\Controllers;
 use App\Constants\UserTypes;
 use App\Models\Shop;
 use App\Models\User;
+use App\Traits\ImageTrait;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
-use Image;
 
 class UserController extends Controller
 {
+    use ImageTrait;
+
     public function storeVendor(Request $request)
     {
+        DB::beginTransaction();
         try {
             $validator = Validator::make($request->all(), [
                 "name" => "required",
@@ -28,11 +32,7 @@ class UserController extends Controller
             $input = $request->only(['name', 'email']);
             $image = $request->file('image');
             if ($image) {
-                $input['image'] = 'users/' . time() . '.' . $image->getClientOriginalExtension();
-                $imgFile = Image::make($image->getRealPath());
-                $imgFile->resize(150, 150, function ($constraint) {
-                    $constraint->aspectRatio();
-                })->save(storage_path('app/public/'  . $input['image']));
+                $input['image'] = $this->saveImage($image, 'users');
             } else {
                 $input['image'] = null;
             }
@@ -46,16 +46,18 @@ class UserController extends Controller
             ]);
 
             $response = ["data" => "success"];
-
+            DB::commit();
             return response()->json($response, 200);
         } catch (\Throwable $th) {
             $response = ["error" => $th->getMessage()];
+            DB::rollBack();
             return response()->json($response, 500);
         }
     }
 
     public function getVendors()
     {
+        DB::beginTransaction();
         try {
             $vendors = User::where('type', UserTypes::VENDOR)
                 ->select(
@@ -66,51 +68,67 @@ class UserController extends Controller
                     'deactivated_at'
                 )->get();
             $vendors->map(function ($vendor) {
-                if ($vendor->image) {
-                    return $vendor->image = env('APP_URL') . 'storage/' . $vendor->image;
-                }
+                $vendor->image = $this->getImageUrl($vendor->image);
+                return $vendor;
             });
-            $response = ["data" => $vendors];
 
+            $response = ["data" => $vendors];
+            DB::commit();
             return response()->json($response, 200);
         } catch (\Throwable $th) {
             $response = ["error" => $th->getMessage()];
+            DB::rollBack();
             return response()->json($response, 500);
         }
     }
 
     public function getVendor($id)
     {
+        DB::beginTransaction();
         try {
             $vendor = User::select('id', 'name', 'image', 'deactivated_at', 'email')->find($id);
-            if ($vendor->image) {
-                $vendor->image = env('APP_URL') . 'storage/' . $vendor->image;
+            if ($vendor) {
+                $vendor->image = $this->getImageUrl($vendor->image);
+            } else {
+                $response = ["error" => "model not found"];
+                return response()->json($response, 404);
             }
-            $response = ["data" => $vendor];
 
+            $response = ["data" => $vendor];
+            DB::commit();
             return response()->json($response, 200);
         } catch (\Throwable $th) {
             $response = ["error" => $th->getMessage()];
+            DB::rollBack();
             return response()->json($response, 500);
         }
     }
 
     public function deleteVendor($id)
     {
+        DB::beginTransaction();
         try {
-            $category = User::find($id);
-            $category->delete();
-            $response = ["data" => "success"];
+            $vendor = User::find($id);
+            if ($vendor) {
+                $vendor->delete();
+            } else {
+                $response = ["error" => "model not found"];
+                return response()->json($response, 404);
+            }
 
+            $response = ["data" => "success"];
+            DB::commit();
             return response()->json($response, 200);
         } catch (\Throwable $th) {
             $response = ["error" => $th->getMessage()];
+            DB::rollBack();
             return response()->json($response, 500);
         }
     }
 
     public function updateVendor(Request $request, $id)
     {
+        DB::beginTransaction();
         try {
             $validator = Validator::make($request->all(), [
                 "name" => "required",
@@ -126,41 +144,48 @@ class UserController extends Controller
             $input = $request->only(['name', 'email']);
             $image = $request->file('image');
             if ($image) {
-                $input['image'] = 'users/' . time() . '.' . $image->getClientOriginalExtension();
-                $imgFile = Image::make($image->getRealPath());
-                $imgFile->resize(150, 150, function ($constraint) {
-                    $constraint->aspectRatio();
-                })->save(storage_path('app/public/'  . $input['image']));
+                $input['image'] = $this->saveImage($image, 'users');
             }
             if ($request->filled("password")) {
                 $input['password'] = bcrypt($request->password);
             }
 
             User::where('id', $id)->update($input);
-
+            DB::commit();
             $response = ["data" => "success"];
             return response()->json($response, 200);
         } catch (\Throwable $th) {
             $response = ["error" => $th->getMessage()];
+            DB::rollBack();
             return response()->json($response, 500);
         }
     }
 
     public function changeStatus(Request $request, $id)
     {
+        DB::beginTransaction();
         try {
             $user = User::find($id);
-            if ($user->deactivated_at) {
-                $user->deactivated_at = null;
+
+            if ($user) {
+                if ($user->deactivated_at) {
+                    $user->deactivated_at = null;
+                } else {
+                    $user->deactivated_at = now();
+                }
             } else {
-                $user->deactivated_at = now();
+                $response = ["error" => "model not found"];
+                return response()->json($response, 404);
             }
 
             $user->save();
+
             $response = ["data" => $user->deactivated_at];
+            DB::commit();
             return response()->json($response, 200);
         } catch (\Throwable $th) {
             $response = ["error" => $th->getMessage()];
+            DB::rollBack();
             return response()->json($response, 500);
         }
     }
