@@ -29,9 +29,9 @@ class ProductController extends Controller
         try {
             $validator = Validator::make($request->all(), [
                 "image" => 'image|mimes:jpg,jpeg,png,gif,svg|max:2048',
-                "english_name" => "required",
-                "user_id" => "required",
-                "product_category_id" => "required",
+                // "english_name" => "required",
+                // "user_id" => "required",
+                // "product_category_id" => "required",
             ]);
 
             if ($validator->fails()) {
@@ -136,8 +136,8 @@ class ProductController extends Controller
         try {
             $validator = Validator::make($request->all(), [
                 "image" => 'image|mimes:jpg,jpeg,png,gif,svg|max:2048',
-                "english_name" => "required",
-                "product_category_id" => "required",
+                // "english_name" => "required",
+                // "product_category_id" => "required",
             ]);
 
             if ($validator->fails()) {
