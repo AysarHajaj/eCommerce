@@ -32,30 +32,30 @@ api.interceptors.response.use(
   },
 );
 
-const getCategories = () => api.get('/categories');
-const deleteCategory = (id) => api.delete(`/categories/${id}`);
+const getProductCategories = () => api.get('/product-categories');
+const deleteProductCategory = (id) => api.delete(`/product-categories/${id}`);
+const getProductCategoryById = (id) => api.get(`/product-categories/${id}`);
+const updateProductCategory = (id, data) =>
+  api.post(`/product-categories/${id}`, data, {
+    headers: { 'Content-Type': 'multipart/form-data' },
+  });
+const postProductCategory = (data) =>
+  api.post(`/product-categories`, data, {
+    headers: { 'Content-Type': 'multipart/form-data' },
+  });
+const changeProductCategoryStatus = (id) => api.post(`/product-categorie/${id}/change_status`);
 
-const getSubCategories = () => api.get('/sub_categories');
-const deleteSubCategory = (id) => api.delete(`/sub_categories/${id}`);
-const getChildCategories = () => api.get('/child_categories');
-const deleteChildCategory = (id) => api.delete(`/child_categories/${id}`);
-const changeCategoryStatus = (id) => api.post(`/categories/${id}/change_status`);
-const changeSubCategoryStatus = (id) => api.post(`/sub_categories/${id}/change_status`);
+const getProductSubCategories = () => api.get('/product-sub-categories');
+const deleteProductSubCategory = (id) => api.delete(`/product-sub-categories/${id}`);
+const changeProductSubCategoryStatus = (id) =>
+  api.post(`/product-sub-categories/${id}/change_status`);
+const getProductSubCategoryById = (id) => api.get(`/product-sub-categories/${id}`);
+const updateProductSubCategory = (id, data) => api.put(`/product-sub-categories/${id}`, data);
+const postProductSubCategory = (data) => api.post(`/product-sub-categories`, data);
+
 const changeChildCategoryStatus = (id) => api.post(`/child_categories/${id}/change_status`);
-const getCategoryById = (id) => api.get(`/categories/${id}`);
-const updateCategory = (id, data) =>
-  api.post(`/categories/${id}`, data, {
-    headers: { 'Content-Type': 'multipart/form-data' },
-  });
-const postCategory = (data) =>
-  api.post(`/categories`, data, {
-    headers: { 'Content-Type': 'multipart/form-data' },
-  });
-
-const getSubCategoryById = (id) => api.get(`/sub_categories/${id}`);
-const updateSubCategory = (id, data) => api.put(`/sub_categories/${id}`, data);
-const postSubCategory = (data) => api.post(`/sub_categories`, data);
-
+const deleteChildCategory = (id) => api.delete(`/child_categories/${id}`);
+const getChildCategories = () => api.get('/child_categories');
 const getChildCategoryById = (id) => api.get(`/child_categories/${id}`);
 const updateChildCategory = (id, data) => api.put(`/child_categories/${id}`, data);
 const postChildCategory = (data) => api.post(`/child_categories`, data);
@@ -94,25 +94,27 @@ const updateShop = (id, data) =>
   });
 
 const apis = {
-  getCategories,
-  deleteCategory,
-  getSubCategories,
-  deleteSubCategory,
+  getProductCategories,
+  deleteProductCategory,
+  changeProductCategoryStatus,
+  getProductCategoryById,
+  postProductCategory,
+  updateProductCategory,
+
+  getProductSubCategories,
+  deleteProductSubCategory,
+  changeProductSubCategoryStatus,
+  getProductSubCategoryById,
+  updateProductSubCategory,
+  postProductSubCategory,
+
   getChildCategories,
   deleteChildCategory,
-  changeCategoryStatus,
-  changeSubCategoryStatus,
   changeChildCategoryStatus,
-  getCategoryById,
-  updateCategory,
-  postCategory,
   login,
   getChildCategoryById,
   updateChildCategory,
   postChildCategory,
-  getSubCategoryById,
-  updateSubCategory,
-  postSubCategory,
   getVendors,
   deleteVendor,
   changeVendorStatus,

@@ -36,61 +36,61 @@ const initialState = {
 };
 
 export const getSubCategories = createAsyncThunk(
-  constants.ACTION_TYPES.sub_category.get_list,
+  constants.ACTION_TYPES.product_sub_category.get_list,
   (_, { rejectWithValue }) =>
     api
-      .getSubCategories()
+      .getProductSubCategories()
       .then((response) => response.data)
       .catch((error) => rejectWithValue(error?.response?.data)),
 );
 
 export const deleteSubCategory = createAsyncThunk(
-  constants.ACTION_TYPES.sub_category.delete,
+  constants.ACTION_TYPES.product_sub_category.delete,
   (id, { rejectWithValue }) =>
     api
-      .deleteSubCategory(id)
+      .deleteProductSubCategory(id)
       .then((response) => ({ data: response.data, id }))
       .catch((error) => rejectWithValue(error?.response?.data)),
 );
 
 export const changeSubCategoryStatus = createAsyncThunk(
-  constants.ACTION_TYPES.sub_category.change_status,
+  constants.ACTION_TYPES.product_sub_category.change_status,
   (id, { rejectWithValue }) =>
     api
-      .changeSubCategoryStatus(id)
+      .changeProductSubCategoryStatus(id)
       .then((response) => ({ data: response.data, id }))
       .catch((error) => rejectWithValue(error?.response?.data)),
 );
 
 export const getSubCategoryById = createAsyncThunk(
-  constants.ACTION_TYPES.sub_category.get,
+  constants.ACTION_TYPES.product_sub_category.get,
   (id, { rejectWithValue }) =>
     api
-      .getSubCategoryById(id)
+      .getProductSubCategoryById(id)
       .then((response) => response.data)
       .catch((error) => rejectWithValue(error?.response?.data)),
 );
 
 export const updateSubCategory = createAsyncThunk(
-  constants.ACTION_TYPES.sub_category.put,
+  constants.ACTION_TYPES.product_sub_category.put,
   (data, { rejectWithValue }) =>
     api
-      .updateSubCategory(data.id, data)
+      .updateProductSubCategory(data.id, data)
       .then((response) => response.data)
       .catch((error) => rejectWithValue(error?.response?.data)),
 );
 
 export const postSubCategory = createAsyncThunk(
-  constants.ACTION_TYPES.sub_category.post,
+  constants.ACTION_TYPES.product_sub_category.post,
   (data, { rejectWithValue }) =>
     api
-      .postSubCategory(data)
+      .postProductSubCategory(data)
       .then((response) => response.data)
       .catch((error) => rejectWithValue(error?.response?.data)),
 );
 
 export const subCategorySlice = createSlice({
-  name: 'sub_category',
+  name: 'product_sub_category',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
@@ -190,10 +190,11 @@ export const subCategorySlice = createSlice({
   },
 });
 
-export const selectGetSubCategories = (state) => state.sub_category.get;
-export const selectDeleteSubCategories = (state) => state.sub_category.delete;
-export const selectChangeSubCategoriesStatus = (state) => state.category.change_status;
-export const selectGetSubCategoryById = (state) => state.sub_category.get_sub_category_by_id;
-export const selectUpdateSubCategory = (state) => state.sub_category.update_sub_category;
-export const selectPostSubCategory = (state) => state.sub_category.post_sub_category;
+export const selectGetSubCategories = (state) => state.product_sub_category.get;
+export const selectDeleteSubCategories = (state) => state.product_sub_category.delete;
+export const selectChangeSubCategoriesStatus = (state) => state.product_sub_category.change_status;
+export const selectGetSubCategoryById = (state) =>
+  state.product_sub_category.get_sub_category_by_id;
+export const selectUpdateSubCategory = (state) => state.product_sub_category.update_sub_category;
+export const selectPostSubCategory = (state) => state.product_sub_category.post_sub_category;
 export default subCategorySlice.reducer;

@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useNavigate } from 'react-router-dom';
 import { TextField, Select, MenuItem } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
-import { selectGetCategories, getCategories } from '../../../Category/categorySlice';
+import { selectGetCategories, getCategories } from '../../../ProductCategory/categorySlice';
 import {
   getSubCategoryById,
   selectGetSubCategoryById,

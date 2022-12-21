@@ -7,8 +7,8 @@ const initialValues = {
   stock_quantity: 0,
   user_id: 0,
   price: 0,
-  product_category_id: 0,
-  product_sub_category_id: 0,
+  product_category_id: '',
+  product_sub_category_id: '',
   english_name: '',
   arabic_name: '',
   english_description: '',
@@ -51,7 +51,7 @@ const isEqual = (a, b) =>
   a.stock_quantity === b.stock_quantity &&
   a.deactivated_at === b.deactivated_at;
 
-const isValid = (a) => !!a.english_name && !!a.product_category_id && !!a.slug && !!a.user_id;
+const isValid = (a) => !!a.english_name && !!a.product_category_id;
 
 const utils = {
   isEqual,

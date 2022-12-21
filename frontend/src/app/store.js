@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
-import categoryReducer from '../features/Category/categorySlice';
-import subCategoryReducer from '../features/SubCategory/subCategorySlice';
+import categoryReducer from '../features/ProductCategory/categorySlice';
+import subCategoryReducer from '../features/ProductSubCategory/subCategorySlice';
 import childCategoryReducer from '../features/ChildCategory/childCategorySlice';
 import loginReducer from '../features/Login/loginSlice';
 import vendorReducer from '../features/Vendor/vendorSlice';
@@ -9,8 +9,8 @@ import shopReducer from '../features/Shops/shopSlice';
 
 export const store = configureStore({
   reducer: {
-    category: categoryReducer,
-    sub_category: subCategoryReducer,
+    product_category: categoryReducer,
+    product_sub_category: subCategoryReducer,
     child_category: childCategoryReducer,
     login: loginReducer,
     vendor: vendorReducer,

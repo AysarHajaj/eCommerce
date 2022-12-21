@@ -46,12 +46,12 @@ function Products() {
     () => [
       { field: 'id', headerName: 'ID', width: 70 },
       {
-        field: 'thumbnail_image',
+        field: 'image',
         headerName: 'Image',
         width: 130,
-        renderCell: (params) => <Avatar src={params.row.thumbnail_image} />,
+        renderCell: (params) => <Avatar src={params.row.image} />,
       },
-      { field: 'name', headerName: 'Name', width: 130 },
+      { field: 'english_name', headerName: 'Name', width: 130 },
       { field: 'price', headerName: 'Price', width: 130 },
       {
         field: 'status',

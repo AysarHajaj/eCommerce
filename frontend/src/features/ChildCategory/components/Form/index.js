@@ -11,8 +11,11 @@ import {
   postChildCategory,
   selectPostChildCategory,
 } from '../../childCategorySlice';
-import { selectGetCategories, getCategories } from '../../../Category/categorySlice';
-import { selectGetSubCategories, getSubCategories } from '../../../SubCategory/subCategorySlice';
+import { selectGetCategories, getCategories } from '../../../ProductCategory/categorySlice';
+import {
+  selectGetSubCategories,
+  getSubCategories,
+} from '../../../ProductSubCategory/subCategorySlice';
 
 function Form() {
   const { id } = useParams();

@@ -5,9 +5,11 @@ import { TextField, FormControl, Select, MenuItem, Button, InputLabel } from '@m
 import { LoadingButton } from '@mui/lab';
 import FormHelperText from '@mui/material/FormHelperText';
 import ListIcon from '@mui/icons-material/List';
-import { getChildCategories } from '../../../ChildCategory/childCategorySlice';
-import { selectGetSubCategories, getSubCategories } from '../../../SubCategory/subCategorySlice';
-import { selectGetCategories, getCategories } from '../../../Category/categorySlice';
+import {
+  selectGetSubCategories,
+  getSubCategories,
+} from '../../../ProductSubCategory/subCategorySlice';
+import { selectGetCategories, getCategories } from '../../../ProductCategory/categorySlice';
 import {
   getProductById,
   selectGetProductById,
@@ -87,9 +89,7 @@ function Form() {
         updateProduct({
           ...data,
           ...(isVendor ? { user_id: userId } : {}),
-          banner_image: typeof data.banner_image === 'object' ? data.banner_image : undefined,
-          thumbnail_image:
-            typeof data.thumbnail_image === 'object' ? data.thumbnail_image : undefined,
+          image: typeof data.image === 'object' ? data.image : undefined,
         }),
       );
     } else {
@@ -98,7 +98,7 @@ function Form() {
 
     result.then(({ meta }) => {
       if (meta.requestStatus === 'fulfilled') {
-        navigate(constant.ROUTES.PRODUCTS.path);
+        navigate(ROUTES.PRODUCTS.path);
       }
     });
   };
@@ -106,10 +106,9 @@ function Form() {
   useEffect(() => {
     dispatch(getCategories());
     dispatch(getSubCategories());
-    dispatch(getChildCategories());
     if (isEdit) {
       dispatch(getProductById(id)).then(({ payload }) => {
-        setData(formUtils.getValidData(payload.data));
+        setData(formUtils.getValidData(payload.result));
       });
     }
   }, []);
@@ -125,7 +124,7 @@ function Form() {
         <div className="left-side">
           <ImageUploader
             label="Product Image"
-            name="thumbnail_image"
+            name="image"
             onChange={handleChangeImage}
             src={imageURL}
           />
@@ -145,7 +144,6 @@ function Form() {
             name="arabic_name"
             value={data.arabic_name}
             onChange={handleChange}
-            required
           />
 
           <TextField
@@ -153,7 +151,6 @@ function Form() {
             name="english_description"
             value={data.english_description}
             onChange={handleChange}
-            required
           />
 
           <TextField
@@ -161,7 +158,6 @@ function Form() {
             name="arabic_description"
             value={data.arabic_description}
             onChange={handleChange}
-            required
           />
 
           <FormControl>
@@ -183,14 +179,13 @@ function Form() {
           </FormControl>
 
           <FormControl>
-            <InputLabel id="sub-category-label">SubCategory Category</InputLabel>
+            <InputLabel id="sub-category-label">Sub Category Category</InputLabel>
             <Select
               labelId="sub-category-label"
               label="SubCategory Category"
               name="product_sub_category_id"
               value={data.product_sub_category_id}
               onChange={handleChange}
-              required
             >
               {filteredSubCategories.map((childCategory) => (
                 <MenuItem key={childCategory.id} value={childCategory.id}>
@@ -214,6 +209,9 @@ function Form() {
             type="number"
             value={data.discount}
             onChange={handleChange}
+            InputProps={{
+              endAdornment: <b>%</b>,
+            }}
           />
 
           <TextField
