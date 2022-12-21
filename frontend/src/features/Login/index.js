@@ -36,9 +36,9 @@ function Login() {
     try {
       setIsLoading(true);
       const response = await api.login(data);
-      const resData = response?.data;
-      const accessToken = resData.data?.token;
-      const user = resData.data?.user;
+      const resData = response?.data?.result;
+      const accessToken = resData?.token;
+      const user = resData?.user;
 
       localStorage.setItem('token', accessToken);
       localStorage.setItem('user', JSON.stringify(user));
@@ -49,7 +49,7 @@ function Login() {
       if (!err?.response) {
         setError('No Server Response');
       } else {
-        setError(err?.response?.data?.error);
+        setError(err?.response?.data?.result?.error);
       }
     } finally {
       setIsLoading(false);

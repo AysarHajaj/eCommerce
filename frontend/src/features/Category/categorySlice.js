@@ -102,7 +102,7 @@ export const categorySlice = createSlice({
       })
       .addCase(getCategories.fulfilled, (state, action) => {
         state.get.isLoading = false;
-        state.get.data = action.payload.data;
+        state.get.data = action.payload.result;
       })
       .addCase(getCategories.rejected, (state, action) => {
         state.get.isLoading = false;
@@ -116,7 +116,7 @@ export const categorySlice = createSlice({
       })
       .addCase(deleteCategory.fulfilled, (state, action) => {
         state.delete.isLoading = false;
-        state.delete.data = action.payload.data;
+        state.delete.data = action.payload.result;
         state.get.data = state.get.data.filter((category) => category.id !== action.payload.id);
       })
       .addCase(deleteCategory.rejected, (state, action) => {
@@ -131,10 +131,10 @@ export const categorySlice = createSlice({
       })
       .addCase(changeCategoryStatus.fulfilled, (state, action) => {
         state.change_status.isLoading = false;
-        state.change_status.data = action.payload.data;
+        state.change_status.data = action.payload.result;
         state.get.data = state.get.data.map((category) => {
           if (category.id === action.payload.id) {
-            return { ...category, deactivated_at: action.payload.data.data };
+            return { ...category, deactivated_at: action.payload.result.data };
           }
           return { ...category };
         });
@@ -151,7 +151,7 @@ export const categorySlice = createSlice({
       })
       .addCase(getCategoryById.fulfilled, (state, action) => {
         state.get_category_by_id.isLoading = false;
-        state.get_category_by_id.data = action.payload.data;
+        state.get_category_by_id.data = action.payload.result;
       })
       .addCase(getCategoryById.rejected, (state, action) => {
         state.get_category_by_id.isLoading = false;
@@ -165,7 +165,7 @@ export const categorySlice = createSlice({
       })
       .addCase(updateCategory.fulfilled, (state, action) => {
         state.update_category.isLoading = false;
-        state.update_category.data = action.payload.data;
+        state.update_category.data = action.payload.result;
       })
       .addCase(updateCategory.rejected, (state, action) => {
         state.update_category.isLoading = false;
@@ -179,7 +179,7 @@ export const categorySlice = createSlice({
       })
       .addCase(postCategory.fulfilled, (state, action) => {
         state.post_category.isLoading = false;
-        state.post_category.data = action.payload.data;
+        state.post_category.data = action.payload.result;
       })
       .addCase(postCategory.rejected, (state, action) => {
         state.post_category.isLoading = false;

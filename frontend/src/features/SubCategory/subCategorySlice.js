@@ -102,7 +102,7 @@ export const subCategorySlice = createSlice({
       })
       .addCase(getSubCategories.fulfilled, (state, action) => {
         state.get.isLoading = false;
-        state.get.data = action.payload.data;
+        state.get.data = action.payload.result;
       })
       .addCase(getSubCategories.rejected, (state, action) => {
         state.get.isLoading = false;
@@ -116,7 +116,7 @@ export const subCategorySlice = createSlice({
       })
       .addCase(deleteSubCategory.fulfilled, (state, action) => {
         state.delete.isLoading = false;
-        state.delete.data = action.payload.data;
+        state.delete.data = action.payload.result;
         state.get.data = state.get.data.filter(
           (subCategory) => subCategory.id !== action.payload.id,
         );
@@ -133,10 +133,10 @@ export const subCategorySlice = createSlice({
       })
       .addCase(changeSubCategoryStatus.fulfilled, (state, action) => {
         state.change_status.isLoading = false;
-        state.change_status.data = action.payload.data;
+        state.change_status.data = action.payload.result;
         state.get.data = state.get.data.map((subCategory) => {
           if (subCategory.id === action.payload.id) {
-            return { ...subCategory, deactivated_at: action.payload.data.data };
+            return { ...subCategory, deactivated_at: action.payload.result.data };
           }
           return { ...subCategory };
         });
@@ -153,7 +153,7 @@ export const subCategorySlice = createSlice({
       })
       .addCase(getSubCategoryById.fulfilled, (state, action) => {
         state.get_sub_category_by_id.isLoading = false;
-        state.get_sub_category_by_id.data = action.payload.data;
+        state.get_sub_category_by_id.data = action.payload.result;
       })
       .addCase(getSubCategoryById.rejected, (state, action) => {
         state.get_sub_category_by_id.isLoading = false;
@@ -167,7 +167,7 @@ export const subCategorySlice = createSlice({
       })
       .addCase(updateSubCategory.fulfilled, (state, action) => {
         state.update_sub_category.isLoading = false;
-        state.update_sub_category.data = action.payload.data;
+        state.update_sub_category.data = action.payload.result;
       })
       .addCase(updateSubCategory.rejected, (state, action) => {
         state.update_sub_category.isLoading = false;
@@ -181,7 +181,7 @@ export const subCategorySlice = createSlice({
       })
       .addCase(postSubCategory.fulfilled, (state, action) => {
         state.post_sub_category.isLoading = false;
-        state.post_sub_category.data = action.payload.data;
+        state.post_sub_category.data = action.payload.result;
       })
       .addCase(postSubCategory.rejected, (state, action) => {
         state.post_sub_category.isLoading = false;

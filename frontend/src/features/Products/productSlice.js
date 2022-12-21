@@ -111,7 +111,7 @@ export const productSlice = createSlice({
       })
       .addCase(getProducts.fulfilled, (state, action) => {
         state.get.isLoading = false;
-        state.get.data = action.payload.data;
+        state.get.data = action.payload.result;
       })
       .addCase(getProducts.rejected, (state, action) => {
         state.get.isLoading = false;
@@ -125,7 +125,7 @@ export const productSlice = createSlice({
       })
       .addCase(getVendorProducts.fulfilled, (state, action) => {
         state.get.isLoading = false;
-        state.get.data = action.payload.data;
+        state.get.data = action.payload.result;
       })
       .addCase(getVendorProducts.rejected, (state, action) => {
         state.get.isLoading = false;
@@ -140,7 +140,7 @@ export const productSlice = createSlice({
       })
       .addCase(deleteProduct.fulfilled, (state, action) => {
         state.delete.isLoading = false;
-        state.delete.data = action.payload.data;
+        state.delete.data = action.payload.result;
         state.get.data = state.get.data.filter((product) => product.id !== action.payload.id);
       })
       .addCase(deleteProduct.rejected, (state, action) => {
@@ -155,10 +155,10 @@ export const productSlice = createSlice({
       })
       .addCase(changeProductStatus.fulfilled, (state, action) => {
         state.change_status.isLoading = false;
-        state.change_status.data = action.payload.data;
+        state.change_status.data = action.payload.result;
         state.get.data = state.get.data.map((product) => {
           if (product.id === action.payload.id) {
-            return { ...product, deactivated_at: action.payload.data.data };
+            return { ...product, deactivated_at: action.payload.result.data };
           }
           return { ...product };
         });
@@ -175,7 +175,7 @@ export const productSlice = createSlice({
       })
       .addCase(getProductById.fulfilled, (state, action) => {
         state.get_product_by_id.isLoading = false;
-        state.get_product_by_id.data = action.payload.data;
+        state.get_product_by_id.data = action.payload.result;
       })
       .addCase(getProductById.rejected, (state, action) => {
         state.get_product_by_id.isLoading = false;
@@ -189,7 +189,7 @@ export const productSlice = createSlice({
       })
       .addCase(updateProduct.fulfilled, (state, action) => {
         state.update_product.isLoading = false;
-        state.update_product.data = action.payload.data;
+        state.update_product.data = action.payload.result;
       })
       .addCase(updateProduct.rejected, (state, action) => {
         state.update_product.isLoading = false;
@@ -203,7 +203,7 @@ export const productSlice = createSlice({
       })
       .addCase(postProduct.fulfilled, (state, action) => {
         state.post_product.isLoading = false;
-        state.post_product.data = action.payload.data;
+        state.post_product.data = action.payload.result;
       })
       .addCase(postProduct.rejected, (state, action) => {
         state.post_product.isLoading = false;

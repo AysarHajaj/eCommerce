@@ -102,7 +102,7 @@ export const vendorSlice = createSlice({
       })
       .addCase(getVendors.fulfilled, (state, action) => {
         state.get.isLoading = false;
-        state.get.data = action.payload.data;
+        state.get.data = action.payload.result;
       })
       .addCase(getVendors.rejected, (state, action) => {
         state.get.isLoading = false;
@@ -116,7 +116,7 @@ export const vendorSlice = createSlice({
       })
       .addCase(deleteVendor.fulfilled, (state, action) => {
         state.delete.isLoading = false;
-        state.delete.data = action.payload.data;
+        state.delete.data = action.payload.result;
         state.get.data = state.get.data.filter((category) => category.id !== action.payload.id);
       })
       .addCase(deleteVendor.rejected, (state, action) => {
@@ -131,10 +131,10 @@ export const vendorSlice = createSlice({
       })
       .addCase(changeVendorStatus.fulfilled, (state, action) => {
         state.change_status.isLoading = false;
-        state.change_status.data = action.payload.data;
+        state.change_status.data = action.payload.result;
         state.get.data = state.get.data.map((vendor) => {
           if (vendor.id === action.payload.id) {
-            return { ...vendor, deactivated_at: action.payload.data.data };
+            return { ...vendor, deactivated_at: action.payload.result.data };
           }
           return { ...vendor };
         });
@@ -151,7 +151,7 @@ export const vendorSlice = createSlice({
       })
       .addCase(getVendorById.fulfilled, (state, action) => {
         state.get_vendor_by_id.isLoading = false;
-        state.get_vendor_by_id.data = action.payload.data;
+        state.get_vendor_by_id.data = action.payload.result;
       })
       .addCase(getVendorById.rejected, (state, action) => {
         state.get_vendor_by_id.isLoading = false;
@@ -165,7 +165,7 @@ export const vendorSlice = createSlice({
       })
       .addCase(updateVendor.fulfilled, (state, action) => {
         state.update_vendor.isLoading = false;
-        state.update_vendor.data = action.payload.data;
+        state.update_vendor.data = action.payload.result;
       })
       .addCase(updateVendor.rejected, (state, action) => {
         state.update_vendor.isLoading = false;
@@ -179,7 +179,7 @@ export const vendorSlice = createSlice({
       })
       .addCase(postVendor.fulfilled, (state, action) => {
         state.post_vendor.isLoading = false;
-        state.post_vendor.data = action.payload.data;
+        state.post_vendor.data = action.payload.result;
       })
       .addCase(postVendor.rejected, (state, action) => {
         state.post_vendor.isLoading = false;

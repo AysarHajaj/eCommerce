@@ -47,7 +47,7 @@ export const shopSlice = createSlice({
       })
       .addCase(getShopByVendorId.fulfilled, (state, action) => {
         state.get_shop_by_vendor_id.isLoading = false;
-        state.get_shop_by_vendor_id.data = action.payload.data;
+        state.get_shop_by_vendor_id.data = action.payload.result;
       })
       .addCase(getShopByVendorId.rejected, (state, action) => {
         state.get_shop_by_vendor_id.isLoading = false;
@@ -61,7 +61,7 @@ export const shopSlice = createSlice({
       })
       .addCase(updateShop.fulfilled, (state, action) => {
         state.update_shop.isLoading = false;
-        state.update_shop.data = action.payload.data;
+        state.update_shop.data = action.payload.result;
       })
       .addCase(updateShop.rejected, (state, action) => {
         state.update_shop.isLoading = false;
