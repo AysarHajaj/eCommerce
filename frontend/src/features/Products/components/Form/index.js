@@ -25,6 +25,7 @@ import useAuth from '../../../../hooks/useAuth';
 import formUtils from './formUtils';
 import ROUTES from '../../../../routes/routesPath';
 import './style.scss';
+import ImageUploader from '../../../../components/ImageUploader';
 
 function Form() {
   const { id } = useParams();
@@ -139,18 +140,12 @@ function Form() {
       <form onSubmit={handleSubmit} className="create-product-form">
         <FormHelperText error={!!(postError || putError)}>{postError || putError}</FormHelperText>
 
-        <FormControl style={{ marginTop: '15px' }}>
-          <Avatar src={thumbnailImageURL} />
-        </FormControl>
-
-        <FormControl style={{ marginTop: '15px' }}>
-          <OutlinedInput
-            name="thumbnail_image"
-            type="file"
-            label="Thumbnail Image"
-            onChange={handleChangeImage}
-          />
-        </FormControl>
+        <ImageUploader
+          label="Product Image"
+          name="thumbnail_image"
+          onChange={handleChangeImage}
+          src={thumbnailImageURL}
+        />
 
         <FormControl style={{ marginTop: '15px' }}>
           <Avatar src={bannerImageURL} />
