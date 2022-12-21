@@ -1,31 +1,43 @@
 .create-product-container {
   .create-product-form {
     padding: 10px;
-    margin-top: 20px;
     background-color: #fff;
-    border-radius: 3px;
+    border-radius: 10px;
+    max-width: 900px;
+    margin: 20px auto;
 
-    .MuiAvatar-root {
-      width: 150px;
-      height: 150px;
-      img,
-      svg {
+    .left-side {
+      display: inline-block;
+      vertical-align: top;
+    }
+
+    .right-side {
+      display: inline-block;
+      margin-left: 20px;
+      max-width: calc(100% - 350px);
+
+      @media (max-width: 768px) {
         max-width: 100%;
-        max-height: 100%;
-        object-fit: contain;
+        margin: 10px 0;
+      }
+
+      > .MuiFormControl-root {
+        width: 40%;
+        margin: 10px 2.5%;
+
+        > label {
+          font-size: 1em;
+        }
       }
     }
 
-    > .MuiFormControl-root {
-      padding: 8px 10px;
-
-      > label {
-        padding: 4px 0 4px 0;
-      }
+    .MuiLoadingButton-root {
+      display: block;
+      width: 100px;
+      margin-top: 10px;
+      margin-left: auto;
+      margin-right: 12%;
     }
 
-    button {
-      margin-left: 12px;
-    }
   }
 }

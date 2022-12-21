@@ -4,6 +4,8 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 
+import './style.scss';
+
 function ImageUploader({ style, label, name, onChange, src, showPreview }) {
   const [fileName, setFileName] = useState();
 
@@ -15,72 +17,22 @@ function ImageUploader({ style, label, name, onChange, src, showPreview }) {
   return (
     <div
       style={{
-        display: 'flex',
-        alignItems: 'center',
-        border: '1px solid rgb(0,0,0, .1)',
-        borderRadius: '10px',
-        boxShadow: '0 4px 8px rgb(0,0,0, 0.09)',
-        maxWidth: '350px',
         ...style,
       }}
       className="image-file-uploader"
     >
       {showPreview && (
-        <div style={{ padding: '5px' }} className="preview">
-          <Avatar style={{ borderRadius: '3px' }} src={src} />
+        <div className="image-preview">
+          <Avatar src={src} />
         </div>
       )}
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'space-around',
-          alignItems: 'center',
-          position: 'relative',
-          flexGrow: '1',
-          alignSelf: 'stretch',
-          padding: '5px',
-        }}
-      >
-        {!!label && (
-          <span style={{ fontSize: '1em', fontWeight: 'bold' }} className="image-label">
-            {label}
-          </span>
-        )}
+      <div className="input-container">
+        {!!label && <span className="image-label">{label}</span>}
 
-        <input
-          style={{
-            cursor: 'pointer',
-            opacity: '0',
-            position: 'absolute',
-            lef: '0',
-            top: '0',
-            width: '100%',
-            height: '100%',
-            zIndex: '1',
-          }}
-          onChange={handleChange}
-          name={name}
-          id="image-uploader"
-          type="file"
-          accept="image/*"
-        />
-        <Button style={{ alignSelf: 'center', margin: '0' }} startIcon={<CloudUploadIcon />}>
-          Upload
-        </Button>
+        <input onChange={handleChange} name={name} type="file" accept="image/*" />
+        <Button startIcon={<CloudUploadIcon />}>Upload</Button>
 
-        {fileName && (
-          <span
-            style={{
-              fontSize: '1em',
-              textDecoration: 'underline',
-              fontStyle: 'italic',
-            }}
-            className="image-name"
-          >
-            {fileName}
-          </span>
-        )}
+        {fileName && <span className="image-name">{fileName}</span>}
       </div>
     </div>
   );

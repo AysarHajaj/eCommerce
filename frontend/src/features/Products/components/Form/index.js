@@ -1,15 +1,11 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useNavigate } from 'react-router-dom';
-import { TextField, OutlinedInput, FormControl, Select, MenuItem, Button } from '@mui/material';
+import { TextField, FormControl, Select, MenuItem, Button, InputLabel } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import FormHelperText from '@mui/material/FormHelperText';
-import Avatar from '@mui/material/Avatar';
 import ListIcon from '@mui/icons-material/List';
-import {
-  selectGetChildCategories,
-  getChildCategories,
-} from '../../../ChildCategory/childCategorySlice';
+import { getChildCategories } from '../../../ChildCategory/childCategorySlice';
 import { selectGetSubCategories, getSubCategories } from '../../../SubCategory/subCategorySlice';
 import { selectGetCategories, getCategories } from '../../../Category/categorySlice';
 import {
@@ -33,7 +29,6 @@ function Form() {
   const { data: initialData } = useSelector(selectGetProductById);
   const { data: categories } = useSelector(selectGetCategories);
   const { data: subCategories } = useSelector(selectGetSubCategories);
-  const { data: childCategories } = useSelector(selectGetChildCategories);
   const { isLoading: updateIsLoading, error: putError } = useSelector(selectUpdateProduct);
   const { isLoading: postIsLoading, error: postError } = useSelector(selectPostProduct);
   const isEdit = !!id;
@@ -57,30 +52,17 @@ function Form() {
     return enable;
   }, [isEdit, data, initialValidData]);
 
-  const thumbnailImageURL = useMemo(() => {
-    if (!data.thumbnail_image) return undefined;
-    if (typeof data.thumbnail_image === 'object') {
-      return URL.createObjectURL(data.thumbnail_image);
+  const imageURL = useMemo(() => {
+    if (!data.image) return undefined;
+    if (typeof data.image === 'object') {
+      return URL.createObjectURL(data.image);
     }
-    return data.thumbnail_image;
-  }, [data.thumbnail_image]);
-
-  const bannerImageURL = useMemo(() => {
-    if (!data.banner_image) return undefined;
-    if (typeof data.banner_image === 'object') {
-      return URL.createObjectURL(data.banner_image);
-    }
-    return data.banner_image;
-  }, [data.banner_image]);
+    return data.image;
+  }, [data.image]);
 
   const filteredSubCategories = useMemo(
     () => subCategories.filter((item) => item.id === data.category_id),
     [data.category_id, subCategories],
-  );
-
-  const filteredChildCategories = useMemo(
-    () => childCategories.filter((item) => item.id === data.sub_category_id),
-    [childCategories, data.sub_category_id],
   );
 
   const handleChangeImage = (e) => {
@@ -140,151 +122,124 @@ function Form() {
       <form onSubmit={handleSubmit} className="create-product-form">
         <FormHelperText error={!!(postError || putError)}>{postError || putError}</FormHelperText>
 
-        <ImageUploader
-          label="Product Image"
-          name="thumbnail_image"
-          onChange={handleChangeImage}
-          src={thumbnailImageURL}
-        />
-
-        <FormControl style={{ marginTop: '15px' }}>
-          <Avatar src={bannerImageURL} />
-        </FormControl>
-
-        <FormControl style={{ marginTop: '15px' }}>
-          <OutlinedInput
-            name="banner_image"
-            type="file"
-            label="Banner Image"
+        <div className="left-side">
+          <ImageUploader
+            label="Product Image"
+            name="thumbnail_image"
             onChange={handleChangeImage}
+            src={imageURL}
           />
-        </FormControl>
-        <TextField
-          placeholder="Short Name"
-          name="short_name"
-          value={data.short_name}
-          onChange={handleChange}
-          required
-        />
+        </div>
 
-        <TextField
-          placeholder="Name"
-          name="name"
-          value={data.name}
-          onChange={handleChange}
-          required
-        />
-
-        <TextField
-          placeholder="Slug"
-          name="slug"
-          value={data.slug}
-          onChange={handleChange}
-          required
-        />
-
-        <FormControl style={{ marginTop: '15px' }}>
-          <Select
-            placeholder="Category"
-            name="category_id"
-            value={data.category_id}
+        <div className="right-side">
+          <TextField
+            label="English Name"
+            name="english_name"
+            value={data.english_name}
             onChange={handleChange}
             required
-          >
-            {categories.map((category) => (
-              <MenuItem key={category.id} value={category.id}>
-                {category.name}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
+          />
 
-        <FormControl style={{ marginTop: '15px' }}>
-          <Select
-            placeholder="SubCategory Category"
-            name="sub_category_id"
-            value={data.sub_category_id}
+          <TextField
+            label="Arabic Name"
+            name="arabic_name"
+            value={data.arabic_name}
             onChange={handleChange}
             required
-          >
-            {filteredSubCategories.map((childCategory) => (
-              <MenuItem key={childCategory.id} value={childCategory.id}>
-                {childCategory.name}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
+          />
 
-        <FormControl style={{ marginTop: '15px' }}>
-          <Select
-            placeholder="Child Category"
-            name="child_category_id"
-            value={data.child_category_id}
+          <TextField
+            label="English Description"
+            name="english_description"
+            value={data.english_description}
             onChange={handleChange}
             required
-          >
-            {filteredChildCategories.map((childCategory) => (
-              <MenuItem key={childCategory.id} value={childCategory.id}>
-                {childCategory.name}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
+          />
 
-        <TextField
-          placeholder="Price"
-          name="price"
-          type="number"
-          value={data.price}
-          onChange={handleChange}
-        />
+          <TextField
+            label="Arabic Description"
+            name="arabic_description"
+            value={data.arabic_description}
+            onChange={handleChange}
+            required
+          />
 
-        <TextField
-          placeholder="Offer Price"
-          name="offer_price"
-          type="number"
-          value={data.offer_price}
-          onChange={handleChange}
-        />
+          <FormControl>
+            <InputLabel id="category-label">Category</InputLabel>
+            <Select
+              labelId="category-label"
+              label="Category"
+              name="product_category_id"
+              value={data.product_category_id}
+              onChange={handleChange}
+              required
+            >
+              {categories.map((category) => (
+                <MenuItem key={category.id} value={category.id}>
+                  {category.name}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
 
-        <TextField
-          placeholder="Stock Quantity"
-          name="stock_quantity"
-          type="number"
-          value={data.stock_quantity}
-          onChange={handleChange}
-        />
+          <FormControl>
+            <InputLabel id="sub-category-label">SubCategory Category</InputLabel>
+            <Select
+              labelId="sub-category-label"
+              label="SubCategory Category"
+              name="product_sub_category_id"
+              value={data.product_sub_category_id}
+              onChange={handleChange}
+              required
+            >
+              {filteredSubCategories.map((childCategory) => (
+                <MenuItem key={childCategory.id} value={childCategory.id}>
+                  {childCategory.name}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
 
-        <TextField
-          placeholder="Short Description"
-          name="short_description"
-          value={data.short_description}
-          onChange={handleChange}
-          required
-        />
+          <TextField
+            label="Price"
+            name="price"
+            type="number"
+            value={data.price}
+            onChange={handleChange}
+          />
 
-        <TextField
-          placeholder="Long Description<"
-          name="long_description"
-          value={data.long_description}
-          onChange={handleChange}
-          required
-        />
+          <TextField
+            label="Discount"
+            name="discount"
+            type="number"
+            value={data.discount}
+            onChange={handleChange}
+          />
 
-        <TextField
-          placeholder="SEO Title<"
-          name="seo_title"
-          value={data.seo_title}
-          onChange={handleChange}
-        />
+          <TextField
+            label="Variation Price From"
+            name="variation_price_from"
+            type="number"
+            value={data.variation_price_from}
+            onChange={handleChange}
+          />
 
-        <TextField
-          placeholder="SEO Description"
-          name="seo_description"
-          value={data.seo_description}
-          onChange={handleChange}
-        />
+          <TextField
+            label="Variation Price To"
+            name="variation_price_to"
+            type="number"
+            value={data.variation_price_to}
+            onChange={handleChange}
+          />
 
+          <TextField
+            label="Stock Quantity"
+            name="stock_quantity"
+            type="number"
+            value={data.stock_quantity}
+            onChange={handleChange}
+          />
+        </div>
         <LoadingButton
           style={{ marginTop: '15px' }}
           loading={updateIsLoading || postIsLoading}
