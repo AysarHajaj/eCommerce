@@ -73,7 +73,6 @@ const postVendor = (data) =>
     headers: { 'Content-Type': 'multipart/form-data' },
   });
 
-const getProducts = () => api.get('/products');
 const getVendorProducts = (id) => api.get(`/products/vendor/${id}`);
 const changeProductStatus = (id) => api.post(`/products/${id}/change_status`);
 const getProductById = (id) => api.get(`/products/${id}`);
@@ -120,7 +119,6 @@ const apis = {
   getVendorById,
   updateVendor,
   postVendor,
-  getProducts,
   getVendorProducts,
   getProductById,
   deleteProduct,

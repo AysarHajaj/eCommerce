@@ -35,15 +35,6 @@ const initialState = {
   },
 };
 
-export const getProducts = createAsyncThunk(
-  constants.ACTION_TYPES.product.get_list,
-  (_, { rejectWithValue }) =>
-    api
-      .getProducts()
-      .then((response) => response.data)
-      .catch((error) => rejectWithValue(error?.response?.data)),
-);
-
 export const getVendorProducts = createAsyncThunk(
   constants.ACTION_TYPES.product.get_vendor,
   (id, { rejectWithValue }) =>
@@ -104,20 +95,6 @@ export const productSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      // get products case
-      .addCase(getProducts.pending, (state) => {
-        state.get.isLoading = true;
-        state.get.error = null;
-      })
-      .addCase(getProducts.fulfilled, (state, action) => {
-        state.get.isLoading = false;
-        state.get.data = action.payload.result;
-      })
-      .addCase(getProducts.rejected, (state, action) => {
-        state.get.isLoading = false;
-        state.get.error = action.payload;
-      })
-
       // get vendor products case
       .addCase(getVendorProducts.pending, (state) => {
         state.get.isLoading = true;

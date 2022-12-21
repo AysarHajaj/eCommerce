@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 
 const AuthContext = createContext({});
 
-// eslint-disable-next-line no-unused-vars
 const getUserData = () => {
   const token = localStorage.getItem('token');
   const user = localStorage.getItem('user');
@@ -15,7 +14,7 @@ const getUserData = () => {
 };
 
 export function AuthProvider({ children }) {
-  const [auth, setAuth] = useState({ accessToken: undefined, user: undefined });
+  const [auth, setAuth] = useState(getUserData);
 
   const providerValue = useMemo(() => ({ auth, setAuth }), [auth, setAuth]);
 

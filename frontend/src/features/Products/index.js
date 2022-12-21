@@ -9,27 +9,24 @@ import AddIcon from '@mui/icons-material/Add';
 import { useNavigate } from 'react-router-dom';
 import Avatar from '@mui/material/Avatar';
 import {
-  getProducts,
   getVendorProducts,
   selectGetProducts,
   deleteProduct,
   changeProductStatus,
 } from './productSlice';
 import SwitchButton from '../../components/SwitchButton';
-import constant from '../../constant';
 import useAuth from '../../hooks/useAuth';
 import ROUTES from '../../routes/routesPath';
 
 function Products() {
   const {
     auth: {
-      user: { type: userType, id: userId },
+      user: { id: userId },
     },
   } = useAuth();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { data } = useSelector(selectGetProducts);
-  const isVendor = userType === constant.USER_ROLES.VENDOR;
 
   const handleDelete = useCallback(
     (id) => {
@@ -87,7 +84,7 @@ function Products() {
   );
 
   useEffect(() => {
-    dispatch(!isVendor ? getProducts() : getVendorProducts(userId));
+    dispatch(getVendorProducts(userId));
   }, []);
 
   return (
