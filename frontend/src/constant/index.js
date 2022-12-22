@@ -75,6 +75,14 @@ const constants = {
       delete: 'DELETE/DISTRICT',
       get_list: 'GET/DISTRICT/LIST',
     },
+    currency: {
+      get: 'GET/CURRENCY',
+      post: 'POST/CURRENCY',
+      put: 'PUT/CURRENCY',
+      change_status: 'PUT/CURRENCY/STATUS',
+      delete: 'DELETE/CURRENCY',
+      get_list: 'GET/CURRENCY/LIST',
+    },
   },
 };
 

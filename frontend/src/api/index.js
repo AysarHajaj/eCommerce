@@ -107,6 +107,13 @@ const deleteDistrict = (id) => api.delete(`/districts/${id}`);
 const updateDistrict = (id, data) => api.put(`/districts/${id}`, data);
 const postDistrict = (data) => api.post(`/districts`, data);
 
+const getCurrencies = () => api.get(`/currencies`);
+const changeCurrencyStatus = (id) => api.post(`/currencies/${id}/change_status`);
+const getCurrencyById = (id) => api.get(`/currencies/${id}`);
+const deleteCurrency = (id) => api.delete(`/currencies/${id}`);
+const updateCurrency = (id, data) => api.put(`/currencies/${id}`, data);
+const postCurrency = (data) => api.post(`/currencies`, data);
+
 const apis = {
   getProductCategories,
   deleteProductCategory,
@@ -157,6 +164,13 @@ const apis = {
   deleteDistrict,
   updateDistrict,
   postDistrict,
+
+  getCurrencies,
+  changeCurrencyStatus,
+  getCurrencyById,
+  deleteCurrency,
+  updateCurrency,
+  postCurrency,
 };
 
 export default apis;

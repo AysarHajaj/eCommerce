@@ -79,6 +79,16 @@ const paths = {
     path: '/district/edit/:id',
     dynamicPath: (id) => `/district/edit/${id}`,
   },
+  CURRENCIES: {
+    path: '/currencies',
+  },
+  CREATE_CURRENCY: {
+    path: '/currency/create',
+  },
+  EDIT_CURRENCY: {
+    path: '/currency/edit/:id',
+    dynamicPath: (id) => `/currency/edit/${id}`,
+  },
 };
 
 export default paths;

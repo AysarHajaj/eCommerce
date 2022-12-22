@@ -8,6 +8,7 @@ import productReducer from '../features/Products/productSlice';
 import shopReducer from '../features/Shops/shopSlice';
 import cityReducer from '../features/Cities/citySlice';
 import districtReducer from '../features/Districts/districtSlice';
+import currencyReducer from '../features/Currencies/currencySlice';
 
 export const store = configureStore({
   reducer: {
@@ -20,5 +21,6 @@ export const store = configureStore({
     shop: shopReducer,
     city: cityReducer,
     district: districtReducer,
+    currency: currencyReducer,
   },
 });

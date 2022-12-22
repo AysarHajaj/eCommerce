@@ -89,6 +89,13 @@ const config = {
         },
       ],
     },
+    {
+      id: 13,
+      label: ROUTES.CURRENCIES.label,
+      to: ROUTES.CURRENCIES.path,
+      icon: <StoreIcon />,
+      allowedRoles: ROUTES.CURRENCIES.allowedRoles,
+    },
   ],
 };
 

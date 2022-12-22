@@ -151,6 +151,25 @@ const config = {
     allowedRoles: [USER_ROLES.ADMIN],
     Element: React.lazy(() => import('../features/Districts/components/Form')),
   },
+  CURRENCIES: {
+    path: routesPath.CURRENCIES.path,
+    label: 'Currencies',
+    allowedRoles: [USER_ROLES.ADMIN],
+    Element: React.lazy(() => import('../features/Currencies')),
+  },
+  CREATE_CURRENCY: {
+    path: routesPath.CREATE_CURRENCY.path,
+    label: 'Create Currency',
+    allowedRoles: [USER_ROLES.ADMIN],
+    Element: React.lazy(() => import('../features/Currencies/components/Form')),
+  },
+  EDIT_CURRENCY: {
+    path: routesPath.EDIT_CURRENCY.path,
+    label: 'Edit Currency',
+    dynamicPath: routesPath.EDIT_CURRENCY.dynamicPath,
+    allowedRoles: [USER_ROLES.ADMIN],
+    Element: React.lazy(() => import('../features/Currencies/components/Form')),
+  },
   UNAUTHORIZED: {
     path: routesPath.UNAUTHORIZED.path,
     label: 'Unauthorized',
