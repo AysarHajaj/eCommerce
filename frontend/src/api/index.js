@@ -43,7 +43,7 @@ const postProductCategory = (data) =>
   api.post(`/product-categories`, data, {
     headers: { 'Content-Type': 'multipart/form-data' },
   });
-const changeProductCategoryStatus = (id) => api.post(`/product-categorie/${id}/change_status`);
+const changeProductCategoryStatus = (id) => api.post(`/product-categories/${id}/change_status`);
 
 const getProductSubCategories = () => api.get('/product-sub-categories');
 const deleteProductSubCategory = (id) => api.delete(`/product-sub-categories/${id}`);
