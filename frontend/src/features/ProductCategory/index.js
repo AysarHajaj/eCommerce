@@ -22,13 +22,19 @@ function Category() {
   const dispatch = useDispatch();
   const { data } = useSelector(selectGetCategories);
 
-  const handleDelete = useCallback((id) => {
-    dispatch(deleteCategory(id));
-  });
+  const handleDelete = useCallback(
+    (id) => {
+      dispatch(deleteCategory(id));
+    },
+    [dispatch],
+  );
 
-  const changeStatus = useCallback((id) => {
-    dispatch(changeCategoryStatus(id));
-  });
+  const changeStatus = useCallback(
+    (id) => {
+      dispatch(changeCategoryStatus(id));
+    },
+    [dispatch],
+  );
 
   const columns = useMemo(
     () => [
@@ -57,7 +63,9 @@ function Category() {
         width: 100,
         renderCell: (params) => (
           <React.Fragment>
-            <IconButton onClick={() => navigate(`/category/edit/${params.row.id}`)}>
+            <IconButton
+              onClick={() => navigate(ROUTES.EDIT_PRODUCT_CATEGORY.dynamicPath(params.row.id))}
+            >
               <EditIcon />
             </IconButton>
             <IconButton onClick={() => handleDelete(params.row.id)}>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useNavigate } from 'react-router-dom';
-import { TextField, OutlinedInput, FormControl } from '@mui/material';
+import TextField from '@mui/material/TextField';
 import { LoadingButton } from '@mui/lab';
 import {
   getCategoryById,
@@ -11,6 +11,8 @@ import {
   postCategory,
   selectPostCategory,
 } from '../../categorySlice';
+import ImageUploader from '../../../../components/ImageUploader';
+import ROUTES from '../../../../routes/routesPath';
 
 function Form() {
   const { id } = useParams();
@@ -25,10 +27,19 @@ function Form() {
     id,
     name: '',
     image: undefined,
+    user_id: id,
   });
 
+  const imageURL = useMemo(() => {
+    if (!data.image) return undefined;
+    if (typeof data.image === 'object') {
+      return URL.createObjectURL(data.image);
+    }
+    return data.image;
+  }, [data.image]);
+
   const enableSave = useMemo(() => {
-    let result = true;
+    let result = !!data.name;
     if (isEdit && initialData.name === data.name && data.image === undefined) {
       result = false;
     } else if (!isEdit && data.name === '' && data.image === undefined) {
@@ -45,7 +56,8 @@ function Form() {
     }
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
     let result;
     if (isEdit) {
       result = dispatch(
@@ -60,7 +72,7 @@ function Form() {
 
     result.then(({ meta }) => {
       if (meta.requestStatus === 'fulfilled') {
-        navigate('/category');
+        navigate(ROUTES.PRODUCT_CATEGORY.path);
       }
     });
   };
@@ -68,31 +80,55 @@ function Form() {
   useEffect(() => {
     if (isEdit) {
       dispatch(getCategoryById(id)).then(({ payload }) => {
-        setData({ ...payload.data, image: undefined });
+        setData({ ...payload.result, image: undefined });
       });
     }
   }, []);
 
   return (
-    <form>
-      <TextField
-        id="name"
-        placeholder="Name"
-        value={data.name}
-        onChange={(e) => setData({ ...data, name: e.target.value })}
+    <form
+      style={{
+        maxWidth: '480px',
+        margin: '100px auto',
+        boxShadow: '0px 4px 8px rgb(0,0,0, .09)',
+        border: '1px solid rgb(0,0,0, .08',
+        borderRadius: '10px',
+        padding: '10px 15px',
+      }}
+      onSubmit={handleSubmit}
+    >
+      <ImageUploader
+        src={imageURL}
+        name="image"
+        label="Choose Category Image"
+        onChange={handleChangeImage}
+        style={{ display: 'flex', maxWidth: '400px' }}
       />
 
-      <FormControl style={{ marginTop: '15px' }}>
-        <OutlinedInput id="image" type="file" label="Image" onChange={handleChangeImage} />
-      </FormControl>
-      <LoadingButton
-        style={{ marginTop: '15px' }}
-        loading={updateIsLoading || postIsLoading}
-        onClick={handleSubmit}
-        disabled={!enableSave}
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          marginTop: '15px',
+          maxWidth: '400px',
+        }}
       >
-        {isEdit ? 'Update' : 'Save'}
-      </LoadingButton>
+        <TextField
+          id="name"
+          placeholder="Name"
+          value={data.name}
+          onChange={(e) => setData({ ...data, name: e.target.value })}
+        />
+
+        <LoadingButton
+          loading={updateIsLoading || postIsLoading}
+          disabled={!enableSave}
+          type="submit"
+        >
+          {isEdit ? 'Update' : 'Save'}
+        </LoadingButton>
+      </div>
     </form>
   );
 }

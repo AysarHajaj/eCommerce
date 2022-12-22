@@ -70,7 +70,7 @@ function Products() {
         width: 100,
         renderCell: (params) => (
           <React.Fragment>
-            <IconButton onClick={() => navigate(`/product/edit/${params.row.id}`)}>
+            <IconButton onClick={() => navigate(ROUTES.EDIT_PRODUCT.dynamicPath(params.row.id))}>
               <EditIcon />
             </IconButton>
             <IconButton onClick={() => handleDelete(params.row.id)}>
