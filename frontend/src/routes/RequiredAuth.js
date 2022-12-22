@@ -7,7 +7,7 @@ import ROUTES from './routesConfig';
 function RequireAuth({ allowedRoles }) {
   const { auth } = useAuth();
   const location = useLocation();
-
+  console.log(auth);
   if (!auth?.user || !auth.accessToken)
     return <Navigate to="/" state={{ from: location }} replace />;
 

@@ -22,16 +22,6 @@ const paths = {
     path: '/product_sub_category/edit/:id',
     dynamicPath: (id) => `/product_sub_category/edit/${id}`,
   },
-  CHILD_CATEGORY: {
-    path: '/child_category',
-  },
-  CREATE_CHILD_CATEGORY: {
-    path: '/child_category/create',
-  },
-  EDIT_CHILD_CATEGORY: {
-    path: '/child_category/edit/:id',
-    dynamicPath: (id) => `/child_category/edit/${id}`,
-  },
   UNAUTHORIZED: {
     path: '/unauthorized',
   },
@@ -58,6 +48,16 @@ const paths = {
   EDIT_SHOP_SETTINGS: {
     path: '/shop/edit/:id',
     dynamicPath: (id) => `/shop/edit/${id}`,
+  },
+  SHOP_CATEGORY: {
+    path: '/shop/category',
+  },
+  CREATE_SHOP_CATEGORY: {
+    path: '/shop/category/create',
+  },
+  EDIT_SHOP_CATEGORY: {
+    path: '/shop/category/edit/:id',
+    dynamicPath: (id) => `/shop/category/edit/${id}`,
   },
 };
 

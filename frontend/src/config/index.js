@@ -1,6 +1,8 @@
 import React from 'react';
 import HomeIcon from '@mui/icons-material/Home';
 import WindowIcon from '@mui/icons-material/Window';
+import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
+import CategoryIcon from '@mui/icons-material/Category';
 import StoreIcon from '@mui/icons-material/Store';
 import ROUTES from '../routes/routesConfig';
 
@@ -17,7 +19,7 @@ const config = {
       id: 2,
       label: 'Manage Categories',
       to: '',
-      icon: <WindowIcon />,
+      icon: <CategoryIcon />,
       allowedRoles: ROUTES.PRODUCT_CATEGORY.allowedRoles,
       sub_items: [
         {
@@ -31,12 +33,6 @@ const config = {
           label: ROUTES.PRODUCT_SUB_CATEGORY.label,
           to: ROUTES.PRODUCT_SUB_CATEGORY.path,
           allowedRoles: ROUTES.PRODUCT_SUB_CATEGORY.allowedRoles,
-        },
-        {
-          id: 5,
-          label: ROUTES.CHILD_CATEGORY.label,
-          to: ROUTES.CHILD_CATEGORY.path,
-          allowedRoles: ROUTES.CHILD_CATEGORY.allowedRoles,
         },
       ],
     },
@@ -67,6 +63,13 @@ const config = {
       to: ROUTES.VENDORS.path,
       icon: <StoreIcon />,
       allowedRoles: ROUTES.VENDORS.allowedRoles,
+    },
+    {
+      id: 14,
+      label: ROUTES.SHOP_CATEGORY.label,
+      to: ROUTES.SHOP_CATEGORY.path,
+      icon: <ShoppingBasketIcon />,
+      allowedRoles: ROUTES.SHOP_CATEGORY.allowedRoles,
     },
   ],
 };

@@ -39,13 +39,13 @@ const constants = {
       delete: 'DELETE/PRODUCT/SUB_CATEGORY',
       get_list: 'GET/PRODUCT/SUB_CATEGORY/LIST',
     },
-    child_category: {
-      get: 'GET/CHILD_CATEGORY',
-      post: 'POST/CHILD_CATEGORY',
-      put: 'PUT/CHILD_CATEGORY',
-      delete: 'DELETE/CHILD_CATEGORY',
-      change_status: 'PUT/CHILD_CATEGORY/STATUS',
-      get_list: 'GET/CHILD_CATEGORY/LIST',
+    shop_category: {
+      get: 'GET/SHOP_CATEGORY',
+      post: 'POST/SHOP_CATEGORY',
+      put: 'PUT/SHOP_CATEGORY',
+      delete: 'DELETE/SHOP_CATEGORY',
+      change_status: 'PUT/SHOP_CATEGORY/STATUS',
+      get_list: 'GET/SHOP_CATEGORY/LIST',
     },
     vendor: {
       get: 'GET/VENDOR',

@@ -49,25 +49,6 @@ const config = {
     allowedRoles: [USER_ROLES.VENDOR],
     Element: React.lazy(() => import('../features/ProductSubCategory/components/Form')),
   },
-  CHILD_CATEGORY: {
-    path: routesPath.CHILD_CATEGORY.path,
-    label: 'Child Categories',
-    allowedRoles: [USER_ROLES.ADMIN],
-    Element: React.lazy(() => import('../features/ChildCategory')),
-  },
-  CREATE_CHILD_CATEGORY: {
-    path: routesPath.CREATE_CHILD_CATEGORY.path,
-    label: 'Create Child Category',
-    allowedRoles: [USER_ROLES.ADMIN],
-    Element: React.lazy(() => import('../features/ChildCategory/components/Form')),
-  },
-  EDIT_CHILD_CATEGORY: {
-    path: routesPath.EDIT_CHILD_CATEGORY.path,
-    label: 'Edit Child Category',
-    dynamicPath: routesPath.EDIT_CHILD_CATEGORY.dynamicPath,
-    allowedRoles: [USER_ROLES.ADMIN],
-    Element: React.lazy(() => import('../features/ChildCategory/components/Form')),
-  },
   PRODUCTS: {
     path: routesPath.PRODUCTS.path,
     label: 'Products',
@@ -106,6 +87,27 @@ const config = {
     allowedRoles: [USER_ROLES.ADMIN],
     Element: React.lazy(() => import('../features/Vendor/components/Form')),
   },
+
+  SHOP_CATEGORY: {
+    path: routesPath.SHOP_CATEGORY.path,
+    label: 'Shop Category',
+    allowedRoles: [USER_ROLES.ADMIN],
+    Element: React.lazy(() => import('../features/ShopCategory')),
+  },
+  CREATE_SHOP_CATEGORY: {
+    path: routesPath.CREATE_SHOP_CATEGORY.path,
+    label: 'Create Shop Category',
+    allowedRoles: [USER_ROLES.ADMIN],
+    Element: React.lazy(() => import('../features/ShopCategory/components/Form')),
+  },
+  EDIT_SHOP_CATEGORY: {
+    path: routesPath.EDIT_SHOP_CATEGORY.path,
+    label: 'Edit Shop Category',
+    dynamicPath: routesPath.EDIT_SHOP_CATEGORY.dynamicPath,
+    allowedRoles: [USER_ROLES.ADMIN],
+    Element: React.lazy(() => import('../features/ShopCategory/components/Form')),
+  },
+
   EDIT_SHOP_SETTINGS: {
     path: routesPath.EDIT_SHOP_SETTINGS.path,
     label: 'Edit Shop Settings',
