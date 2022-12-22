@@ -59,6 +59,36 @@ const paths = {
     path: '/shop/edit/:id',
     dynamicPath: (id) => `/shop/edit/${id}`,
   },
+  CITIES: {
+    path: '/cities',
+  },
+  CREATE_CITY: {
+    path: '/city/create',
+  },
+  EDIT_CITY: {
+    path: '/city/edit/:id',
+    dynamicPath: (id) => `/city/edit/${id}`,
+  },
+  DISTRICTS: {
+    path: '/districts',
+  },
+  CREATE_DISTRICT: {
+    path: '/district/create',
+  },
+  EDIT_DISTRICT: {
+    path: '/district/edit/:id',
+    dynamicPath: (id) => `/district/edit/${id}`,
+  },
+  CURRENCIES: {
+    path: '/currencies',
+  },
+  CREATE_CURRENCY: {
+    path: '/currency/create',
+  },
+  EDIT_CURRENCY: {
+    path: '/currency/edit/:id',
+    dynamicPath: (id) => `/currency/edit/${id}`,
+  },
 };
 
 export default paths;

@@ -59,6 +59,30 @@ const constants = {
       put: 'PUT/SHOP',
       get: 'GET/SHOP',
     },
+    city: {
+      get: 'GET/CITY',
+      post: 'POST/CITY',
+      put: 'PUT/CITY',
+      change_status: 'PUT/CITY/STATUS',
+      delete: 'DELETE/CITY',
+      get_list: 'GET/CITY/LIST',
+    },
+    district: {
+      get: 'GET/DISTRICT',
+      post: 'POST/DISTRICT',
+      put: 'PUT/DISTRICT',
+      change_status: 'PUT/DISTRICT/STATUS',
+      delete: 'DELETE/DISTRICT',
+      get_list: 'GET/DISTRICT/LIST',
+    },
+    currency: {
+      get: 'GET/CURRENCY',
+      post: 'POST/CURRENCY',
+      put: 'PUT/CURRENCY',
+      change_status: 'PUT/CURRENCY/STATUS',
+      delete: 'DELETE/CURRENCY',
+      get_list: 'GET/CURRENCY/LIST',
+    },
   },
 };
 

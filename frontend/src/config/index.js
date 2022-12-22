@@ -68,6 +68,34 @@ const config = {
       icon: <StoreIcon />,
       allowedRoles: ROUTES.VENDORS.allowedRoles,
     },
+    {
+      id: 10,
+      label: 'Location',
+      to: '',
+      icon: <WindowIcon />,
+      allowedRoles: ROUTES.CITIES.allowedRoles,
+      sub_items: [
+        {
+          id: 11,
+          label: ROUTES.CITIES.label,
+          to: ROUTES.CITIES.path,
+          allowedRoles: ROUTES.CITIES.allowedRoles,
+        },
+        {
+          id: 12,
+          label: ROUTES.DISTRICTS.label,
+          to: ROUTES.DISTRICTS.path,
+          allowedRoles: ROUTES.DISTRICTS.allowedRoles,
+        },
+      ],
+    },
+    {
+      id: 13,
+      label: ROUTES.CURRENCIES.label,
+      to: ROUTES.CURRENCIES.path,
+      icon: <StoreIcon />,
+      allowedRoles: ROUTES.CURRENCIES.allowedRoles,
+    },
   ],
 };
 

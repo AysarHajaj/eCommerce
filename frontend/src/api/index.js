@@ -93,6 +93,27 @@ const updateShop = (id, data) =>
     headers: { 'Content-Type': 'multipart/form-data' },
   });
 
+const getCities = () => api.get(`/cities`);
+const changeCityStatus = (id) => api.post(`/cities/${id}/change_status`);
+const getCityById = (id) => api.get(`/cities/${id}`);
+const deleteCity = (id) => api.delete(`/cities/${id}`);
+const updateCity = (id, data) => api.put(`/cities/${id}`, data);
+const postCity = (data) => api.post(`/cities`, data);
+
+const getDistricts = () => api.get(`/districts`);
+const changeDistrictStatus = (id) => api.post(`/districts/${id}/change_status`);
+const getDistrictById = (id) => api.get(`/districts/${id}`);
+const deleteDistrict = (id) => api.delete(`/districts/${id}`);
+const updateDistrict = (id, data) => api.put(`/districts/${id}`, data);
+const postDistrict = (data) => api.post(`/districts`, data);
+
+const getCurrencies = () => api.get(`/currencies`);
+const changeCurrencyStatus = (id) => api.post(`/currencies/${id}/change_status`);
+const getCurrencyById = (id) => api.get(`/currencies/${id}`);
+const deleteCurrency = (id) => api.delete(`/currencies/${id}`);
+const updateCurrency = (id, data) => api.put(`/currencies/${id}`, data);
+const postCurrency = (data) => api.post(`/currencies`, data);
+
 const apis = {
   getProductCategories,
   deleteProductCategory,
@@ -129,6 +150,27 @@ const apis = {
   postProduct,
   getShopByVendorId,
   updateShop,
+
+  getCities,
+  changeCityStatus,
+  getCityById,
+  deleteCity,
+  updateCity,
+  postCity,
+
+  getDistricts,
+  changeDistrictStatus,
+  getDistrictById,
+  deleteDistrict,
+  updateDistrict,
+  postDistrict,
+
+  getCurrencies,
+  changeCurrencyStatus,
+  getCurrencyById,
+  deleteCurrency,
+  updateCurrency,
+  postCurrency,
 };
 
 export default apis;
