@@ -15,6 +15,7 @@ import ImageUploader from '../../../../components/ImageUploader';
 import formUtils from './formUtils';
 import ROUTES from '../../../../routes/routesPath';
 import './style.scss';
+import Map from '../../../../components/Map';
 
 function Form() {
   const { id } = useParams();
@@ -34,6 +35,14 @@ function Form() {
     }
     return enable;
   }, [data, initialValidData]);
+
+  const mapPosition = useMemo(() => {
+    const result = data.map_location.split(',');
+    if (result.length === 2 && !isNaN(result[0]) && !isNaN(result[1])) {
+      return { lat: +result[0], lng: +result[1] };
+    }
+    return null;
+  }, [data.map_location]);
 
   const imageURL = useMemo(() => {
     if (!data.image) return undefined;
@@ -55,6 +64,10 @@ function Form() {
   const handleChange = (e) => {
     const property = e.target.name;
     setData({ ...data, [property]: e.target.value });
+  };
+
+  const handleChangeLocation = (position) => {
+    setData({ ...data, map_location: `${position.lat},${position.lng}` });
   };
 
   const handleSubmit = (e) => {
@@ -86,7 +99,13 @@ function Form() {
         <FormHelperText error={!!putError}>{putError}</FormHelperText>
 
         <div className="form-header">
-          <ImageUploader src={imageURL} label="Choose shop image" onChange={handleChangeImage} />
+          <ImageUploader
+            name="image"
+            src={imageURL}
+            label="Choose shop image"
+            onChange={handleChangeImage}
+          />
+          <Map zoom={17} position={mapPosition} onChange={handleChangeLocation} />
         </div>
 
         <div className="form-content">
