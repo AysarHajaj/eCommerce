@@ -45,7 +45,7 @@ const config = {
       label: 'Manage Products',
       to: '',
       icon: <WindowIcon />,
-      roles: ROUTES.PRODUCTS.allowedRoles,
+      allowedRoles: ROUTES.PRODUCTS.allowedRoles,
       sub_items: [
         {
           id: 7,

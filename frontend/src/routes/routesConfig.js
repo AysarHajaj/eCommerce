@@ -71,20 +71,20 @@ const config = {
   PRODUCTS: {
     path: routesPath.PRODUCTS.path,
     label: 'Products',
-    allowedRoles: [USER_ROLES.ADMIN, USER_ROLES.VENDOR],
+    allowedRoles: [USER_ROLES.VENDOR],
     Element: React.lazy(() => import('../features/Products')),
   },
   CREATE_PRODUCT: {
     path: routesPath.CREATE_PRODUCT.path,
     label: 'Create Product',
-    allowedRoles: [USER_ROLES.ADMIN, USER_ROLES.VENDOR],
+    allowedRoles: [USER_ROLES.VENDOR],
     Element: React.lazy(() => import('../features/Products/components/Form')),
   },
   EDIT_PRODUCT: {
     path: routesPath.EDIT_PRODUCT.path,
     label: 'Edit Product',
     dynamicPath: routesPath.EDIT_PRODUCT.dynamicPath,
-    allowedRoles: [USER_ROLES.ADMIN, USER_ROLES.VENDOR],
+    allowedRoles: [USER_ROLES.VENDOR],
     Element: React.lazy(() => import('../features/Products/components/Form')),
   },
   VENDORS: {
