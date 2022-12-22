@@ -67,6 +67,14 @@ const constants = {
       delete: 'DELETE/CITY',
       get_list: 'GET/CITY/LIST',
     },
+    district: {
+      get: 'GET/DISTRICT',
+      post: 'POST/DISTRICT',
+      put: 'PUT/DISTRICT',
+      change_status: 'PUT/DISTRICT/STATUS',
+      delete: 'DELETE/DISTRICT',
+      get_list: 'GET/DISTRICT/LIST',
+    },
   },
 };
 

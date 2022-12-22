@@ -132,6 +132,25 @@ const config = {
     allowedRoles: [USER_ROLES.ADMIN],
     Element: React.lazy(() => import('../features/Cities/components/Form')),
   },
+  DISTRICTS: {
+    path: routesPath.DISTRICTS.path,
+    label: 'Districts',
+    allowedRoles: [USER_ROLES.ADMIN],
+    Element: React.lazy(() => import('../features/Districts')),
+  },
+  CREATE_DISTRICT: {
+    path: routesPath.CREATE_DISTRICT.path,
+    label: 'Create District',
+    allowedRoles: [USER_ROLES.ADMIN],
+    Element: React.lazy(() => import('../features/Districts/components/Form')),
+  },
+  EDIT_DISTRICT: {
+    path: routesPath.EDIT_DISTRICT.path,
+    label: 'Edit District',
+    dynamicPath: routesPath.EDIT_DISTRICT.dynamicPath,
+    allowedRoles: [USER_ROLES.ADMIN],
+    Element: React.lazy(() => import('../features/Districts/components/Form')),
+  },
   UNAUTHORIZED: {
     path: routesPath.UNAUTHORIZED.path,
     label: 'Unauthorized',

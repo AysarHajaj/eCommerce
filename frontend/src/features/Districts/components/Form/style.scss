@@ -1,0 +1,15 @@
+.create-district-container {
+  .create-district-form {
+    padding: 10px;
+    background-color: #fff;
+    border-radius: 10px;
+    margin-top: 15px;
+
+    .MuiLoadingButton-root {
+      display: block;
+      width: 100px;
+      margin-top: 10px;
+      margin-left: auto;
+    }
+  }
+}

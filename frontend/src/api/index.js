@@ -100,6 +100,13 @@ const deleteCity = (id) => api.delete(`/cities/${id}`);
 const updateCity = (id, data) => api.put(`/cities/${id}`, data);
 const postCity = (data) => api.post(`/cities`, data);
 
+const getDistricts = () => api.get(`/districts`);
+const changeDistrictStatus = (id) => api.post(`/districts/${id}/change_status`);
+const getDistrictById = (id) => api.get(`/districts/${id}`);
+const deleteDistrict = (id) => api.delete(`/districts/${id}`);
+const updateDistrict = (id, data) => api.put(`/districts/${id}`, data);
+const postDistrict = (data) => api.post(`/districts`, data);
+
 const apis = {
   getProductCategories,
   deleteProductCategory,
@@ -143,6 +150,13 @@ const apis = {
   deleteCity,
   updateCity,
   postCity,
+
+  getDistricts,
+  changeDistrictStatus,
+  getDistrictById,
+  deleteDistrict,
+  updateDistrict,
+  postDistrict,
 };
 
 export default apis;

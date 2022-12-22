@@ -81,6 +81,12 @@ const config = {
           to: ROUTES.CITIES.path,
           allowedRoles: ROUTES.CITIES.allowedRoles,
         },
+        {
+          id: 12,
+          label: ROUTES.DISTRICTS.label,
+          to: ROUTES.DISTRICTS.path,
+          allowedRoles: ROUTES.DISTRICTS.allowedRoles,
+        },
       ],
     },
   ],
