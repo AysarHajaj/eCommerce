@@ -106,6 +106,13 @@ function Form() {
             onChange={handleChangeImage}
           />
           <Map zoom={17} position={mapPosition} onChange={handleChangeLocation} />
+          <TextField
+            placeholder="Location (lat,lng)"
+            name="map_location"
+            value={data.map_location}
+            onChange={handleChange}
+            style={{ alignSelf: 'center' }}
+          />
         </div>
 
         <div className="form-content">
@@ -139,13 +146,6 @@ function Form() {
             value={data.description}
             onChange={handleChange}
             required
-          />
-
-          <TextField
-            placeholder="Location"
-            name="map_location"
-            value={data.map_location}
-            onChange={handleChange}
           />
 
           <TextField
