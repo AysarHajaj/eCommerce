@@ -59,6 +59,14 @@ const constants = {
       put: 'PUT/SHOP',
       get: 'GET/SHOP',
     },
+    city: {
+      get: 'GET/CITY',
+      post: 'POST/CITY',
+      put: 'PUT/CITY',
+      change_status: 'PUT/CITY/STATUS',
+      delete: 'DELETE/CITY',
+      get_list: 'GET/CITY/LIST',
+    },
   },
 };
 

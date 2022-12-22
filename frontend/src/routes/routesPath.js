@@ -59,6 +59,16 @@ const paths = {
     path: '/shop/edit/:id',
     dynamicPath: (id) => `/shop/edit/${id}`,
   },
+  CITIES: {
+    path: '/cities',
+  },
+  CREATE_CITY: {
+    path: '/city/create',
+  },
+  EDIT_CITY: {
+    path: '/city/edit/:id',
+    dynamicPath: (id) => `/city/edit/${id}`,
+  },
 };
 
 export default paths;

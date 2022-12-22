@@ -113,6 +113,25 @@ const config = {
     allowedRoles: [USER_ROLES.VENDOR],
     Element: React.lazy(() => import('../features/Shops/components/Form')),
   },
+  CITIES: {
+    path: routesPath.CITIES.path,
+    label: 'Cities',
+    allowedRoles: [USER_ROLES.ADMIN],
+    Element: React.lazy(() => import('../features/Cities')),
+  },
+  CREATE_CITY: {
+    path: routesPath.CREATE_CITY.path,
+    label: 'Create City',
+    allowedRoles: [USER_ROLES.ADMIN],
+    Element: React.lazy(() => import('../features/Cities/components/Form')),
+  },
+  EDIT_CITY: {
+    path: routesPath.EDIT_CITY.path,
+    label: 'Edit City',
+    dynamicPath: routesPath.EDIT_CITY.dynamicPath,
+    allowedRoles: [USER_ROLES.ADMIN],
+    Element: React.lazy(() => import('../features/Cities/components/Form')),
+  },
   UNAUTHORIZED: {
     path: routesPath.UNAUTHORIZED.path,
     label: 'Unauthorized',

@@ -93,6 +93,13 @@ const updateShop = (id, data) =>
     headers: { 'Content-Type': 'multipart/form-data' },
   });
 
+const getCities = () => api.get(`/cities`);
+const changeCityStatus = (id) => api.post(`/cities/${id}/change_status`);
+const getCityById = (id) => api.get(`/cities/${id}`);
+const deleteCity = (id) => api.delete(`/cities/${id}`);
+const updateCity = (id, data) => api.put(`/cities/${id}`, data);
+const postCity = (data) => api.post(`/cities`, data);
+
 const apis = {
   getProductCategories,
   deleteProductCategory,
@@ -129,6 +136,13 @@ const apis = {
   postProduct,
   getShopByVendorId,
   updateShop,
+
+  getCities,
+  changeCityStatus,
+  getCityById,
+  deleteCity,
+  updateCity,
+  postCity,
 };
 
 export default apis;

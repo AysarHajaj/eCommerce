@@ -6,6 +6,7 @@ import loginReducer from '../features/Login/loginSlice';
 import vendorReducer from '../features/Vendor/vendorSlice';
 import productReducer from '../features/Products/productSlice';
 import shopReducer from '../features/Shops/shopSlice';
+import cityReducer from '../features/Cities/citySlice';
 
 export const store = configureStore({
   reducer: {
@@ -16,5 +17,6 @@ export const store = configureStore({
     vendor: vendorReducer,
     product: productReducer,
     shop: shopReducer,
+    city: cityReducer,
   },
 });
