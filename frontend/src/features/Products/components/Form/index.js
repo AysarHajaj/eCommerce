@@ -5,6 +5,9 @@ import AddIcon from '@mui/icons-material/Add';
 import { TextField, FormControl, Select, MenuItem, Button, InputLabel } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import FormHelperText from '@mui/material/FormHelperText';
+import IconButton from '@mui/material/IconButton';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
 import ListIcon from '@mui/icons-material/List';
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
@@ -24,13 +27,13 @@ import {
   postProduct,
   selectPostProduct,
 } from '../../productSlice';
-import constant from '../../../../constant';
 import useAuth from '../../../../hooks/useAuth';
 import formUtils from './formUtils';
 import ROUTES from '../../../../routes/routesPath';
 import './style.scss';
 import ImageUploader from '../../../../components/ImageUploader';
 import ProductGroupChoices from '../ProductGroupChoices/ProductGroupChoices';
+import ProductChoices from '../ProductChoices/ProductGroupChoices';
 
 function Form() {
   const { id } = useParams();
@@ -44,19 +47,19 @@ function Form() {
   const navigate = useNavigate();
   const {
     auth: {
-      user: { type: userType, id: userId },
+      user: { id: userId },
     },
   } = useAuth();
-  const isVendor = userType === constant.USER_ROLES.VENDOR;
 
   const [data, setData] = useState({ ...formUtils.initialValues });
   const [openGroupChoicesDialog, setOpenGroupChoicesDialog] = useState(false);
+  const [choicesDialogData, setChoicesDialogData] = useState(false);
 
   const initialValidData = useMemo(() => formUtils.getValidData(initialData), [initialData]);
 
   const enableSave = useMemo(() => {
     let enable = formUtils.isValid(data);
-    if (enable && isEdit && formUtils.isEqual(data, initialValidData)) {
+    if (enable && isEdit && initialValidData && formUtils.isEqual(data, initialValidData)) {
       enable = false;
     }
     return enable;
@@ -89,6 +92,42 @@ function Form() {
     setData({ ...data, [property]: e.target.value });
   };
 
+  const handleDeleteChoice = (groupId, choiceId) => {
+    const newData = { ...data, product_choice_groups: [...data.product_choice_groups] };
+    const groupIndex = newData.product_choice_groups?.findIndex((_group) => _group.id === groupId);
+    if (groupIndex >= 0) {
+      newData.product_choice_groups[groupIndex] = {
+        ...newData.product_choice_groups[groupIndex],
+        product_choices: newData.product_choice_groups[groupIndex]?.product_choices?.filter(
+          (choice) => choice.id !== choiceId,
+        ),
+      };
+      setData(newData);
+    }
+  };
+
+  const handleSubmitChoices = (choice) => {
+    const { id: choiceId, product_choice_group_id: groupId } = choice;
+    const groupIndex = data.product_choice_groups?.findIndex((group) => group.id === groupId);
+    if (groupIndex >= 0) {
+      const group = { ...data.product_choice_groups[groupIndex] };
+      if (choiceId) {
+        const oldChoiceIndex = group.product_choices.findIndex(
+          (_choice) => _choice.id === choiceId,
+        );
+        if (oldChoiceIndex >= 0) {
+          group.product_choices[oldChoiceIndex] = choice;
+        }
+        const newGroups = [...data.product_choice_groups];
+        newGroups[groupIndex] = group;
+        setData({ ...data, product_choice_groups: newGroups });
+      } else {
+        group.product_choices.push({ ...choice, id: Date.now() });
+      }
+    }
+    setChoicesDialogData();
+  };
+
   const handleSubmitProductGroupChoices = (group) => {
     const { id: groupId } = group;
     if (groupId)
@@ -99,7 +138,7 @@ function Form() {
     else
       setData({
         ...data,
-        product_choice_groups: [...data.product_choice_groups, { ...group, groupId: Date.now() }],
+        product_choice_groups: [...data.product_choice_groups, { ...group, id: Date.now() }],
       });
     setOpenGroupChoicesDialog(false);
   };
@@ -111,12 +150,12 @@ function Form() {
       result = dispatch(
         updateProduct({
           ...data,
-          ...(isVendor ? { user_id: userId } : {}),
+          user_id: userId,
           image: typeof data.image === 'object' ? data.image : undefined,
         }),
       );
     } else {
-      result = dispatch(postProduct({ ...data, ...(isVendor ? { user_id: userId } : {}) }));
+      result = dispatch(postProduct({ ...data, user_id: userId }));
     }
 
     result.then(({ meta }) => {
@@ -138,6 +177,16 @@ function Form() {
 
   return (
     <section className="create-product-container">
+      <ProductChoices
+        open={!!choicesDialogData}
+        handleClose={() => setChoicesDialogData()}
+        groupName={choicesDialogData?.group?.english_name}
+        groupId={choicesDialogData?.group?.id}
+        onSubmit={handleSubmitChoices}
+        initialValues={choicesDialogData?.group?.product_choices?.find(
+          (choice) => choice.id === choicesDialogData?.choice?.id,
+        )}
+      />
       <ProductGroupChoices
         open={openGroupChoicesDialog}
         handleClose={() => setOpenGroupChoicesDialog(false)}
@@ -278,6 +327,9 @@ function Form() {
 
         {!!data.product_choice_groups.length && (
           <div className="product-choice-groups">
+            <Typography padding="10px" fontSize="1.2em">
+              Product Choice Groups
+            </Typography>
             {data.product_choice_groups.map((group) => (
               <Accordion variant="outlined" key={group.id}>
                 <AccordionSummary
@@ -287,18 +339,62 @@ function Form() {
                 >
                   <Typography color="primary">{group.english_name}</Typography>
                   <Typography marginRight="10px" marginLeft="auto">
-                    Min Number: {group.min_number}
+                    Min number: {group.min_number}
                   </Typography>{' '}
                   <b>-</b>
                   <Typography marginLeft="10px" marginRight="10px">
-                    Max Number: {group.max_number}
+                    Max number: {group.max_number}
                   </Typography>
                 </AccordionSummary>
                 <AccordionDetails>
-                  <Typography>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada
-                    lacus ex, sit amet blandit leo lobortis eget.
-                  </Typography>
+                  <div
+                    style={{ display: 'flex', justifyContent: 'flex-end' }}
+                    className="details-header"
+                  >
+                    <Button
+                      style={{
+                        verticalAlign: 'middle',
+                        textTransform: 'capitalize',
+                      }}
+                      startIcon={<AddIcon />}
+                      onClick={() =>
+                        setChoicesDialogData({
+                          group,
+                        })
+                      }
+                    >
+                      Add Product Choices
+                    </Button>
+                  </div>
+
+                  {!!group.product_choices?.length && (
+                    <div className="product-choices">
+                      <Typography padding="10px" fontSize="1.2em">
+                        Product Choices
+                      </Typography>
+                      <div className="content">
+                        <div className="content-header">
+                          <div className="column">Name</div>
+                          <div className="column">Price</div>
+                          <div className="column">Action</div>
+                        </div>
+                        {group.product_choices.map((choice) => (
+                          <div key={choice.id} className="row">
+                            <div className="column">{choice.english_name}</div>
+                            <div className="column">{choice.price}</div>
+                            <div className="column">
+                              <IconButton onClick={() => setChoicesDialogData({ choice, group })}>
+                                <EditIcon />
+                              </IconButton>
+                              <IconButton onClick={() => handleDeleteChoice(group.id, choice.id)}>
+                                <DeleteIcon />
+                              </IconButton>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
                 </AccordionDetails>
               </Accordion>
             ))}

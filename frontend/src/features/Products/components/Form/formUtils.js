@@ -33,6 +33,7 @@ const getValidData = (data) => ({
   discount: data.discount || initialValues.discount,
   stock_quantity: data.stock_quantity || initialValues.stock_quantity,
   deactivated_at: data.deactivated_at || initialValues.deactivated_at,
+  product_choice_groups: data.product_choice_groups || initialValues.product_choice_groups,
 });
 
 const isEqual = (a, b) =>
