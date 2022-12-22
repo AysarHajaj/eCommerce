@@ -74,8 +74,8 @@ function Form() {
   }, [data.image]);
 
   const filteredSubCategories = useMemo(
-    () => subCategories.filter((item) => item.id === data.category_id),
-    [data.category_id, subCategories],
+    () => subCategories.filter((item) => item.product_category_id === data.product_category_id),
+    [data.product_category_id, subCategories],
   );
 
   const handleChangeImage = (e) => {
@@ -89,7 +89,12 @@ function Form() {
 
   const handleChange = (e) => {
     const property = e.target.name;
-    setData({ ...data, [property]: e.target.value });
+    const { value } = e.target;
+    const newData = { ...data, [property]: value };
+    if (property === 'product_category_id') {
+      newData.product_sub_category_id = '';
+    }
+    setData(newData);
   };
 
   const handleDeleteChoice = (groupId, choiceId) => {

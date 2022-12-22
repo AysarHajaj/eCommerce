@@ -32,16 +32,20 @@ function Form() {
 
   const enableSave = useMemo(() => {
     let result = !!data.name && !!data.product_category_id;
-    if (isEdit && initialData.name === data.name && data.category_id === initialData.category_id) {
+    if (
+      isEdit &&
+      initialData.name === data.name &&
+      data.product_category_id === initialData.product_category_id
+    ) {
       result = false;
-    } else if (!isEdit && data.name === '' && data.category_id === undefined) {
+    } else if (!isEdit && (data.name === '' || !data.product_category_id)) {
       result = false;
     }
     return result;
   }, [isEdit, data, initialData]);
 
   const handleChangeCategory = (event) => {
-    setData({ ...data, category_id: event.target.value });
+    setData({ ...data, product_category_id: event.target.value });
   };
 
   const handleSubmit = (e) => {
