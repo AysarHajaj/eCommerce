@@ -1,0 +1,104 @@
+import React, { useState, useEffect, useMemo } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams, useNavigate } from 'react-router-dom';
+import { TextField, Button } from '@mui/material';
+import { LoadingButton } from '@mui/lab';
+import FormHelperText from '@mui/material/FormHelperText';
+import ListIcon from '@mui/icons-material/List';
+import {
+  getCurrencyById,
+  selectGetCurrencyById,
+  updateCurrency,
+  selectUpdateCurrency,
+  postCurrency,
+  selectPostCurrency,
+} from '../../currencySlice';
+import formUtils from './formUtils';
+import ROUTES from '../../../../routes/routesPath';
+import './style.scss';
+
+function Form() {
+  const { id } = useParams();
+  const dispatch = useDispatch();
+  const { data: initialData } = useSelector(selectGetCurrencyById);
+  const { isLoading: updateIsLoading, error: putError } = useSelector(selectUpdateCurrency);
+  const { isLoading: postIsLoading, error: postError } = useSelector(selectPostCurrency);
+  const isEdit = !!id;
+  const navigate = useNavigate();
+
+  const [data, setData] = useState({ ...formUtils.initialValues });
+
+  const initialValidData = useMemo(() => formUtils.getValidData(initialData), [initialData]);
+
+  const enableSave = useMemo(() => {
+    let enable = formUtils.isValid(data);
+    if (enable && isEdit && initialValidData && formUtils.isEqual(data, initialValidData)) {
+      enable = false;
+    }
+    return enable;
+  }, [isEdit, data, initialValidData]);
+
+  const handleChange = (e) => {
+    const property = e.target.name;
+    setData({ ...data, [property]: e.target.value });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    let result;
+    if (isEdit) {
+      result = dispatch(
+        updateCurrency({
+          ...data,
+        }),
+      );
+    } else {
+      result = dispatch(postCurrency({ ...data }));
+    }
+
+    result.then(({ meta }) => {
+      if (meta.requestStatus === 'fulfilled') {
+        navigate(ROUTES.CURRENCIES.path);
+      }
+    });
+  };
+
+  useEffect(() => {
+    if (isEdit) {
+      dispatch(getCurrencyById(id)).then(({ payload }) => {
+        setData(formUtils.getValidData(payload.result));
+      });
+    }
+  }, []);
+
+  return (
+    <section className="create-currency-container">
+      <Button startIcon={<ListIcon />} onClick={() => navigate(ROUTES.CURRENCIES.path)}>
+        View Currencies
+      </Button>
+      <form onSubmit={handleSubmit} className="create-currency-form">
+        <FormHelperText error={!!(postError || putError)}>{postError || putError}</FormHelperText>
+
+        <TextField
+          fullWidth
+          label="Name"
+          name="name"
+          value={data.name}
+          onChange={handleChange}
+          required
+        />
+
+        <LoadingButton
+          style={{ marginTop: '15px' }}
+          loading={updateIsLoading || postIsLoading}
+          type="submit"
+          disabled={!enableSave}
+        >
+          {isEdit ? 'Update' : 'Save'}
+        </LoadingButton>
+      </form>
+    </section>
+  );
+}
+
+export default Form;
