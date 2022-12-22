@@ -7,50 +7,49 @@ import Button from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
 import { useNavigate } from 'react-router-dom';
+import Avatar from '@mui/material/Avatar';
 import {
-  getChildCategories,
-  selectGetChildCategories,
-  deleteChildCategory,
-  changeChildCategoryStatus,
-} from './childCategorySlice';
+  getShopCategories,
+  selectGetShopCategories,
+  deleteShopCategory,
+  changeShopCategoryStatus,
+} from './shopCategorySlice';
 import SwitchButton from '../../components/SwitchButton';
 import ROUTES from '../../routes/routesPath';
 
-function ChildCategory() {
-  const dispatch = useDispatch();
-  const { data } = useSelector(selectGetChildCategories);
+function ShopCategory() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { data } = useSelector(selectGetShopCategories);
 
   const handleDelete = useCallback(
     (id) => {
-      dispatch(deleteChildCategory(id));
+      dispatch(deleteShopCategory(id));
     },
     [dispatch],
   );
 
   const changeStatus = useCallback(
     (id) => {
-      dispatch(changeChildCategoryStatus(id));
+      dispatch(changeShopCategoryStatus(id));
     },
     [dispatch],
   );
 
+  useEffect(() => {
+    dispatch(getShopCategories());
+  }, []);
+
   const columns = useMemo(
     () => [
       { field: 'id', headerName: 'ID', width: 70 },
+      {
+        field: 'image',
+        headerName: 'Image',
+        width: 130,
+        renderCell: (params) => <Avatar src={params.row.image} />,
+      },
       { field: 'name', headerName: 'Name', width: 130 },
-      {
-        field: 'category',
-        headerName: 'Category',
-        width: 130,
-        valueGetter: (params) => params.row.category.name,
-      },
-      {
-        field: 'sub_category',
-        headerName: 'Sub Category',
-        width: 130,
-        valueGetter: (params) => params.row.sub_category.name,
-      },
       {
         field: 'status',
         headerName: 'Status',
@@ -68,7 +67,9 @@ function ChildCategory() {
         width: 100,
         renderCell: (params) => (
           <React.Fragment>
-            <IconButton onClick={() => navigate(`/child_category/edit/${params.row.id}`)}>
+            <IconButton
+              onClick={() => navigate(ROUTES.EDIT_SHOP_CATEGORY.dynamicPath(params.row.id))}
+            >
               <EditIcon />
             </IconButton>
             <IconButton onClick={() => handleDelete(params.row.id)}>
@@ -81,20 +82,11 @@ function ChildCategory() {
     [],
   );
 
-  useEffect(() => {
-    dispatch(getChildCategories());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   return (
-    <div className="wrapper category-wrapper">
+    <div className="wrapper shop-category-wrapper">
       <div className="container-header">
-        <Button
-          onClick={() => navigate(ROUTES.CREATE_CHILD_CATEGORY.path)}
-          to="/"
-          startIcon={<AddIcon />}
-        >
-          Add New Child Category
+        <Button onClick={() => navigate(ROUTES.CREATE_SHOP_CATEGORY.path)} startIcon={<AddIcon />}>
+          Add New Sub Category
         </Button>
       </div>
       <DataGrid rows={data} columns={columns} pageSize={5} rowsPerPageOptions={[5]} />
@@ -102,4 +94,4 @@ function ChildCategory() {
   );
 }
 
-export default ChildCategory;
+export default ShopCategory;

@@ -53,12 +53,18 @@ const getProductSubCategoryById = (id) => api.get(`/product-sub-categories/${id}
 const updateProductSubCategory = (id, data) => api.put(`/product-sub-categories/${id}`, data);
 const postProductSubCategory = (data) => api.post(`/product-sub-categories`, data);
 
-const changeChildCategoryStatus = (id) => api.post(`/child_categories/${id}/change_status`);
-const deleteChildCategory = (id) => api.delete(`/child_categories/${id}`);
-const getChildCategories = () => api.get('/child_categories');
-const getChildCategoryById = (id) => api.get(`/child_categories/${id}`);
-const updateChildCategory = (id, data) => api.put(`/child_categories/${id}`, data);
-const postChildCategory = (data) => api.post(`/child_categories`, data);
+const changeShopCategoryStatus = (id) => api.post(`/shop-categories/${id}/change_status`);
+const deleteShopCategory = (id) => api.delete(`/shop-categories/${id}`);
+const getShopCategories = () => api.get('/shop-categories');
+const getShopCategoryById = (id) => api.get(`/shop-categories/${id}`);
+const updateShopCategory = (id, data) =>
+  api.post(`/shop-categories/${id}`, data, {
+    headers: { 'Content-Type': 'multipart/form-data' },
+  });
+const postShopCategory = (data) =>
+  api.post(`/shop-categories`, data, {
+    headers: { 'Content-Type': 'multipart/form-data' },
+  });
 
 const getVendors = () => api.get('/vendors');
 const deleteVendor = (id) => api.delete(`/vendors/${id}`);
@@ -129,13 +135,14 @@ const apis = {
   updateProductSubCategory,
   postProductSubCategory,
 
-  getChildCategories,
-  deleteChildCategory,
-  changeChildCategoryStatus,
+  getShopCategories,
+  deleteShopCategory,
+  changeShopCategoryStatus,
+  getShopCategoryById,
+  updateShopCategory,
+  postShopCategory,
+
   login,
-  getChildCategoryById,
-  updateChildCategory,
-  postChildCategory,
   getVendors,
   deleteVendor,
   changeVendorStatus,

@@ -1,7 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import categoryReducer from '../features/ProductCategory/categorySlice';
 import subCategoryReducer from '../features/ProductSubCategory/subCategorySlice';
-import childCategoryReducer from '../features/ChildCategory/childCategorySlice';
 import loginReducer from '../features/Login/loginSlice';
 import vendorReducer from '../features/Vendor/vendorSlice';
 import productReducer from '../features/Products/productSlice';
@@ -9,12 +8,12 @@ import shopReducer from '../features/Shops/shopSlice';
 import cityReducer from '../features/Cities/citySlice';
 import districtReducer from '../features/Districts/districtSlice';
 import currencyReducer from '../features/Currencies/currencySlice';
+import shopCategorySlice from '../features/ShopCategory/shopCategorySlice';
 
 export const store = configureStore({
   reducer: {
     product_category: categoryReducer,
     product_sub_category: subCategoryReducer,
-    child_category: childCategoryReducer,
     login: loginReducer,
     vendor: vendorReducer,
     product: productReducer,
@@ -22,5 +21,6 @@ export const store = configureStore({
     city: cityReducer,
     district: districtReducer,
     currency: currencyReducer,
+    shop_category: shopCategorySlice,
   },
 });
