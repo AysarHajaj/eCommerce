@@ -11,7 +11,8 @@
     }
 
     .right-side {
-      display: inline-block;
+      display: inline-flex;
+      flex-wrap: wrap;
       margin-left: 20px;
       max-width: calc(100% - 350px);
 
@@ -21,12 +22,17 @@
       }
 
       > .MuiFormControl-root {
-        width: 40%;
         margin: 10px 2.5%;
+        flex-basis: 40%;
 
         > label {
           font-size: 1em;
         }
+      }
+
+      button {
+        margin: 10px 2.5%;
+        align-self: center;
       }
     }
 

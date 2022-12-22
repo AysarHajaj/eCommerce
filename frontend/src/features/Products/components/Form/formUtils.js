@@ -13,6 +13,7 @@ const initialValues = {
   arabic_name: '',
   english_description: '',
   arabic_description: '',
+  product_choice_groups: [],
   image: undefined,
 };
 
@@ -49,6 +50,8 @@ const isEqual = (a, b) =>
   a.user_id === b.user_id &&
   a.discount === b.discount &&
   a.stock_quantity === b.stock_quantity &&
+  a.product_choice_groups.length === 0 &&
+  b.product_choice_groups.length === 0 &&
   a.deactivated_at === b.deactivated_at;
 
 const isValid = (a) => !!a.english_name && !!a.product_category_id;

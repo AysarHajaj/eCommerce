@@ -1,10 +1,16 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useNavigate } from 'react-router-dom';
+import AddIcon from '@mui/icons-material/Add';
 import { TextField, FormControl, Select, MenuItem, Button, InputLabel } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import FormHelperText from '@mui/material/FormHelperText';
 import ListIcon from '@mui/icons-material/List';
+import Accordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import Typography from '@mui/material/Typography';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import {
   selectGetSubCategories,
   getSubCategories,
@@ -24,6 +30,7 @@ import formUtils from './formUtils';
 import ROUTES from '../../../../routes/routesPath';
 import './style.scss';
 import ImageUploader from '../../../../components/ImageUploader';
+import ProductGroupChoices from '../ProductGroupChoices/ProductGroupChoices';
 
 function Form() {
   const { id } = useParams();
@@ -43,6 +50,7 @@ function Form() {
   const isVendor = userType === constant.USER_ROLES.VENDOR;
 
   const [data, setData] = useState({ ...formUtils.initialValues });
+  const [openGroupChoicesDialog, setOpenGroupChoicesDialog] = useState(false);
 
   const initialValidData = useMemo(() => formUtils.getValidData(initialData), [initialData]);
 
@@ -81,6 +89,21 @@ function Form() {
     setData({ ...data, [property]: e.target.value });
   };
 
+  const handleSubmitProductGroupChoices = (group) => {
+    const { id: groupId } = group;
+    if (groupId)
+      setData({
+        ...data,
+        product_choice_groups: [...data.filter((_group) => _group.id === groupId), { ...group }],
+      });
+    else
+      setData({
+        ...data,
+        product_choice_groups: [...data.product_choice_groups, { ...group, groupId: Date.now() }],
+      });
+    setOpenGroupChoicesDialog(false);
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     let result;
@@ -115,6 +138,12 @@ function Form() {
 
   return (
     <section className="create-product-container">
+      <ProductGroupChoices
+        open={openGroupChoicesDialog}
+        handleClose={() => setOpenGroupChoicesDialog(false)}
+        productName={data.english_name}
+        onSubmit={handleSubmitProductGroupChoices}
+      />
       <Button startIcon={<ListIcon />} onClick={() => navigate(ROUTES.PRODUCTS.path)}>
         View Products
       </Button>
@@ -237,7 +266,44 @@ function Form() {
             value={data.stock_quantity}
             onChange={handleChange}
           />
+          <Button
+            style={{ verticalAlign: 'middle', textTransform: 'capitalize' }}
+            variant="text"
+            startIcon={<AddIcon />}
+            onClick={() => setOpenGroupChoicesDialog(true)}
+          >
+            Add Product Choice Group
+          </Button>
         </div>
+
+        {!!data.product_choice_groups.length && (
+          <div className="product-choice-groups">
+            {data.product_choice_groups.map((group) => (
+              <Accordion variant="outlined" key={group.id}>
+                <AccordionSummary
+                  expandIcon={<ExpandMoreIcon />}
+                  aria-controls={`panel1a-content-${group.id}`}
+                  id={`panel1a-header-${group.id}`}
+                >
+                  <Typography color="primary">{group.english_name}</Typography>
+                  <Typography marginRight="10px" marginLeft="auto">
+                    Min Number: {group.min_number}
+                  </Typography>{' '}
+                  <b>-</b>
+                  <Typography marginLeft="10px" marginRight="10px">
+                    Max Number: {group.max_number}
+                  </Typography>
+                </AccordionSummary>
+                <AccordionDetails>
+                  <Typography>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada
+                    lacus ex, sit amet blandit leo lobortis eget.
+                  </Typography>
+                </AccordionDetails>
+              </Accordion>
+            ))}
+          </div>
+        )}
         <LoadingButton
           style={{ marginTop: '15px' }}
           loading={updateIsLoading || postIsLoading}
