@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useNavigate } from 'react-router-dom';
-import { TextField, OutlinedInput, FormControl } from '@mui/material';
+import { TextField, FormControl } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
+import ImageUploader from '../../../../components/ImageUploader';
 import {
   getVendorById,
   selectGetVendorById,
@@ -29,6 +30,14 @@ function Form() {
     confirm_password: '',
     image: undefined,
   });
+
+  const imageURL = useMemo(() => {
+    if (!data.image) return undefined;
+    if (typeof data.image === 'object') {
+      return URL.createObjectURL(data.image);
+    }
+    return data.image;
+  }, [data.image]);
 
   const enableSave = useMemo(() => {
     let result = true;
@@ -79,15 +88,30 @@ function Form() {
   useEffect(() => {
     if (isEdit) {
       dispatch(getVendorById(id)).then(({ payload }) => {
-        setData({ ...payload.data, image: undefined, password: '' });
+        setData({ ...payload.result, image: undefined, password: '' });
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
-    <form>
-      <FormControl>
+    <form
+      style={{
+        maxWidth: '500px',
+        margin: '50px auto',
+        backgroundColor: '#fff',
+        padding: '15px',
+        borderRadius: '3px',
+      }}
+    >
+      <ImageUploader
+        src={imageURL}
+        name="image"
+        onChange={handleChangeImage}
+        label="Choose Image"
+      />
+
+      <FormControl style={{ marginTop: '15px' }}>
         <TextField
           placeholder="Name"
           id="name"
@@ -125,11 +149,8 @@ function Form() {
         />
       </FormControl>
 
-      <FormControl style={{ marginTop: '15px' }}>
-        <OutlinedInput id="image" type="file" label="Image" onChange={handleChangeImage} />
-      </FormControl>
       <LoadingButton
-        style={{ marginTop: '15px' }}
+        style={{ display: 'block', marginTop: '15px', marginLeft: 'auto' }}
         loading={updateIsLoading || postIsLoading}
         onClick={handleSubmit}
         disabled={!enableSave}
