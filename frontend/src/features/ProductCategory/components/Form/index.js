@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import TextField from '@mui/material/TextField';
 import { LoadingButton } from '@mui/lab';
 import {
@@ -13,9 +13,17 @@ import {
 } from '../../categorySlice';
 import ImageUploader from '../../../../components/ImageUploader';
 import ROUTES from '../../../../routes/routesPath';
+import useAuth from '../../../../hooks/useAuth';
 
 function Form() {
+  const {
+    auth: {
+      user: { id: userId },
+    },
+  } = useAuth();
+
   const { id } = useParams();
+
   const dispatch = useDispatch();
   const { data: initialData } = useSelector(selectGetCategoryById);
   const { isLoading: updateIsLoading } = useSelector(selectUpdateCategory);
@@ -63,11 +71,12 @@ function Form() {
       result = dispatch(
         updateCategory({
           ...data,
+          user_id: userId,
           image: typeof data.image === 'object' ? data.image : undefined,
         }),
       );
     } else {
-      result = dispatch(postCategory(data));
+      result = dispatch(postCategory({ ...data, user_id: userId }));
     }
 
     result.then(({ meta }) => {

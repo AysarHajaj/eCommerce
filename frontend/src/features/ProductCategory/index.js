@@ -84,7 +84,10 @@ function Category() {
   return (
     <div className="wrapper category-wrapper">
       <div className="container-header">
-        <Button onClick={() => navigate(ROUTES.CREATE_CATEGORY.path)} startIcon={<AddIcon />}>
+        <Button
+          onClick={() => navigate(ROUTES.CREATE_PRODUCT_CATEGORY.path)}
+          startIcon={<AddIcon />}
+        >
           Add New Category
         </Button>
       </div>
