@@ -12,15 +12,15 @@ const paths = {
     path: '/product_category/edit/:id',
     dynamicPath: (id) => `/product_category/edit/${id}`,
   },
-  SUB_CATEGORY: {
-    path: '/sub_category',
+  PRODUCT_SUB_CATEGORY: {
+    path: '/product_sub_category',
   },
-  CREATE_SUB_CATEGORY: {
-    path: '/sub_category/create',
+  CREATE_PRODUCT_SUB_CATEGORY: {
+    path: '/product_sub_category/create',
   },
-  EDIT_SUB_CATEGORY: {
-    path: '/sub_category/edit/:id',
-    dynamicPath: (id) => `/sub_category/edit/${id}`,
+  EDIT_PRODUCT_SUB_CATEGORY: {
+    path: '/product_sub_category/edit/:id',
+    dynamicPath: (id) => `/product_sub_category/edit/${id}`,
   },
   CHILD_CATEGORY: {
     path: '/child_category',

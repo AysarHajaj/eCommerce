@@ -28,9 +28,9 @@ const config = {
         },
         {
           id: 4,
-          label: ROUTES.SUB_CATEGORY.label,
-          to: ROUTES.SUB_CATEGORY.path,
-          allowedRoles: ROUTES.SUB_CATEGORY.allowedRoles,
+          label: ROUTES.PRODUCT_SUB_CATEGORY.label,
+          to: ROUTES.PRODUCT_SUB_CATEGORY.path,
+          allowedRoles: ROUTES.PRODUCT_SUB_CATEGORY.allowedRoles,
         },
         {
           id: 5,

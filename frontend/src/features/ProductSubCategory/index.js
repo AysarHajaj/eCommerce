@@ -23,21 +23,21 @@ function SubCategory() {
 
   const handleDelete = useCallback((id) => {
     dispatch(deleteSubCategory(id));
-  });
+  }, []);
 
   const changeStatus = useCallback((id) => {
     dispatch(changeSubCategoryStatus(id));
-  });
+  }, []);
 
   const columns = useMemo(
     () => [
       { field: 'id', headerName: 'ID', width: 70 },
       { field: 'name', headerName: 'Name', width: 130 },
       {
-        field: 'category',
+        field: 'product_category_id',
         headerName: 'Category',
         width: 130,
-        valueGetter: (params) => params.row.category.name,
+        valueGetter: (params) => params.row.product_category.name,
       },
       {
         field: 'status',
@@ -56,7 +56,9 @@ function SubCategory() {
         width: 100,
         renderCell: (params) => (
           <React.Fragment>
-            <IconButton onClick={() => navigate(`/sub_category/edit/${params.row.id}`)}>
+            <IconButton
+              onClick={() => navigate(ROUTES.EDIT_PRODUCT_SUB_CATEGORY.dynamicPath(params.row.id))}
+            >
               <EditIcon />
             </IconButton>
             <IconButton onClick={() => handleDelete(params.row.id)}>
@@ -72,10 +74,14 @@ function SubCategory() {
   useEffect(() => {
     dispatch(getSubCategories());
   }, []);
+
   return (
     <div className="wrapper category-wrapper">
       <div className="container-header">
-        <Button onClick={() => navigate(ROUTES.CREATE_SUB_CATEGORY.path)} startIcon={<AddIcon />}>
+        <Button
+          onClick={() => navigate(ROUTES.CREATE_PRODUCT_SUB_CATEGORY.path)}
+          startIcon={<AddIcon />}
+        >
           Add New Sub Category
         </Button>
       </div>

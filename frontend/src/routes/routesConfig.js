@@ -30,22 +30,22 @@ const config = {
     dynamicPath: routesPath.EDIT_PRODUCT_CATEGORY.dynamicPath,
     Element: React.lazy(() => import('../features/ProductCategory/components/Form')),
   },
-  SUB_CATEGORY: {
-    path: routesPath.SUB_CATEGORY.path,
+  PRODUCT_SUB_CATEGORY: {
+    path: routesPath.PRODUCT_SUB_CATEGORY.path,
     label: 'Product Sub Categories',
     allowedRoles: [USER_ROLES.VENDOR],
     Element: React.lazy(() => import('../features/ProductSubCategory')),
   },
-  CREATE_SUB_CATEGORY: {
-    path: routesPath.CREATE_SUB_CATEGORY.path,
+  CREATE_PRODUCT_SUB_CATEGORY: {
+    path: routesPath.CREATE_PRODUCT_SUB_CATEGORY.path,
     label: 'Create Product Sub Category',
     allowedRoles: [USER_ROLES.VENDOR],
     Element: React.lazy(() => import('../features/ProductSubCategory/components/Form')),
   },
-  EDIT_SUB_CATEGORY: {
-    path: routesPath.EDIT_SUB_CATEGORY.path,
+  EDIT_PRODUCT_SUB_CATEGORY: {
+    path: routesPath.EDIT_PRODUCT_SUB_CATEGORY.path,
     label: 'Edit Product Sub Category',
-    dynamicPath: routesPath.EDIT_SUB_CATEGORY.dynamicPath,
+    dynamicPath: routesPath.EDIT_PRODUCT_SUB_CATEGORY.dynamicPath,
     allowedRoles: [USER_ROLES.VENDOR],
     Element: React.lazy(() => import('../features/ProductSubCategory/components/Form')),
   },

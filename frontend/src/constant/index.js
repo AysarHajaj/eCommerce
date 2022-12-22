@@ -12,7 +12,7 @@ const constants = {
     ADMIN: USER_ROLES.ADMIN.NAME,
     VENDOR: USER_ROLES.VENDOR.NAME,
   },
-  DRAWER_WIDTH: 240 /* in px */,
+  DRAWER_WIDTH: 300 /* in px */,
   ACTION_TYPES: {
     product: {
       get: 'GET/PRODUCT',
