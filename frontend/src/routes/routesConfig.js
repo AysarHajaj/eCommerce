@@ -11,23 +11,23 @@ const config = {
     allowedRoles: [USER_ROLES.ADMIN, USER_ROLES.VENDOR],
     Element: React.lazy(() => import('../features/Dashboard')),
   },
-  CATEGORY: {
-    path: routesPath.CATEGORY.path,
+  PRODUCT_CATEGORY: {
+    path: routesPath.PRODUCT_CATEGORY.path,
     label: 'Product Categories',
     allowedRoles: [USER_ROLES.VENDOR],
     Element: React.lazy(() => import('../features/ProductCategory')),
   },
-  CREATE_CATEGORY: {
-    path: routesPath.CREATE_CATEGORY.path,
+  PRODUCT_CREATE_CATEGORY: {
+    path: routesPath.CREATE_PRODUCT_CATEGORY.path,
     label: 'Create Product Category',
     allowedRoles: [USER_ROLES.VENDOR],
     Element: React.lazy(() => import('../features/ProductCategory/components/Form')),
   },
-  EDIT_CATEGORY: {
-    path: routesPath.EDIT_CATEGORY.path,
+  PRODUCT_EDIT_CATEGORY: {
+    path: routesPath.EDIT_PRODUCT_CATEGORY.path,
     label: 'Edit Product Category',
     allowedRoles: [USER_ROLES.VENDOR],
-    dynamicPath: routesPath.EDIT_CATEGORY.dynamicPath,
+    dynamicPath: routesPath.EDIT_PRODUCT_CATEGORY.dynamicPath,
     Element: React.lazy(() => import('../features/ProductCategory/components/Form')),
   },
   SUB_CATEGORY: {
@@ -67,12 +67,6 @@ const config = {
     dynamicPath: routesPath.EDIT_CHILD_CATEGORY.dynamicPath,
     allowedRoles: [USER_ROLES.ADMIN],
     Element: React.lazy(() => import('../features/ChildCategory/components/Form')),
-  },
-  UNAUTHORIZED: {
-    path: routesPath.UNAUTHORIZED.path,
-    label: 'Unauthorized',
-    allowedRoles: [USER_ROLES.ADMIN, USER_ROLES.VENDOR],
-    Element: React.lazy(() => import('../components/UnAuthorized')),
   },
   PRODUCTS: {
     path: routesPath.PRODUCTS.path,
@@ -118,6 +112,18 @@ const config = {
     dynamicPath: routesPath.EDIT_SHOP_SETTINGS.dynamicPath,
     allowedRoles: [USER_ROLES.VENDOR],
     Element: React.lazy(() => import('../features/Shops/components/Form')),
+  },
+  UNAUTHORIZED: {
+    path: routesPath.UNAUTHORIZED.path,
+    label: 'Unauthorized',
+    allowedRoles: [USER_ROLES.ADMIN, USER_ROLES.VENDOR],
+    Element: React.lazy(() => import('../components/UnAuthorized')),
+  },
+  NotFound: {
+    path: '/*',
+    label: 'Not Found',
+    allowedRoles: [USER_ROLES.ADMIN, USER_ROLES.VENDOR],
+    Element: React.lazy(() => import('../components/PageNotFound')),
   },
 };
 

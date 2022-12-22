@@ -18,13 +18,13 @@ const config = {
       label: 'Manage Categories',
       to: '',
       icon: <WindowIcon />,
-      allowedRoles: ROUTES.CATEGORY.allowedRoles,
+      allowedRoles: ROUTES.PRODUCT_CATEGORY.allowedRoles,
       sub_items: [
         {
           id: 3,
-          label: ROUTES.CATEGORY.label,
-          to: ROUTES.CATEGORY.path,
-          allowedRoles: ROUTES.CATEGORY.allowedRoles,
+          label: ROUTES.PRODUCT_CATEGORY.label,
+          to: ROUTES.PRODUCT_CATEGORY.path,
+          allowedRoles: ROUTES.PRODUCT_CATEGORY.allowedRoles,
         },
         {
           id: 4,

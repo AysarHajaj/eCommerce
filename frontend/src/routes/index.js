@@ -9,10 +9,9 @@ import ROUTES from './routesConfig';
 
 function AppRoutes() {
   const { auth } = useAuth();
-
   return (
     <Routes>
-      {auth?.user && auth.accessToken && (
+      {auth?.user && auth.accessToken ? (
         <Route element={<Layout />} path="/">
           {Object.values(ROUTES).map(({ path, allowedRoles, Element, label }) => (
             <Route key={label} element={<RequiredAuth allowedRoles={allowedRoles} />}>
@@ -27,8 +26,9 @@ function AppRoutes() {
             </Route>
           ))}
         </Route>
+      ) : (
+        <Route element={<Login />} path="/*" />
       )}
-      <Route element={<Login />} path="/*" />
     </Routes>
   );
 }

@@ -2,15 +2,15 @@ const paths = {
   DASHBOARD: {
     path: '/',
   },
-  CATEGORY: {
-    path: '/category',
+  PRODUCT_CATEGORY: {
+    path: '/product_category',
   },
-  CREATE_CATEGORY: {
-    path: '/category/create',
+  CREATE_PRODUCT_CATEGORY: {
+    path: '/product_category/create',
   },
-  EDIT_CATEGORY: {
-    path: '/category/edit/:id',
-    dynamicPath: (id) => `/category/edit/${id}`,
+  EDIT_PRODUCT_CATEGORY: {
+    path: '/product_category/edit/:id',
+    dynamicPath: (id) => `/product_category/edit/${id}`,
   },
   SUB_CATEGORY: {
     path: '/sub_category',
