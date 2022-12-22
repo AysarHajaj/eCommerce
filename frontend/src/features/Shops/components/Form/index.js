@@ -4,13 +4,20 @@ import { useParams, useNavigate } from 'react-router-dom';
 import TextField from '@mui/material/TextField';
 import { LoadingButton } from '@mui/lab';
 import FormHelperText from '@mui/material/FormHelperText';
-import { Typography, Select, FormControl, InputLabel } from '@mui/material';
+import { Typography, Select, FormControl, InputLabel, MenuItem } from '@mui/material';
 import {
   getShopByVendorId,
   selectGetShopByVendorId,
   updateShop,
   selectUpdateShop,
 } from '../../shopSlice';
+import { getCurrencies, selectGetCurrencies } from '../../../Currencies/currencySlice';
+import { getCities, selectGetCities } from '../../../Cities/citySlice';
+import { getDistricts, selectGetDistricts } from '../../../Districts/districtSlice';
+import {
+  getShopCategories,
+  selectGetShopCategories,
+} from '../../../ShopCategory/shopCategorySlice';
 import ImageUploader from '../../../../components/ImageUploader';
 import formUtils from './formUtils';
 import ROUTES from '../../../../routes/routesPath';
@@ -21,6 +28,10 @@ function Form() {
   const { id } = useParams();
   const dispatch = useDispatch();
   const { data: initialData } = useSelector(selectGetShopByVendorId);
+  const { data: cities } = useSelector(selectGetCities);
+  const { data: currencies } = useSelector(selectGetCurrencies);
+  const { data: districts } = useSelector(selectGetDistricts);
+  const { data: shopCategories } = useSelector(selectGetShopCategories);
   const { isLoading: updateIsLoading, error: putError } = useSelector(selectUpdateShop);
   const navigate = useNavigate();
 
@@ -63,7 +74,11 @@ function Form() {
 
   const handleChange = (e) => {
     const property = e.target.name;
-    setData({ ...data, [property]: e.target.value });
+    const newData = { ...data, [property]: e.target.value };
+    if (property === 'city_id') {
+      newData.district_id = '';
+    }
+    setData(newData);
   };
 
   const handleChangeLocation = (position) => {
@@ -91,6 +106,10 @@ function Form() {
     dispatch(getShopByVendorId(id)).then(({ payload }) => {
       setData(formUtils.getValidData(payload.result));
     });
+    dispatch(getCurrencies());
+    dispatch(getCities());
+    dispatch(getDistricts());
+    dispatch(getShopCategories());
   }, []);
 
   return (
@@ -165,11 +184,11 @@ function Form() {
               value={data.city_id}
               onChange={handleChange}
             >
-              {/* {categories.map((category) => (
-                <MenuItem key={category.id} value={category.id}>
-                  {category.name}
+              {cities.map((city) => (
+                <MenuItem key={city.id} value={city.id}>
+                  {city.name}
                 </MenuItem>
-              ))} */}
+              ))}
             </Select>
           </FormControl>
 
@@ -182,11 +201,13 @@ function Form() {
               value={data.district_id}
               onChange={handleChange}
             >
-              {/* {categories.map((category) => (
-                <MenuItem key={category.id} value={category.id}>
-                  {category.name}
-                </MenuItem>
-              ))} */}
+              {districts
+                .filter((district) => district.city_id === data.city_id)
+                .map((district) => (
+                  <MenuItem key={district.id} value={district.id}>
+                    {district.name}
+                  </MenuItem>
+                ))}
             </Select>
           </FormControl>
 
@@ -199,11 +220,11 @@ function Form() {
               value={data.shop_category_id}
               onChange={handleChange}
             >
-              {/* {categories.map((category) => (
+              {shopCategories.map((category) => (
                 <MenuItem key={category.id} value={category.id}>
                   {category.name}
                 </MenuItem>
-              ))} */}
+              ))}
             </Select>
           </FormControl>
 
@@ -216,11 +237,11 @@ function Form() {
               value={data.currency_id}
               onChange={handleChange}
             >
-              {/* {categories.map((category) => (
-                <MenuItem key={category.id} value={category.id}>
-                  {category.name}
+              {currencies.map((currency) => (
+                <MenuItem key={currency.id} value={currency.id}>
+                  {currency.name}
                 </MenuItem>
-              ))} */}
+              ))}
             </Select>
           </FormControl>
 
