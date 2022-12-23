@@ -135,7 +135,7 @@ export const productSlice = createSlice({
         state.change_status.data = action.payload.result;
         state.get.data = state.get.data.map((product) => {
           if (product.id === action.payload.id) {
-            return { ...product, deactivated_at: action.payload.result.data };
+            return { ...product, deactivated_at: action.payload.result };
           }
           return { ...product };
         });
