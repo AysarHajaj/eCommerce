@@ -20,7 +20,7 @@ import {
 } from '../../../ShopCategory/shopCategorySlice';
 import ImageUploader from '../../../../components/ImageUploader';
 import formUtils from './formUtils';
-import ROUTES from '../../../../routes/routesPath';
+import ROUTES from '../../../../routes/_paths';
 import './style.scss';
 import Map from '../../../../components/Map';
 

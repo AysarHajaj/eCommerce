@@ -10,7 +10,7 @@ import { useNavigate } from 'react-router-dom';
 import Avatar from '@mui/material/Avatar';
 import { getVendors, selectGetVendors, deleteVendor, changeVendorStatus } from './vendorSlice';
 import SwitchButton from '../../components/SwitchButton';
-import ROUTES from '../../routes/routesPath';
+import ROUTES from '../../routes/_paths';
 
 function Vendor() {
   const navigate = useNavigate();

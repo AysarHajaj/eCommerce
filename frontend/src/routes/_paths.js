@@ -1,4 +1,4 @@
-const paths = {
+export default {
   DASHBOARD: {
     path: '/',
   },
@@ -90,5 +90,3 @@ const paths = {
     dynamicPath: (id) => `/shop/category/edit/${id}`,
   },
 };
-
-export default paths;

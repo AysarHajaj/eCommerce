@@ -14,7 +14,7 @@ import {
   changeCurrencyStatus,
 } from './currencySlice';
 import SwitchButton from '../../components/SwitchButton';
-import ROUTES from '../../routes/routesPath';
+import ROUTES from '../../routes/_paths';
 
 function Currencies() {
   const navigate = useNavigate();

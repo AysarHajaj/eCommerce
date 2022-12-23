@@ -12,7 +12,7 @@ import {
   selectPostShopCategory,
 } from '../../shopCategorySlice';
 import ImageUploader from '../../../../components/ImageUploader';
-import ROUTES from '../../../../routes/routesPath';
+import ROUTES from '../../../../routes/_paths';
 
 function Form() {
   const { id } = useParams();

@@ -9,7 +9,7 @@ import AddIcon from '@mui/icons-material/Add';
 import { useNavigate } from 'react-router-dom';
 import { getCities, selectGetCities, deleteCity, changeCityStatus } from './citySlice';
 import SwitchButton from '../../components/SwitchButton';
-import ROUTES from '../../routes/routesPath';
+import ROUTES from '../../routes/_paths';
 
 function Cities() {
   const navigate = useNavigate();

@@ -14,7 +14,7 @@ import {
   selectPostCity,
 } from '../../citySlice';
 import formUtils from './formUtils';
-import ROUTES from '../../../../routes/routesPath';
+import ROUTES from '../../../../routes/_paths';
 import './style.scss';
 
 function Form() {

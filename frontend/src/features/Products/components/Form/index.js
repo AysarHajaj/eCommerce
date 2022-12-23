@@ -29,7 +29,7 @@ import {
 } from '../../productSlice';
 import useAuth from '../../../../hooks/useAuth';
 import formUtils from './formUtils';
-import ROUTES from '../../../../routes/routesPath';
+import ROUTES from '../../../../routes/_paths';
 import './style.scss';
 import ImageUploader from '../../../../components/ImageUploader';
 import ProductGroupChoices from '../ProductGroupChoices/ProductGroupChoices';

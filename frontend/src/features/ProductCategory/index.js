@@ -15,7 +15,7 @@ import {
   changeCategoryStatus,
 } from './categorySlice';
 import SwitchButton from '../../components/SwitchButton';
-import ROUTES from '../../routes/routesPath';
+import ROUTES from '../../routes/_paths';
 
 function Category() {
   const navigate = useNavigate();

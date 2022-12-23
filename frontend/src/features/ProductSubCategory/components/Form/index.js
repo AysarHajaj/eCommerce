@@ -12,7 +12,7 @@ import {
   postSubCategory,
   selectPostSubCategory,
 } from '../../subCategorySlice';
-import ROUTES from '../../../../routes/routesPath';
+import ROUTES from '../../../../routes/_paths';
 
 function Form() {
   const { id } = useParams();

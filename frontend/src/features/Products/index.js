@@ -16,7 +16,7 @@ import {
 } from './productSlice';
 import SwitchButton from '../../components/SwitchButton';
 import useAuth from '../../hooks/useAuth';
-import ROUTES from '../../routes/routesPath';
+import ROUTES from '../../routes/_paths';
 
 function Products() {
   const {

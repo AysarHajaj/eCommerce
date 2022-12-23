@@ -14,7 +14,7 @@ import {
   selectPostCurrency,
 } from '../../currencySlice';
 import formUtils from './formUtils';
-import ROUTES from '../../../../routes/routesPath';
+import ROUTES from '../../../../routes/_paths';
 import './style.scss';
 
 function Form() {

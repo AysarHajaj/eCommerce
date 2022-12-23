@@ -15,7 +15,7 @@ import {
   changeShopCategoryStatus,
 } from './shopCategorySlice';
 import SwitchButton from '../../components/SwitchButton';
-import ROUTES from '../../routes/routesPath';
+import ROUTES from '../../routes/_paths';
 
 function ShopCategory() {
   const navigate = useNavigate();

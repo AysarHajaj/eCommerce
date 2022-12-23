@@ -14,7 +14,7 @@ import {
   changeDistrictStatus,
 } from './districtSlice';
 import SwitchButton from '../../components/SwitchButton';
-import ROUTES from '../../routes/routesPath';
+import ROUTES from '../../routes/_paths';
 
 function Districts() {
   const navigate = useNavigate();

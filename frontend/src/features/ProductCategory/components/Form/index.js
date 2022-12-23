@@ -12,7 +12,7 @@ import {
   selectPostCategory,
 } from '../../categorySlice';
 import ImageUploader from '../../../../components/ImageUploader';
-import ROUTES from '../../../../routes/routesPath';
+import ROUTES from '../../../../routes/_paths';
 import useAuth from '../../../../hooks/useAuth';
 
 function Form() {
