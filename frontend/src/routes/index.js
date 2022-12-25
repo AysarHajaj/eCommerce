@@ -5,7 +5,7 @@ import Layout from '../root/layout/Layout';
 import Login from '../features/Login';
 import Loader from '../components/Loader';
 import useAuth from '../hooks/useAuth';
-import ROUTES from './routesConfig';
+import ROUTES from './adminDashboardRoutes';
 
 function AppRoutes() {
   const { auth } = useAuth();

@@ -18,7 +18,7 @@ root.render(
     <Provider store={store}>
       <StyledEngineProvider injectFirst>
         <ThemeProvider theme={theme}>
-          <BrowserRouter>
+          <BrowserRouter basename="/dashboard">
             <AuthProvider>
               <Routes>
                 <Route path="/*" element={<App />} />

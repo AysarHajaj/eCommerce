@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useLocation, Navigate, Outlet } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
-import ROUTES from './routesConfig';
+import ROUTES from './adminDashboardRoutes';
 
 function RequireAuth({ allowedRoles }) {
   const { auth } = useAuth();

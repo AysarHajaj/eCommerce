@@ -19,7 +19,7 @@ import ShopIcon from '@mui/icons-material/Shop';
 import MenuItem from '@mui/material/MenuItem';
 import Divider from '@mui/material/Divider';
 import constant from '../../constant';
-import ROUTES from '../../routes/routesConfig';
+import ROUTES from '../../routes/adminDashboardRoutes';
 import useAuth from '../../hooks/useAuth';
 
 const AppBarStyle = styled(MuiAppBar, {

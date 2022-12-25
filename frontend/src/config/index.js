@@ -5,7 +5,7 @@ import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
 import CategoryIcon from '@mui/icons-material/Category';
 import StoreIcon from '@mui/icons-material/Store';
 import PaidIcon from '@mui/icons-material/Paid';
-import ROUTES from '../routes/routesConfig';
+import ROUTES from '../routes/adminDashboardRoutes';
 
 const config = {
   nav_items: [
