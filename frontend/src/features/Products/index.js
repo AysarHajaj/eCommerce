@@ -17,6 +17,7 @@ import {
 import SwitchButton from '../../components/SwitchButton';
 import useAuth from '../../hooks/useAuth';
 import ROUTES from '../../routes/_paths';
+import PhoneNumberInput from '../../components/PhoneNumberInput';
 
 function Products() {
   const {
@@ -94,6 +95,12 @@ function Products() {
           Add New Product
         </Button>
       </div>
+      <PhoneNumberInput
+        style={{ marginTop: '20px' }}
+        // value={{ phoneNumber: '76661986', countryPhone: 961 }}
+        variant="outlined"
+        onChange={(val) => console.log(val)}
+      />
       <DataGrid rows={data} columns={columns} pageSize={5} rowsPerPageOptions={[5]} />
     </div>
   );

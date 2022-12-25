@@ -1,0 +1,35 @@
+@import '../../styles/variables.scss';
+
+.phone-number-input-cont {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  width: fit-content;
+
+  .phone-number-input {
+    .MuiInputBase-input {
+      padding-left: 5px;
+    }
+  }
+
+  .country-list {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .MuiList-root {
+      display: flex;
+      padding: 0;
+      cursor: pointer;
+
+      .MuiListItem-root {
+        padding: 0px;
+      }
+
+      .country-phone-number {
+        width: 40px;
+      }
+    }
+  }
+}
