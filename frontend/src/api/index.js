@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
+import publicPaths from '../routes/publicPaths';
 
 const api = axios.create({
   baseURL: process.env.REACT_APP_API_BASE_URL,
@@ -25,7 +26,7 @@ api.interceptors.response.use(
 
     if (error?.response?.status === 403 || error?.response?.status === 401) {
       setAuth();
-      navigate('/');
+      navigate(publicPaths.LOGIN.path);
     }
 
     return Promise.reject(error);

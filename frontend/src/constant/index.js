@@ -5,6 +5,9 @@ const USER_ROLES = {
   VENDOR: {
     NAME: 'vendor',
   },
+  CUSTOMER: {
+    NAME: 'customer',
+  },
 };
 
 const constants = {
