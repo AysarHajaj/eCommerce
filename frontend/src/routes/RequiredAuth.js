@@ -2,14 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useLocation, Navigate, Outlet } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
-import ROUTES from './routesConfig';
+import ROUTES from './adminDashboardRoutes';
+import publicPaths from './publicPaths';
 
 function RequireAuth({ allowedRoles }) {
   const { auth } = useAuth();
   const location = useLocation();
 
   if (!auth?.user || !auth.accessToken)
-    return <Navigate to="/" state={{ from: location }} replace />;
+    return <Navigate to={publicPaths.HOME.path} state={{ from: location }} replace />;
 
   if (!allowedRoles || allowedRoles?.includes(auth?.user?.type)) return <Outlet />;
 
