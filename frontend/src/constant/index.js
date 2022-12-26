@@ -86,6 +86,12 @@ const constants = {
       delete: 'DELETE/CURRENCY',
       get_list: 'GET/CURRENCY/LIST',
     },
+    vendors_page: {
+      get: 'GET/VENDOR_BY_CATEGORY_ID',
+    },
+    products_page: {
+      get_by_vendor_id: 'GET/PRODUCT_BY_VENDOR_ID',
+    },
   },
 };
 

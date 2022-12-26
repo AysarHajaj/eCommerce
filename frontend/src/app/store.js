@@ -9,6 +9,8 @@ import cityReducer from '../features/Cities/citySlice';
 import districtReducer from '../features/Districts/districtSlice';
 import currencyReducer from '../features/Currencies/currencySlice';
 import shopCategorySlice from '../features/ShopCategory/shopCategorySlice';
+import vendorsPageSlice from '../features/VendorsPage/vendorsPageSlice';
+import productsPageSlice from '../features/ProductsPage/productsPageSlice';
 
 export const store = configureStore({
   reducer: {
@@ -22,5 +24,7 @@ export const store = configureStore({
     district: districtReducer,
     currency: currencyReducer,
     shop_category: shopCategorySlice,
+    vendors_page: vendorsPageSlice,
+    products_page: productsPageSlice,
   },
 });
