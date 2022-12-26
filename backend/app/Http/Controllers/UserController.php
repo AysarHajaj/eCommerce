@@ -189,4 +189,38 @@ class UserController extends Controller
             return response()->json($response, 500);
         }
     }
+
+    public function getVendorsByShopCategoryId($shopCategoryId)
+    {
+        DB::beginTransaction();
+        try {
+            $vendors = User::with(['shop'])
+                ->whereHas('shop', function ($q) use ($shopCategoryId) {
+                    $q->where('shop_category_id', $shopCategoryId);
+                })
+                ->whereNull('deactivated_at')
+                ->where('type', UserTypes::VENDOR)
+                ->select(
+                    'users.id',
+                    'name',
+                    'email',
+                    'image',
+                    'deactivated_at'
+                )->get();
+
+            $vendors->map(function ($vendor) {
+                $vendor->image = $this->getImageUrl($vendor->image);
+                $vendor->shop->image = $this->getImageUrl($vendor->shop->image);
+                return $vendor;
+            });
+
+            $response = ["result" => $vendors];
+            DB::commit();
+            return response()->json($response, 200);
+        } catch (\Throwable $th) {
+            $response = ["error" => $th->getMessage()];
+            DB::rollBack();
+            return response()->json($response, 500);
+        }
+    }
 }

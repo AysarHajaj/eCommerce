@@ -206,4 +206,29 @@ class ProductCategoryController extends Controller
             return response()->json($response, 500);
         }
     }
+
+    public function getCategoriesByShopVendorId($vendorId)
+    {
+        DB::beginTransaction();
+        try {
+            $categories = ProductCategory::whereNull("deactivated_at")
+                ->where('user_id', $vendorId)
+                ->get();
+
+            $categories->map(function ($category) {
+                $category->image = $this->getImageUrl($category->image);
+                $category->qr_code = $this->getImageUrl($category->qr_code);
+
+                return $category;
+            });
+
+            $response = ["result" => $categories];
+            DB::commit();
+            return response()->json($response, 200);
+        } catch (\Throwable $th) {
+            $response = ["error" => $th->getMessage()];
+            DB::rollBack();
+            return response()->json($response, 500);
+        }
+    }
 }

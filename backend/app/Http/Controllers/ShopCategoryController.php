@@ -205,4 +205,26 @@ class ShopCategoryController extends Controller
             return response()->json($response, 500);
         }
     }
+
+    public function getActiveCategories()
+    {
+        DB::beginTransaction();
+        try {
+            $categories = ShopCategory::whereNull('deactivated_at')->get();
+            $categories->map(function ($category) {
+                $category->image = $this->getImageUrl($category->image);
+                $category->qr_code = $this->getImageUrl($category->qr_code);
+
+                return $category;
+            });
+
+            $response = ["result" => $categories];
+            DB::commit();
+            return response()->json($response, 200);
+        } catch (\Throwable $th) {
+            $response = ["error" => $th->getMessage()];
+            DB::rollBack();
+            return response()->json($response, 500);
+        }
+    }
 }

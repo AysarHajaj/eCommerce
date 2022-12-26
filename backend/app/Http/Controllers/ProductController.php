@@ -284,4 +284,101 @@ class ProductController extends Controller
             return response()->json($response, 500);
         }
     }
+
+    public function getSingleProduct($id)
+    {
+        DB::beginTransaction();
+        try {
+            $product = Product::whereNull('deactivated_at')->with([
+                'productChoiceGroups' => function ($q) {
+                    $q->with(['productChoices']);
+                },
+                'productCategory',
+                'productSubCategory'
+            ])->find($id);
+
+            if ($product) {
+                $product->image = $this->getImageUrl($product->image);
+                $product->qr_code = $this->getImageUrl($product->qr_code);
+                $product->bar_code = $this->getImageUrl($product->bar_code);
+            } else {
+                $response = ["error" => "model not found"];
+                return response()->json($response, 404);
+            }
+
+            $response = [
+                "result" => $product
+            ];
+            DB::commit();
+            return response()->json($response, 200);
+        } catch (\Throwable $th) {
+            $response = ["error" => $th->getMessage()];
+            DB::rollBack();
+            return response()->json($response, 500);
+        }
+    }
+
+    public function getActiveProductsByVendorId($vendorId)
+    {
+        DB::beginTransaction();
+        try {
+            $products = Product::with([
+                'productCategory',
+                'productSubCategory',
+                'productChoiceGroups' => function ($q) {
+                    $q->with(['productChoices']);
+                }
+            ])->whereNull('deactivated_at')->where('user_id', $vendorId)->get();
+
+            $products->map(function ($product) {
+                $product->image = $this->getImageUrl($product->image);
+                $product->qr_code = $this->getImageUrl($product->qr_code);
+                $product->bar_code = $this->getImageUrl($product->bar_code);
+
+                return $product;
+            });
+
+            $response = ["result" => $products];
+            DB::commit();
+            return response()->json($response, 200);
+        } catch (\Throwable $th) {
+            $response = ["error" => $th->getMessage()];
+            DB::rollBack();
+            return response()->json($response, 500);
+        }
+    }
+
+    public function getActiveProductsByVendorIdAndCategoryId($vendorId, $categoryId)
+    {
+        DB::beginTransaction();
+        try {
+            $products = Product::with([
+                'productCategory',
+                'productSubCategory',
+                'productChoiceGroups' => function ($q) {
+                    $q->with(['productChoices']);
+                }
+            ])
+                ->whereNull('deactivated_at')
+                ->where('user_id', $vendorId)
+                ->where('product_category_id', $categoryId)
+                ->get();
+
+            $products->map(function ($product) {
+                $product->image = $this->getImageUrl($product->image);
+                $product->qr_code = $this->getImageUrl($product->qr_code);
+                $product->bar_code = $this->getImageUrl($product->bar_code);
+
+                return $product;
+            });
+
+            $response = ["result" => $products];
+            DB::commit();
+            return response()->json($response, 200);
+        } catch (\Throwable $th) {
+            $response = ["error" => $th->getMessage()];
+            DB::rollBack();
+            return response()->json($response, 500);
+        }
+    }
 }
