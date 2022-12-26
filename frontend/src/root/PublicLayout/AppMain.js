@@ -1,7 +1,6 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import { styled } from '@mui/material/styles';
-import { DrawerHeader } from './AppDrawer';
 import constants from '../../constant';
 
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
@@ -24,16 +23,10 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
 );
 
 function AppMain(props) {
-  return (
-    <Main open={props.open}>
-      <DrawerHeader />
-      {props.children}
-    </Main>
-  );
+  return <Main>{props.children}</Main>;
 }
 
 AppMain.propTypes = {
-  open: PropTypes.bool.isRequired,
   children: PropTypes.any,
 };
 

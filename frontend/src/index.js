@@ -7,7 +7,6 @@ import { store } from './app/store';
 import { AuthProvider } from './context/AuthProvider';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import './index.css';
 import theme from './styles/muiTheme';
 
 const container = document.getElementById('root');
