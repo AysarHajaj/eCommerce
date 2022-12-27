@@ -14,12 +14,12 @@ function Dashboard() {
           {
             name: 'Total Order',
             icon: <ShopIcon />,
-            value: 20,
+            value: 0,
           },
           {
             name: 'Total Pending Order',
             icon: <ShopIcon />,
-            value: 13,
+            value: 0,
           },
           {
             name: 'Total Declined Order',
@@ -29,7 +29,7 @@ function Dashboard() {
           {
             name: 'Total Complete Order',
             icon: <ShopIcon />,
-            value: 6,
+            value: 0,
           },
           {
             name: 'Total Earning',
@@ -40,60 +40,60 @@ function Dashboard() {
           {
             name: 'Total Pending Earning',
             icon: <VerifiedIcon />,
-            value: 7,
+            value: 0,
             currency: '$',
           },
           {
             name: 'This month Earning',
             icon: <VerifiedIcon />,
-            value: 600,
+            value: 0,
             currency: '$',
           },
           {
             name: 'This Year Earning',
             icon: <VerifiedIcon />,
-            value: 5000,
+            value: 0,
             currency: '$',
           },
           {
             name: 'Today Product Sale',
             icon: <CircleIcon />,
-            value: 100,
+            value: 0,
           },
           {
             name: 'This Month Product Sale',
             icon: <CircleIcon />,
-            value: 152,
+            value: 0,
           },
           {
             name: 'This Year Product Sale',
             icon: <CircleIcon />,
-            value: 1546,
+            value: 0,
           },
           {
             name: 'Total Product Sale',
             icon: <CircleIcon />,
-            value: 8545,
+            value: 0,
           },
           {
             name: 'Total Product Report',
             icon: <PersonIcon />,
-            value: 5,
+            value: 0,
           },
           {
             name: 'Total Product Review',
             icon: <PersonIcon />,
-            value: 2,
+            value: 0,
           },
           {
             name: 'Total Seller',
             icon: <PersonIcon />,
-            value: 27,
+            value: 0,
           },
           {
             name: 'Total User',
             icon: <PersonIcon />,
-            value: 27,
+            value: 0,
           },
         ]}
         currency="$"

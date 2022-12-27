@@ -14,4 +14,10 @@ export default {
   LOGIN: {
     path: '/login',
   },
+  VENDORS_PAGE: {
+    path: '/public/vendors',
+  },
+  PRODUCTS_PAGE: {
+    path: '/public/products',
+  },
 };
