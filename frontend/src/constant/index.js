@@ -91,6 +91,7 @@ const constants = {
     },
     products_page: {
       get_by_vendor_id: 'GET/PRODUCT_BY_VENDOR_ID',
+      get_categories_by_vendor_id: 'GET/CATEGORIES_BY_VENDOR_ID',
     },
   },
 };

@@ -125,6 +125,8 @@ const getVendorsByCategoryId = (id) => api.get(`/public/${id}/vendors`);
 
 const getProductsByVendorId = (id) => api.get(`/public/${id}/products`);
 
+const getCategoriesByVendorId = (id) => api.get(`/public/${id}/categories`);
+
 const apis = {
   getProductCategories,
   deleteProductCategory,
@@ -187,6 +189,8 @@ const apis = {
   getVendorsByCategoryId,
 
   getProductsByVendorId,
+
+  getCategoriesByVendorId,
 };
 
 export default apis;
