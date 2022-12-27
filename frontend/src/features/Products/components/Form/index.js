@@ -391,7 +391,7 @@ function Form() {
                           <div className="column">Action</div>
                         </div>
                         {group.product_choices.map((choice) => (
-                          <div key={choice.id} className="row">
+                          <div key={choice.id} className="product-row">
                             <div className="column">{choice.english_name}</div>
                             <div className="column">{choice.price}</div>
                             <div className="column">
