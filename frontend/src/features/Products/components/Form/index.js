@@ -336,7 +336,14 @@ function Form() {
               Product Choice Groups
             </Typography>
             {data.product_choice_groups.map((group) => (
-              <Accordion variant="outlined" key={group.id}>
+              <Accordion
+                style={{
+                  borderRadius: '10px',
+                  margin: '4px',
+                }}
+                variant="outlined"
+                key={group.id}
+              >
                 <AccordionSummary
                   expandIcon={<ExpandMoreIcon />}
                   aria-controls={`panel1a-content-${group.id}`}
