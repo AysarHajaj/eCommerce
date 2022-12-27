@@ -5,7 +5,7 @@ import React from 'react';
 
 function AppHeader() {
   return (
-    <header className="header w-100">
+    <header className="header w-100 mb-3">
       <div className="header-top">
         <div className="container">
           <div className="header-left">
