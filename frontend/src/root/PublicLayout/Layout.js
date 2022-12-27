@@ -1,31 +1,18 @@
 import * as React from 'react';
-import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
 import { Outlet } from 'react-router-dom';
-import AppBar from './AppBar';
-import DrawerApp from './AppDrawer';
+import AppHeader from './AppHeader';
 import AppMain from './AppMain';
 
 function Layout() {
-  const [open, setOpen] = React.useState(true);
-
-  const handleDrawerOpen = () => {
-    setOpen(true);
-  };
-
-  const handleDrawerClose = () => {
-    setOpen(false);
-  };
-
   return (
-    <Box sx={{ display: 'flex' }}>
-      <AppBar open={open} handleDrawerOpen={handleDrawerOpen} />
-      <DrawerApp open={open} handleDrawerClose={handleDrawerClose} />
+    <React.Fragment>
+      <AppHeader />
       <CssBaseline />
-      <AppMain open={open}>
+      <AppMain>
         <Outlet />
       </AppMain>
-    </Box>
+    </React.Fragment>
   );
 }
 
