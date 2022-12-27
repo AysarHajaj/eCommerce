@@ -39,7 +39,7 @@ function VendorList({ vendors }) {
             </div>
           </div>
         </div>
-        <div className="vendor-search-wrapper open">
+        <div className="vendor-search-wrapper">
           <form className="vendor-search-form">
             <input
               type="email"
@@ -53,9 +53,11 @@ function VendorList({ vendors }) {
             </button>
           </form>
         </div>
-        {vendors.map((vendor) => (
-          <VendorCard key={vendor.id} vendor={vendor} />
-        ))}
+        <div className="row cols-lg-3 cols-md-2 cols-sm-2 cols-1 mt-4">
+          {vendors.map((vendor) => (
+            <VendorCard key={vendor.id} vendor={vendor} />
+          ))}
+        </div>
       </div>
     </div>
   );

@@ -11,11 +11,7 @@ function VendorsPage() {
     dispatch(getVendorsByCategoryId(2));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  return (
-    <div>
-      <VendorList vendors={data} />
-    </div>
-  );
+  return <VendorList vendors={data} />;
 }
 
 export default VendorsPage;
