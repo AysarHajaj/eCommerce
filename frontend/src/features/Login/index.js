@@ -12,6 +12,7 @@ import IconButton from '@mui/material/IconButton';
 import useAuth from '../../hooks/useAuth';
 import api from '../../api';
 import './style.scss';
+import publicPaths from '../../routes/publicPaths';
 
 const { PUBLIC_URL } = process.env;
 
@@ -20,7 +21,9 @@ function Login() {
   const navigate = useNavigate();
   const location = useLocation();
   const fromPath = location.state?.from?.pathname || location.pathname || '/';
-  if (auth?.user && auth?.accessToken) navigate(fromPath, { replace: true });
+
+  if (auth?.user && auth?.accessToken)
+    navigate(fromPath !== publicPaths.LOGIN.path ? fromPath : '/', { replace: true });
 
   const emailRef = useRef();
 
