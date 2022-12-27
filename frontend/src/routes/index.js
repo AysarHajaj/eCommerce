@@ -31,9 +31,9 @@ function AppRoutes() {
       )}
       {/* publich rutes */}
       <Route path="/" element={<PublicLayout />}>
-        {Object.values(PUBLIC_ROUTES).map(({ path, Element, label }) => (
+        {Object.values(PUBLIC_ROUTES).map(({ path, Element }) => (
           <Route
-            key={label}
+            key={path}
             path={path}
             element={
               <React.Suspense fallback={<Loader />}>

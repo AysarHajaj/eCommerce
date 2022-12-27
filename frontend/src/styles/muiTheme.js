@@ -3,7 +3,7 @@ import { createTheme } from '@mui/material';
 const theme = createTheme({
   typography: {
     htmlFontSize: 10,
-    fontSize: 8,
+    fontSize: 12,
   },
 
   palette: {
