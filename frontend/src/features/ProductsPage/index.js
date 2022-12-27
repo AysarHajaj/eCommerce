@@ -8,7 +8,7 @@ function ProductsPage() {
   const { data } = useSelector(selectGetProductsByVendorId);
 
   useEffect(() => {
-    dispatch(getProductsByVendorId(4));
+    dispatch(getProductsByVendorId(5));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
