@@ -121,7 +121,7 @@ const deleteCurrency = (id) => api.delete(`/currencies/${id}`);
 const updateCurrency = (id, data) => api.put(`/currencies/${id}`, data);
 const postCurrency = (data) => api.post(`/currencies`, data);
 
-const getVendorsByCategoryId = (id) => api.get(`/public/${id}/vendors`);
+const getActiveVendors = () => api.get(`/public/vendors/active`);
 
 const getProductsByVendorId = (id) => api.get(`/public/${id}/products`);
 
@@ -186,7 +186,7 @@ const apis = {
   updateCurrency,
   postCurrency,
 
-  getVendorsByCategoryId,
+  getActiveVendors,
 
   getProductsByVendorId,
 

@@ -10,11 +10,11 @@ const initialState = {
   },
 };
 
-export const getVendorsByCategoryId = createAsyncThunk(
+export const getActiveVendors = createAsyncThunk(
   constants.ACTION_TYPES.vendors_page.get,
-  (id, { rejectWithValue }) =>
+  (_, { rejectWithValue }) =>
     api
-      .getVendorsByCategoryId(id)
+      .getActiveVendors()
       .then((response) => response.data)
       .catch((error) => rejectWithValue(error?.response?.data)),
 );
@@ -26,15 +26,15 @@ export const vendorsPageSlice = createSlice({
   extraReducers: (builder) => {
     builder
       // get vendors by category id case
-      .addCase(getVendorsByCategoryId.pending, (state) => {
+      .addCase(getActiveVendors.pending, (state) => {
         state.get.isLoading = true;
         state.get.error = null;
       })
-      .addCase(getVendorsByCategoryId.fulfilled, (state, action) => {
+      .addCase(getActiveVendors.fulfilled, (state, action) => {
         state.get.isLoading = false;
         state.get.data = action.payload.result;
       })
-      .addCase(getVendorsByCategoryId.rejected, (state, action) => {
+      .addCase(getActiveVendors.rejected, (state, action) => {
         state.get.isLoading = false;
         state.get.error = action.payload;
       });

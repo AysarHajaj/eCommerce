@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getVendorsByCategoryId, selectGetVendors } from './vendorsPageSlice';
+import { getActiveVendors, selectGetVendors } from './vendorsPageSlice';
 import VendorList from '../../components/VendorList';
 
 function VendorsPage() {
@@ -8,7 +8,7 @@ function VendorsPage() {
   const { data } = useSelector(selectGetVendors);
 
   useEffect(() => {
-    dispatch(getVendorsByCategoryId(2));
+    dispatch(getActiveVendors());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return <VendorList vendors={data} />;

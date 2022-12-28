@@ -80,7 +80,7 @@ Route::get('products/vendor/{vendorId}', [ProductController::class, 'getProducts
 //public apis
 Route::prefix('public')->group(function () {
     Route::get('shop-categories/active', [ShopCategoryController::class, 'getActiveCategories']);
-    Route::get('{shop_category}/vendors', [UserController::class, 'getVendorsByShopCategoryId']);
+    Route::get('vendors/active', [UserController::class, 'getActiveVendors']);
     Route::get('{vendor_id}/categories', [ProductCategoryController::class, 'getCategoriesByShopVendorId']);
     Route::get('product/{id}', [ProductController::class, 'getSingleProduct']);
     Route::get('{vendor_id}/products', [ProductController::class, 'getActiveProductsByVendorId']);

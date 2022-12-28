@@ -197,14 +197,12 @@ class UserController extends Controller
         }
     }
 
-    public function getVendorsByShopCategoryId($shopCategoryId)
+    public function getActiveVendors()
     {
         DB::beginTransaction();
         try {
             $vendors = User::with(['shop'])
-                ->whereHas('shop', function ($q) use ($shopCategoryId) {
-                    $q->where('shop_category_id', $shopCategoryId);
-                })
+                ->whereHas('shop')
                 ->whereNull('deactivated_at')
                 ->where('type', UserTypes::VENDOR)
                 ->select(

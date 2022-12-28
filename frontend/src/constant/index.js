@@ -87,7 +87,7 @@ const constants = {
       get_list: 'GET/CURRENCY/LIST',
     },
     vendors_page: {
-      get: 'GET/VENDOR_BY_CATEGORY_ID',
+      get: 'GET/ACTIVE_VENDOR',
     },
     products_page: {
       get_by_vendor_id: 'GET/PRODUCT_BY_VENDOR_ID',
