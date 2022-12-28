@@ -87,7 +87,7 @@ export default function ProductGroupChoices(props) {
           <TextField
             label="English Name"
             name="english_name"
-            value={data.english_name}
+            value={data.english_name || ''}
             onChange={handleChange}
             required
           />
@@ -95,7 +95,7 @@ export default function ProductGroupChoices(props) {
           <TextField
             label="Arabic Name"
             name="arabic_name"
-            value={data.arabic_name}
+            value={data.arabic_name || ''}
             onChange={handleChange}
           />
           <TextField
