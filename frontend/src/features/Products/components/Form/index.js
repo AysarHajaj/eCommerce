@@ -138,7 +138,7 @@ function Form() {
     if (groupId)
       setData({
         ...data,
-        product_choice_groups: [...data.filter((_group) => _group.id === groupId), { ...group }],
+        product_choice_groups: [...data.filter((_group) => _group.id !== groupId), { ...group }],
       });
     else
       setData({

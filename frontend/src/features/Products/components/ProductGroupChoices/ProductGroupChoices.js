@@ -58,7 +58,7 @@ ProductGroupChoicesDialogTitle.propTypes = {
 
 export default function ProductGroupChoices(props) {
   const { productName, initialValues } = props;
-  const [data, setData] = React.useState({ ...formUtils.initialValues });
+  const [data, setData] = React.useState({ ...formUtils.initialValues, product_choices: [] });
 
   const handleChange = (e) => {
     const property = e.target.name;
@@ -66,11 +66,11 @@ export default function ProductGroupChoices(props) {
   };
 
   React.useEffect(() => {
-    if (initialValues) setData({ ...data, ...initialValues });
+    if (initialValues) setData({ ...data, ...initialValues, product_choices: [] });
   }, [initialValues]);
 
   React.useEffect(() => {
-    if (!props.open) setData({ ...formUtils.initialValues });
+    if (!props.open) setData({ ...formUtils.initialValues, product_choices: [] });
   }, [props.open]);
 
   return (
