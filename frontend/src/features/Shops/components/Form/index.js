@@ -214,6 +214,7 @@ function Form() {
           <FormControl>
             <InputLabel id="category-label">Shop Category</InputLabel>
             <Select
+              disabled
               labelId="category-label"
               label="Category"
               name="shop_category_id"
@@ -231,6 +232,7 @@ function Form() {
           <FormControl>
             <InputLabel id="currency-label">Currency</InputLabel>
             <Select
+              disabled
               labelId="currency-label"
               label="Currency"
               name="currency_id"
