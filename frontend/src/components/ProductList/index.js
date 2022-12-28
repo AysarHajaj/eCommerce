@@ -10,7 +10,7 @@ function ProductList({ products }) {
     <div className="page-content">
       <div className="container">
         <div className="shop-content row gutter-lg mb-10">
-          <div className="main-content my-main-content">
+          <div style={{ width: '100%', maxWidth: '100%' }} className="main-content my-main-content">
             <nav className="toolbox sticky-toolbox sticky-content fix-top">
               <div className="toolbox-left">
                 <a

@@ -47,6 +47,7 @@ function ProductCard({ product }) {
               <a
                 href="#a"
                 className="btn-cart btn-product btn btn-icon-right btn-link btn-underline"
+                style={{ textDecoration: 'none' }}
               >
                 Add To Cart
               </a>
