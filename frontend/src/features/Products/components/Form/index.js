@@ -33,7 +33,7 @@ import ROUTES from '../../../../routes/_paths';
 import './style.scss';
 import ImageUploader from '../../../../components/ImageUploader';
 import ProductGroupChoices from '../ProductGroupChoices/ProductGroupChoices';
-import ProductChoices from '../ProductChoices/ProductGroupChoices';
+import ProductChoices from '../ProductChoices/ProductChoices';
 
 function Form() {
   const { id } = useParams();
@@ -138,7 +138,7 @@ function Form() {
     if (groupId)
       setData({
         ...data,
-        product_choice_groups: [...data.filter((_group) => _group.id === groupId), { ...group }],
+        product_choice_groups: [...data.filter((_group) => _group.id !== groupId), { ...group }],
       });
     else
       setData({
@@ -336,7 +336,14 @@ function Form() {
               Product Choice Groups
             </Typography>
             {data.product_choice_groups.map((group) => (
-              <Accordion variant="outlined" key={group.id}>
+              <Accordion
+                style={{
+                  borderRadius: '10px',
+                  margin: '4px',
+                }}
+                variant="outlined"
+                key={group.id}
+              >
                 <AccordionSummary
                   expandIcon={<ExpandMoreIcon />}
                   aria-controls={`panel1a-content-${group.id}`}
@@ -384,7 +391,7 @@ function Form() {
                           <div className="column">Action</div>
                         </div>
                         {group.product_choices.map((choice) => (
-                          <div key={choice.id} className="row">
+                          <div key={choice.id} className="product-row">
                             <div className="column">{choice.english_name}</div>
                             <div className="column">{choice.price}</div>
                             <div className="column">

@@ -1,30 +1,41 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import React from 'react';
+import React, { useState, useMemo, useRef } from 'react';
 import PropTypes from 'prop-types';
 import VendorCard from '../VendorCard';
 
 function VendorList({ vendors }) {
+  const [openFilter, setOpenFilter] = useState(false);
+  const [searchVendorText, setSearchVendorText] = useState('');
+  const searchRef = useRef();
+
+  const filteredShops = useMemo(
+    () =>
+      vendors.filter((vendor) =>
+        vendor?.shop?.name?.toLocaleLowerCase()?.includes(searchVendorText?.toLocaleLowerCase()),
+      ),
+    [searchVendorText, vendors],
+  );
+
   return (
     <div className="page-content mb-8">
       <div className="container">
         <div className="toolbox vendor-toolbox pb-0">
           <div className="toolbox-left mb-4 mb-md-0">
-            <a
-              href="#filter"
+            <button
               className="btn btn-primary btn-outline btn-rounded btn-icon-left vendor-search-toggle "
               id="filter"
+              type="button"
+              onClick={() => setOpenFilter((open) => !open)}
             >
-              <i className="w-icon-category">Filter</i>
-            </a>
+              <i className="w-icon-category" /> Filter
+            </button>
             <label className="d-block">Total Store Showing {vendors.length}</label>
           </div>
           <div className="toolbox-right">
             <div className="toolbox-item toolbox-sort select-box mb-0">
               <label className="font-weight-normal">Sort by:</label>
               <select name="orderby" className="form-control">
-                <option value="default" selected="selected">
-                  Default
-                </option>
+                <option value="default">Default</option>
                 <option value="recent">Most Recent</option>
                 <option value="popular">Most Popular</option>
               </select>
@@ -39,23 +50,32 @@ function VendorList({ vendors }) {
             </div>
           </div>
         </div>
-        <div className="vendor-search-wrapper open">
-          <form className="vendor-search-form">
+        <div style={{ display: openFilter ? 'block' : 'none' }} className="vendor-search-wrapper">
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              setSearchVendorText(searchRef.current?.value);
+            }}
+            className="vendor-search-form"
+          >
             <input
-              type="email"
+              type="text"
               className="form-control mr-4 bg-white"
               name="vendor"
               id="vendor"
               placeholder="Search Vendors"
+              ref={searchRef}
             />
             <button className="btn btn-primary btn-rounded" type="submit">
               Apply
             </button>
           </form>
         </div>
-        {vendors.map((vendor) => (
-          <VendorCard key={vendor.id} vendor={vendor} />
-        ))}
+        <div className="row cols-lg-3 cols-md-2 cols-sm-2 cols-1 mt-4">
+          {filteredShops.map((vendor) => (
+            <VendorCard key={vendor.id} vendor={vendor} />
+          ))}
+        </div>
       </div>
     </div>
   );
