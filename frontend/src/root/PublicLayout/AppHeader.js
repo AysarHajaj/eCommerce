@@ -2,8 +2,11 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable jsx-a11y/anchor-has-content */
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import ROUTES from '../../routes/publicPaths';
 
 function AppHeader() {
+  const navigate = useNavigate();
   return (
     <header className="header w-100 mb-3">
       <div className="header-top">
@@ -43,7 +46,14 @@ function AppHeader() {
             <a href="my-account.html" className="d-lg-show">
               My Account
             </a>
-            <a href="assets/ajax/#" className="d-lg-show login sign-in">
+            <a
+              href="assets/ajax/#"
+              onClick={(e) => {
+                e.preventDefault();
+                navigate(ROUTES.LOGIN.path);
+              }}
+              className="d-lg-show login sign-in"
+            >
               <i className="w-icon-account" />
               Sign In
             </a>
