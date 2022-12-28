@@ -3,11 +3,11 @@
   "name": "Create React App Sample",
   "icons": [
     {
-      "src": "/images/eCommerceLogo.png",
+      "src": "/images/logo.png",
       "type": "image/png"
     },
     {
-      "src": "/images/eCommerceLogo.png",
+      "src": "/images/logo.png",
       "type": "image/png"
     }
   ],
