@@ -33,7 +33,7 @@ import ROUTES from '../../../../routes/_paths';
 import './style.scss';
 import ImageUploader from '../../../../components/ImageUploader';
 import ProductGroupChoices from '../ProductGroupChoices/ProductGroupChoices';
-import ProductChoices from '../ProductChoices/ProductGroupChoices';
+import ProductChoices from '../ProductChoices/ProductChoices';
 
 function Form() {
   const { id } = useParams();
