@@ -41,9 +41,11 @@ class UserController extends Controller
             $input['type'] = UserTypes::VENDOR;
 
             $user = User::create($input);
-            $shop = Shop::create([
-                'user_id' => $user->id
-            ]);
+
+            $shopInput = $request->only(['shop_category_id', 'currency_id']);
+            $shopInput['user_id'] = $user->id;
+
+            $shop = Shop::create($shopInput);
 
             $response = ["result" => "success"];
             DB::commit();
@@ -86,9 +88,11 @@ class UserController extends Controller
     {
         DB::beginTransaction();
         try {
-            $vendor = User::select('id', 'name', 'image', 'deactivated_at', 'email')->find($id);
+            $vendor = User::with(['shop'])->select('id', 'name', 'image', 'deactivated_at', 'email')->find($id);
             if ($vendor) {
                 $vendor->image = $this->getImageUrl($vendor->image);
+                $vendor['shop_category_id'] = $vendor->shop->shop_category_id;
+                $vendor['currency_id'] = $vendor->shop->currency_id;
             } else {
                 $response = ["error" => "model not found"];
                 return response()->json($response, 404);
@@ -149,8 +153,11 @@ class UserController extends Controller
             if ($request->filled("password")) {
                 $input['password'] = bcrypt($request->password);
             }
-
             User::where('id', $id)->update($input);
+
+            $shopInput = $request->only(['shop_category_id', 'currency_id']);
+            $shopInput['user_id'] = $id;
+            Shop::where('user_id', $id)->update($shopInput);
             DB::commit();
             $response = ["result" => "success"];
             return response()->json($response, 200);
