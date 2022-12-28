@@ -18,6 +18,7 @@ export default {
     path: '/public/vendors',
   },
   PRODUCTS_PAGE: {
-    path: '/public/products',
+    path: '/public/:id/products',
+    dynamicPath: (id) => `/public/${id}/products`,
   },
 };

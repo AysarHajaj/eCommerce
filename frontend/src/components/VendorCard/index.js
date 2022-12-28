@@ -1,8 +1,12 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useNavigate } from 'react-router-dom';
+import ROUTES from '../../routes/publicPaths';
 
 function VendorCard({ vendor }) {
+  const navigate = useNavigate();
   return (
     <div className="store-wrap mb-4">
       <div className="store store-grid">
@@ -43,8 +47,11 @@ function VendorCard({ vendor }) {
             <img src={vendor.image} alt="Brand" width="80" height="80" />
           </figure>
           <a
-            href="vendor.html"
             className="btn btn-dark btn-link btn-underline btn-icon-right btn-visit"
+            onClick={(e) => {
+              e.preventDefault();
+              navigate(ROUTES.PRODUCTS_PAGE.dynamicPath(vendor.id));
+            }}
           >
             <i className="w-icon-long-arrow-right">Visit Store</i>
           </a>

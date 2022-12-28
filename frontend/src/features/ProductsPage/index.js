@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import {
   getProductsByVendorId,
   selectGetProductsByVendorId,
@@ -10,13 +11,14 @@ import ProductList from '../../components/ProductList';
 import ShopCategoriesCarousel from '../../components/ShopCategoriesCarousel';
 
 function ProductsPage() {
+  const { id } = useParams();
   const dispatch = useDispatch();
   const { data } = useSelector(selectGetProductsByVendorId);
   const { data: categories } = useSelector(selectGetCategoriesByVendorId);
 
   useEffect(() => {
-    dispatch(getProductsByVendorId(5));
-    dispatch(getCategoriesByVendorId(5));
+    dispatch(getProductsByVendorId(id));
+    dispatch(getCategoriesByVendorId(id));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
