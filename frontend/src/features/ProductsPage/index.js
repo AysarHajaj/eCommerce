@@ -22,9 +22,11 @@ function ProductsPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
-    <div>
-      <ShopCategoriesCarousel categories={categories} />
-      <ProductList products={data} />
+    <div className="page-content">
+      <div className="container">
+        <ShopCategoriesCarousel categories={categories} />
+        <ProductList products={data} />
+      </div>
     </div>
   );
 }

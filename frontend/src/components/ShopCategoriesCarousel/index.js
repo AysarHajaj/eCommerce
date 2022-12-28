@@ -30,7 +30,10 @@ function ShopCategoriesCarousel({ categories }) {
       }
   }"
       >
-        <div className="swiper-wrapper row gutter-lg cols-xl-8 cols-lg-7 cols-md-6 cols-sm-4 cols-xs-3 cols-2">
+        <div
+          style={{ overflow: 'auto' }}
+          className="swiper-wrapper row gutter-lg cols-xl-8 cols-lg-7 cols-md-6 cols-sm-4 cols-xs-3 cols-2"
+        >
           {categories.map((category) => (
             <div className="swiper-slide category-wrap">
               <div className="category category-ellipse">
@@ -54,7 +57,6 @@ function ShopCategoriesCarousel({ categories }) {
             </div>
           ))}
         </div>
-        <div className="swiper-pagination"></div>
       </div>
     </div>
   );
