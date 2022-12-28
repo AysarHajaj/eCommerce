@@ -111,8 +111,9 @@ function AppDrawer({ open, handleDrawerClose }) {
       <DrawerHeader>
         <IconButton onClick={handleDrawerClose}>
           <Avatar
-            style={{ marginRight: '212px' }}
-            src={`${process.env.PUBLIC_URL}/images/eCommerceLogo.png`}
+            className="logo-image-cont"
+            style={{ marginRight: '180px' }}
+            src={`${process.env.PUBLIC_URL}/images/logo.png`}
             alt=""
           />
           {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}

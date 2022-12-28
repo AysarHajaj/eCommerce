@@ -75,3 +75,20 @@ nav {
     color: rgba($color: #000000, $alpha: 0.38);
   }
 }
+
+
+
+.logo-image-cont {
+  background-color: #fff;
+  min-height: 80px;
+  min-width: 80px;
+
+  img {
+    object-fit: contain;
+  }
+}
+
+
+a:hover {
+  color: $colorPrimary;
+}

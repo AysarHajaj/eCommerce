@@ -27,7 +27,7 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   },
 }));
 
-function ProductGroupChoicesDialogTitle(props) {
+function ProductChoicesDialogTitle(props) {
   const { children, onClose, ...other } = props;
 
   return (
@@ -51,14 +51,17 @@ function ProductGroupChoicesDialogTitle(props) {
   );
 }
 
-ProductGroupChoicesDialogTitle.propTypes = {
+ProductChoicesDialogTitle.propTypes = {
   children: PropTypes.node,
   onClose: PropTypes.func.isRequired,
 };
 
-export default function ProductGroupChoices(props) {
-  const { productName, initialValues } = props;
-  const [data, setData] = React.useState({ ...formUtils.initialValues, product_choices: [] });
+export default function ProductChoices(props) {
+  const { groupName, initialValues, groupId } = props;
+  const [data, setData] = React.useState({
+    ...formUtils.initialValues,
+    product_choice_group_id: groupId,
+  });
 
   const handleChange = (e) => {
     const property = e.target.name;
@@ -66,22 +69,24 @@ export default function ProductGroupChoices(props) {
   };
 
   React.useEffect(() => {
-    if (initialValues) setData({ ...data, ...initialValues, product_choices: [] });
-  }, [initialValues]);
+    if (!props.open) setData({ ...formUtils.initialValues });
+  }, [props.open]);
 
   React.useEffect(() => {
-    if (!props.open) setData({ ...formUtils.initialValues, product_choices: [] });
-  }, [props.open]);
+    if (props.open) {
+      setData({ ...data, ...initialValues, product_choice_group_id: groupId });
+    }
+  }, [groupId, initialValues, props.open]);
 
   return (
     <div>
       <BootstrapDialog
         onClose={props.handleClose}
-        aria-labelledby="product-group-choices-title"
+        aria-labelledby="product-choices-title"
         open={props.open}
       >
-        <DialogTitle id="product-group-choices-title" onClose={props.handleClose}>
-          Add Product Group Choices {productName ? `: ${productName}` : ''}
+        <DialogTitle id="product-choices-title" onClose={props.handleClose}>
+          Add Product Choices {groupName ? `: ${groupName}` : ''}
         </DialogTitle>
         <DialogContent dividers>
           <TextField
@@ -99,31 +104,18 @@ export default function ProductGroupChoices(props) {
             onChange={handleChange}
           />
           <TextField
-            label="Min Number"
-            name="min_number"
+            label="Price"
+            name="price"
             type="number"
-            value={data.min_number}
-            onChange={handleChange}
-          />
-
-          <TextField
-            label="Max Number"
-            name="max_number"
-            type="number"
-            value={data.max_number}
+            value={data.price}
             onChange={handleChange}
           />
         </DialogContent>
         <DialogActions>
           <Button
             disabled={
-              !data.english_name ||
-              data.max_number <= 0 ||
-              data.min_number < 0 ||
-              data.min_number > data.max_number ||
-              (!!initialValues && formUtils.isEqual(data, initialValues))
+              !data.english_name || (initialValues && formUtils.isEqual(data, initialValues))
             }
-            autoFocus
             onClick={() => props.onSubmit(data)}
           >
             Save changes
@@ -134,10 +126,11 @@ export default function ProductGroupChoices(props) {
   );
 }
 
-ProductGroupChoices.propTypes = {
+ProductChoices.propTypes = {
   open: PropTypes.bool,
   handleClose: PropTypes.func.isRequired,
-  productName: PropTypes.string,
+  groupName: PropTypes.string,
+  groupId: PropTypes.number,
   onSubmit: PropTypes.func.isRequired,
   initialValues: PropTypes.object,
 };

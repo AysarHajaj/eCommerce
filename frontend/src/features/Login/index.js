@@ -81,8 +81,8 @@ function Login() {
   return (
     <section className="login-container">
       <div className="login-brand">
-        <div className="logo">
-          <img alt="" src={`${PUBLIC_URL}/images/eCommerceLogo.png`} />
+        <div className="logo-image-cont">
+          <img alt="" src={`${PUBLIC_URL}/images/logo.png`} />
         </div>
       </div>
       <form onSubmit={handleSubmit}>

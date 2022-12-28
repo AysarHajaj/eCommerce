@@ -115,22 +115,31 @@ function Form() {
     const { id: choiceId, product_choice_group_id: groupId } = choice;
     const groupIndex = data.product_choice_groups?.findIndex((group) => group.id === groupId);
     if (groupIndex >= 0) {
-      const group = { ...data.product_choice_groups[groupIndex] };
+      const group = {
+        ...data.product_choice_groups[groupIndex],
+        product_choices: [...(data?.product_choice_groups[groupIndex]?.product_choices || [])],
+      };
       if (choiceId) {
         const oldChoiceIndex = group.product_choices.findIndex(
           (_choice) => _choice.id === choiceId,
         );
         if (oldChoiceIndex >= 0) {
-          group.product_choices[oldChoiceIndex] = choice;
+          group.product_choices = group.product_choices.map((_choice) => {
+            if (_choice.id === choiceId) return { ...choice };
+            return _choice;
+          });
         }
         const newGroups = [...data.product_choice_groups];
         newGroups[groupIndex] = group;
         setData({ ...data, product_choice_groups: newGroups });
       } else {
         group.product_choices.push({ ...choice, id: Date.now() });
+        const newGroups = [...data.product_choice_groups];
+        newGroups[groupIndex] = group;
+        setData({ ...data, product_choice_groups: newGroups });
       }
     }
-    setChoicesDialogData();
+    setChoicesDialogData(false);
   };
 
   const handleSubmitProductGroupChoices = (group) => {
