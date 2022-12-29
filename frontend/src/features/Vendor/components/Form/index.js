@@ -132,7 +132,7 @@ function Form() {
   const getValidData = (fields) => ({
     id: fields.id || data.id,
     name: fields.name || data.name,
-    email: fields.name || data.email,
+    email: fields.email || data.email,
     password: '',
     confirm_password: '',
     image: fields.image || data.image,
