@@ -17,7 +17,8 @@ function VendorList({ vendors }) {
         (vendor) =>
           vendor?.shop?.name
             ?.toLocaleLowerCase()
-            ?.includes(searchVendorText?.toLocaleLowerCase()) && vendor.shop.shop_category_id === 3,
+            ?.includes(searchVendorText?.toLocaleLowerCase()) &&
+          vendor.shop.shop_category_id === +id,
       ),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [searchVendorText, vendors, id],
