@@ -18,6 +18,10 @@ const config = {
     path: publicPaths.PRODUCTS_PAGE.path,
     Element: React.lazy(() => import('../features/ProductsPage')),
   },
+  PRODUCT: {
+    path: publicPaths.PRODUCT_PAGE.path,
+    Element: React.lazy(() => import('../features/ProductPage')),
+  },
 };
 
 export default config;

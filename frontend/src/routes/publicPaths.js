@@ -22,4 +22,8 @@ export default {
     path: '/public/:id/products',
     dynamicPath: (id) => `/public/${id}/products`,
   },
+  PRODUCT_PAGE: {
+    path: '/public/product/:id',
+    dynamicPath: (id) => `/public/product/${id}`,
+  },
 };
