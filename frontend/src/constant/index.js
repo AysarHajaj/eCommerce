@@ -96,6 +96,9 @@ const constants = {
     home_page: {
       get_active_shop_categories: 'GET/ACTIVE_SHOP_CATEGORIES',
     },
+    product_page: {
+      get_single_product: 'GET/SINGLE_PRODUCT',
+    },
   },
 };
 
