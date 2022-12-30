@@ -1,0 +1,48 @@
+.product-details{
+    padding-top: 3rem !important;
+}
+.product-panels{
+    background: rgba(163, 134, 177, 0.211);
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 2rem;
+}
+
+.food-panel{
+    background: rgba(219, 150, 0, 0.22) !important;
+}
+.food-panel .sec-title{
+    background: #ffe19eb5;
+}
+
+.supermarket-panel{
+    background: #dd2a5b1c;
+}
+/* .supermarket-panel {} */
+
+
+
+.product-details{
+    background: transparent;
+}
+.product-image{
+    border-radius: 10px;
+}
+.my-form-group{
+    margin-bottom: 1rem;
+}
+.my-form-group .custom-checkbox:checked + label::before{
+    border-color: #45357f;
+    background: #7665ac;
+}
+.my-form-group .options-label{
+    font-size: 14px !important;
+    color: black !important;
+}
+.sec-title{
+    font-size: 16px;
+    background: #e1d4e7;
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 2rem;
+}
