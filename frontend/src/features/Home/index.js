@@ -3,6 +3,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getActiveShopCategories, selectGetActiveShopCategories } from './homePageSlice';
 import ShopCategoriesCarousel from '../../components/ShopCategoriesCarousel';
+import './styles.scss';
 
 function HOME() {
   const dispatch = useDispatch();
@@ -93,7 +94,7 @@ function HOME() {
                                 </div>
                             </figure>
                         </div>
-                        
+
                     </div> */}
             <div className="intro-wrapper main-intro-slider ">
               <div

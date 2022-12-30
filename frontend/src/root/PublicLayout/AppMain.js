@@ -11,7 +11,7 @@ const Main = styled('main')(({ theme }) => ({
 }));
 
 function AppMain(props) {
-  return <Main>{props.children}</Main>;
+  return <Main className="page-wrapper my-main">{props.children}</Main>;
 }
 
 AppMain.propTypes = {
