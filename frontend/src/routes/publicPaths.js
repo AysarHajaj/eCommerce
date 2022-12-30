@@ -15,7 +15,8 @@ export default {
     path: '/login',
   },
   VENDORS_PAGE: {
-    path: '/public/vendors',
+    path: '/public/vendors/:id',
+    dynamicPath: (id) => `/public/vendors/${id}`,
   },
   PRODUCTS_PAGE: {
     path: '/public/:id/products',
