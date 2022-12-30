@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getActiveShopCategories, selectGetActiveShopCategories } from './homePageSlice';
@@ -17,7 +18,7 @@ function HOME() {
         <div className="row">
           <div className="col">
             <div className="d-flex justify-content-between ">
-              <a href="#a" className="links  mx-1 w-50 d-flex">
+              <a className="links  mx-1 w-50 d-flex">
                 <button
                   type="submit"
                   onClick={(e) => {
@@ -30,10 +31,7 @@ function HOME() {
                 </button>
               </a>
 
-              <a
-                href="https://marsool.org/marketplace/delivery/index.html"
-                className="links w-50 mx-1 d-flex"
-              >
+              <a className="links w-50 mx-1 d-flex">
                 <button type="submit" className="app-select-btn">
                   <i className="bi bi-truck mx-3" />
                   Delivery Services
@@ -68,7 +66,7 @@ function HOME() {
                       <strong className="mr-10 pr-lg-10">Most Popular Brand Now!</strong>
                     </span>
                   </h3>
-                  <a href="#a" className="btn btn-light text-light btn-rounded shop-now">
+                  <a className="btn btn-light text-light btn-rounded shop-now">
                     Shop Now
                     <i className="w-icon-long-arrow-right" />
                   </a>
@@ -146,7 +144,7 @@ function HOME() {
           <div className="col-lg-3 col-md-3 col-sm-12 mb-3 px-2">
             <div className="side-banner-box">
               <div className="box-btn-warpper">
-                <a href="#a" className="w-50 h-100">
+                <a className="w-50 h-100">
                   <div className="w-100 h-100 left-side">
                     <img
                       src="https://f-test.nooncdn.com/mpcms/EN0001/assets/be050f77-df1c-4cf8-9d3c-c1daabb5a074.png"
@@ -154,7 +152,7 @@ function HOME() {
                     />
                   </div>
                 </a>
-                <a href="#a" className="w-50 h-100">
+                <a className="w-50 h-100">
                   <div className="w-100 h-100 right-side">
                     <img
                       src="https://f-test.nooncdn.com/mpcms/EN0001/assets/c45bf8bc-957c-485a-ae1b-70ae0a313112.png   "

@@ -16,14 +16,14 @@ function AppHeader() {
           </div>
           <div className="header-right">
             <div className="dropdown">
-              <a href="#currency">AED</a>
+              <a>AED</a>
               <div className="dropdown-box">
-                <a href="#currency">AED</a>
+                <a>AED</a>
               </div>
             </div>
 
             <div className="dropdown">
-              <a href="#language">
+              <a>
                 <img
                   src={`${process.env.PUBLIC_URL}/images/flags/uae.webp`}
                   alt="UAE Flag"
@@ -37,30 +37,15 @@ function AppHeader() {
             </div>
 
             <span className="divider d-lg-show" />
-            <a href="blog.html" className="d-lg-show">
-              Blog
-            </a>
-            <a href="c#" className="d-lg-show">
-              Contact Us
-            </a>
-            <a href="my-account.html" className="d-lg-show">
-              My Account
-            </a>
-            <a
-              href="assets/ajax/#"
-              onClick={(e) => {
-                e.preventDefault();
-                navigate(ROUTES.LOGIN.path);
-              }}
-              className="d-lg-show login sign-in"
-            >
+            <a className="d-lg-show">Blog</a>
+            <a className="d-lg-show">Contact Us</a>
+            <a className="d-lg-show">My Account</a>
+            <a onClick={() => navigate(ROUTES.LOGIN.path)} className="d-lg-show login sign-in">
               <i className="w-icon-account" />
               Sign In
             </a>
             <span className="delimiter d-lg-show">/</span>
-            <a href="assets/ajax/#" className="ml-0 d-lg-show login register">
-              Register
-            </a>
+            <a className="ml-0 d-lg-show login register">Register</a>
           </div>
         </div>
       </div>
@@ -69,7 +54,7 @@ function AppHeader() {
         <div className="container">
           <div className="header-left mr-md-4">
             <a className="mobile-menu-toggle  w-icon-hamburger" aria-label="menu-toggle" />
-            <a href="demo3.html" className="logo ml-lg-0">
+            <a onClick={() => navigate(ROUTES.HOME.path)} className="logo ml-lg-0">
               <img
                 src={`${process.env.PUBLIC_URL}/images/logo.png`}
                 alt="logo"
@@ -111,26 +96,21 @@ function AppHeader() {
           </div>
           <div className="header-right ml-4">
             <div className="header-call d-xs-show d-lg-flex align-items-center">
-              <a href="tel:#" className="w-icon-call" />
+              <a className="w-icon-call" />
               <div className="call-info d-lg-show">
                 <h4 className="chat font-weight-normal font-size-md text-normal ls-normal text-light mb-0">
-                  <a href="mailto:#" className="text-capitalize">
-                    Call Us Now
-                  </a>{' '}
-                  :
+                  <a className="text-capitalize">Call Us Now</a> :
                 </h4>
-                <a href="tel:#" className="phone-number font-weight-bolder ls-50">
-                  026-660-833
-                </a>
+                <a className="phone-number font-weight-bolder ls-50">026-660-833</a>
               </div>
             </div>
-            <a className="wishlist label-down link d-xs-show" href="#">
+            <a className="wishlist label-down link d-xs-show">
               <i className="w-icon-heart" />
               <span className="wishlist-label d-lg-show">Wishlist</span>
             </a>
             <div className="dropdown cart-dropdown cart-offcanvas mr-0 mr-lg-2">
               <div className="cart-overlay" />
-              <a href="#" className="cart-toggle label-down link">
+              <a className="cart-toggle label-down link">
                 <i className="w-icon-cart">
                   <span className="cart-count">2</span>
                 </i>
@@ -139,7 +119,7 @@ function AppHeader() {
               <div className="dropdown-box">
                 <div className="cart-header">
                   <span>Shopping Cart</span>
-                  <a href="#" className="btn-close">
+                  <a className="btn-close">
                     Close
                     <i className="w-icon-long-arrow-right" />
                   </a>
@@ -153,12 +133,8 @@ function AppHeader() {
                 </div>
 
                 <div className="cart-action">
-                  <a href="#" className="btn btn-dark btn-outline btn-rounded">
-                    View Cart
-                  </a>
-                  <a href="#" className="btn btn-primary  btn-rounded">
-                    Checkout
-                  </a>
+                  <a className="btn btn-dark btn-outline btn-rounded">View Cart</a>
+                  <a className="btn btn-primary  btn-rounded">Checkout</a>
                 </div>
               </div>
             </div>

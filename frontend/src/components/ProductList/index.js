@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable react/no-unknown-property */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable react/self-closing-comp */
@@ -12,7 +13,6 @@ function ProductList({ products }) {
         <nav className="toolbox sticky-toolbox sticky-content fix-top">
           <div className="toolbox-left">
             <a
-              href="#a"
               className="btn btn-primary btn-outline btn-rounded left-sidebar-toggle
                     btn-icon-left d-block d-lg-none"
             >
@@ -45,10 +45,10 @@ function ProductList({ products }) {
               </select>
             </div>
             <div className="toolbox-item toolbox-layout">
-              <a href="shop-banner-sidebar.html" className="icon-mode-grid btn-layout active">
+              <a className="icon-mode-grid btn-layout active">
                 <i className="w-icon-grid"></i>
               </a>
-              <a href="shop-list.html" className="icon-mode-list btn-layout">
+              <a className="icon-mode-list btn-layout">
                 <i className="w-icon-list"></i>
               </a>
             </div>
@@ -66,22 +66,18 @@ function ProductList({ products }) {
           </p>
           <ul className="pagination">
             <li className="prev disabled">
-              <a href="#a" aria-label="Previous" tabindex="-1" aria-disabled="true">
+              <a aria-label="Previous" tabindex="-1" aria-disabled="true">
                 <i className="w-icon-long-arrow-left"></i>Prev
               </a>
             </li>
             <li className="page-item active">
-              <a className="page-link" href="#a">
-                1
-              </a>
+              <a className="page-link">1</a>
             </li>
             <li className="page-item">
-              <a className="page-link" href="#a">
-                2
-              </a>
+              <a className="page-link">2</a>
             </li>
             <li className="next">
-              <a href="#a" aria-label="Next">
+              <a aria-label="Next">
                 Next<i className="w-icon-long-arrow-right"></i>
               </a>
             </li>

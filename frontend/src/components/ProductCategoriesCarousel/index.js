@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable react/self-closing-comp */
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -38,7 +39,7 @@ function ProductCategoriesCarousel({ categories }) {
             <div className="swiper-slide category-wrap">
               <div className="category category-ellipse">
                 <figure className="category-media">
-                  <a href="shop-banner-sidebar.html">
+                  <a>
                     <img
                       src={category.image}
                       alt="Category"
@@ -50,7 +51,7 @@ function ProductCategoriesCarousel({ categories }) {
                 </figure>
                 <div className="category-content">
                   <h4 className="category-name">
-                    <a href="shop-banner-sidebar.html">{category.name}</a>
+                    <a>{category.name}</a>
                   </h4>
                 </div>
               </div>

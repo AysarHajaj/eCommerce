@@ -56,7 +56,7 @@ export default function Footer() {
           <div className="row">
             <div className="col-lg-4 col-sm-6">
               <div className="widget widget-about">
-                <a href="demo2.html" className="logo-footer">
+                <a className="logo-footer">
                   <img
                     src={`${process.env.PUBLIC_URL}/images/logo.png`}
                     alt="logo-footer"
@@ -66,16 +66,14 @@ export default function Footer() {
                 </a>
                 <div className="widget-body">
                   <p className="widget-about-title">Got Question? Call us 24/7</p>
-                  <a href="tel:026660833" className="widget-about-call">
-                    026-660-833
-                  </a>
+                  <a className="widget-about-call">026-660-833</a>
 
                   <div className="social-icons social-icons-colored">
-                    <a href="#any" className="social-icon social-facebook w-icon-facebook" />
-                    <a href="#any" className="social-icon social-twitter w-icon-twitter" />
-                    <a href="#any" className="social-icon social-instagram w-icon-instagram" />
-                    <a href="#any" className="social-icon social-youtube w-icon-youtube" />
-                    <a href="#any" className="social-icon social-pinterest w-icon-pinterest" />
+                    <a className="social-icon social-facebook w-icon-facebook" />
+                    <a className="social-icon social-twitter w-icon-twitter" />
+                    <a className="social-icon social-instagram w-icon-instagram" />
+                    <a className="social-icon social-youtube w-icon-youtube" />
+                    <a className="social-icon social-pinterest w-icon-pinterest" />
                   </div>
                 </div>
               </div>
@@ -85,22 +83,22 @@ export default function Footer() {
                 <h3 className="widget-title">Company</h3>
                 <ul className="widget-body">
                   <li>
-                    <a href="#">About Us</a>
+                    <a>About Us</a>
                   </li>
                   <li>
-                    <a href="#">Team Member</a>
+                    <a>Team Member</a>
                   </li>
                   <li>
-                    <a href="#">Career</a>
+                    <a>Career</a>
                   </li>
                   <li>
-                    <a href="c#">Contact Us</a>
+                    <a>Contact Us</a>
                   </li>
                   <li>
-                    <a href="#">Affilate</a>
+                    <a>Affilate</a>
                   </li>
                   <li>
-                    <a href="#">Order History</a>
+                    <a>Order History</a>
                   </li>
                 </ul>
               </div>
@@ -110,22 +108,22 @@ export default function Footer() {
                 <h4 className="widget-title">My Account</h4>
                 <ul className="widget-body">
                   <li>
-                    <a href="#">Track My Order</a>
+                    <a>Track My Order</a>
                   </li>
                   <li>
-                    <a href="#">View Cart</a>
+                    <a>View Cart</a>
                   </li>
                   <li>
-                    <a href="#">Sign In</a>
+                    <a>Sign In</a>
                   </li>
                   <li>
-                    <a href="#">Help</a>
+                    <a>Help</a>
                   </li>
                   <li>
-                    <a href="#">My Wishlist</a>
+                    <a>My Wishlist</a>
                   </li>
                   <li>
-                    <a href="#">Privacy Policy</a>
+                    <a>Privacy Policy</a>
                   </li>
                 </ul>
               </div>
@@ -135,22 +133,22 @@ export default function Footer() {
                 <h4 className="widget-title">Customer Service</h4>
                 <ul className="widget-body">
                   <li>
-                    <a href="#">Payment Methods</a>
+                    <a>Payment Methods</a>
                   </li>
                   <li>
-                    <a href="#">Money-back guarantee!</a>
+                    <a>Money-back guarantee!</a>
                   </li>
                   <li>
-                    <a href="#">Product Returns</a>
+                    <a>Product Returns</a>
                   </li>
                   <li>
-                    <a href="#">Support Center</a>
+                    <a>Support Center</a>
                   </li>
                   <li>
-                    <a href="#">Shipping</a>
+                    <a>Shipping</a>
                   </li>
                   <li>
-                    <a href="#">Term and Conditions</a>
+                    <a>Term and Conditions</a>
                   </li>
                 </ul>
               </div>

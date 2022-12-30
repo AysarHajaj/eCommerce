@@ -12,7 +12,7 @@ function ProductCard({ product }) {
     <div className="product-wrap">
       <div className="product product-simple text-center">
         <figure className="product-media">
-          <a href="product.html">
+          <a>
             <img
               className="vend-product-img"
               src={product.image}
@@ -22,16 +22,8 @@ function ProductCard({ product }) {
             />
           </a>
           <div className="product-action-vertical">
-            <a
-              href="#a"
-              className="btn-product-icon btn-wishlist w-icon-heart"
-              title="Add to wishlist"
-            ></a>
-            <a
-              href="#a"
-              className="btn-product-icon btn-compare w-icon-compare"
-              title="Add to Compare"
-            ></a>
+            <a className="btn-product-icon btn-wishlist w-icon-heart" title="Add to wishlist"></a>
+            <a className="btn-product-icon btn-compare w-icon-compare" title="Add to Compare"></a>
           </div>
           <div className="product-action">
             <a
@@ -45,7 +37,7 @@ function ProductCard({ product }) {
         </figure>
         <div className="product-details">
           <h4 className="product-name">
-            <a href="product.html">{product.english_name}</a>
+            <a>{product.english_name}</a>
           </h4>
           <div className="product-pa-wrapper">
             <div className="product-price">
@@ -53,7 +45,6 @@ function ProductCard({ product }) {
             </div>
             <div className="product-action">
               <a
-                href="#a"
                 className="btn-cart btn-product btn btn-icon-right btn-link btn-underline"
                 style={{ textDecoration: 'none' }}
               >
@@ -62,7 +53,7 @@ function ProductCard({ product }) {
             </div>
           </div>
           <div className="sold-by">
-            <a href="#a"></a>
+            <a></a>
           </div>
         </div>
       </div>

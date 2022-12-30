@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useState, useMemo, useRef } from 'react';
 import PropTypes from 'prop-types';
@@ -47,10 +48,10 @@ function VendorList({ vendors }) {
               </select>
             </div>
             <div className="toolbox-item toolbox-layout mb-0 d-flex">
-              <a href="#a" className="icon-mode-grid btn-layout active">
+              <a className="icon-mode-grid btn-layout active">
                 <i className="w-icon-grid" />
               </a>
-              <a href="#a" className="icon-mode-list btn-layout">
+              <a className="icon-mode-list btn-layout">
                 <i className="w-icon-list" />
               </a>
             </div>

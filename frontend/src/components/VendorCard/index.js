@@ -24,7 +24,7 @@ function VendorCard({ vendor }) {
         </div>
         <div className="store-content">
           <h4 className="store-title">
-            <a href="vendor.html">{vendor.shop.name}</a>
+            <a>{vendor.shop.name}</a>
             <label className="featured-label">Featured</label>
           </h4>
           <div className="ratings-container">
@@ -36,7 +36,7 @@ function VendorCard({ vendor }) {
           <div className="store-address">{vendor.shop.address}</div>
           <ul className="seller-info-list list-style-none">
             <li className="store-phone">
-              <a href="tel:1234567890">
+              <a>
                 <i className="w-icon-phone">{vendor.shop.phone}</i>
               </a>
             </li>
