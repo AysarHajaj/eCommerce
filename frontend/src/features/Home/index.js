@@ -1,8 +1,11 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getActiveShopCategories, selectGetActiveShopCategories } from './homePageSlice';
 import ShopCategoriesCarousel from '../../components/ShopCategoriesCarousel';
+import '../../styles/assets/scss/demos/demo4/demo4.scss';
+import '../../styles/assets/scss/demos/demo3/demo3.scss';
 import './styles.scss';
 
 function HOME() {
@@ -14,7 +17,7 @@ function HOME() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
-    <div>
+    <>
       <section className="sections container border-start border-end  pt-3">
         <div className="row">
           <div className="col">
@@ -46,8 +49,7 @@ function HOME() {
       <section className="sections main-section container-fluid border-start border-end  mt-2">
         <div className="row main-marquee">
           <div className="col px-2">
-            <div className="sale-banner banner br-sm  appear-animate main-sale-banner main-marquee">
-              aysar
+            <div className="sale-banner banner br-sm  appear-animate-visible main-sale-banner main-marquee">
               <div className="banner-content">
                 <h4 className="content-left banner-subtitle text-uppercase mb-8 mb-md-0 mr-0 mr-md-4 text-primary ls-25">
                   <span className="text-dark font-weight-bold lh-1 ls-normal mr-1">
@@ -78,24 +80,6 @@ function HOME() {
         </div>
         <div className="row">
           <div className="col-lg-9 col-md-9 col-sm-12 mb-3 px-2">
-            {/* <div className="banners-container main-landing">
-                        <div className="swiper-slide">
-                            <figure className="banner banner-fixed br-sm">
-                                <img src="assets/img/multiv.png" alt="Category Banner"  className="banner-imgs" />
-                                <div className="banner-content y-50 main-ban-content">
-                                    <h5 className="banner-subtitle text-primary text-uppercase font-weight-bold ls-25">
-                                        Explore Our Services
-                                    </h5>
-                                    <h3 className="banner-title text-white font-weight-bold">Marsool<br>Market Place </h3>
-                                    <a href="#"
-                                        className="btn btn-white btn-link btn-underline btn-icon-right">
-                                        Explore<i className="w-icon-long-arrow-right"></i>
-                                    </a>
-                                </div>
-                            </figure>
-                        </div>
-
-                    </div> */}
             <div className="intro-wrapper main-intro-slider ">
               <div
                 className="swiper-container swiper-theme pg-inner animation-slider row cols-1 gutter-no"
@@ -106,25 +90,11 @@ function HOME() {
                             }
                         }"
               >
-                <div className="swiper-wrapper">
+                <div className="swiper-wrapper h-100">
                   <div
-                    className="swiper-slide banner banner-fixed intro-slide intro-slide1 br-sm"
-                    style={{ backgroundImage: './assets/img/home.gif', backgroundColor: '#E8EAEF' }}
-                  >
-                    <div className="banner-content y-50">
-                      <div
-                        className="slide-animate"
-                        data-animation-options="{
-                                            'name': 'flipInY', 'duration': '1s'
-                                        }"
-                      />
-                    </div>
-                  </div>
-                  <div
-                    className="swiper-slide banner banner-fixed intro-slide intro-slide2 br-sm"
+                    className="swiper-slide banner banner-fixed intro-slide intro-slide1 br-sm home-image-banner"
                     style={{
-                      backgroundImage: './assets/img/home.gif',
-                      backgroundColor: '#2e3233',
+                      backgroundColor: '#E8EAEF',
                     }}
                   >
                     <div className="banner-content y-50">
@@ -137,7 +107,6 @@ function HOME() {
                     </div>
                   </div>
                 </div>
-                <div className="swiper-pagination" />
               </div>
             </div>
           </div>
@@ -167,8 +136,20 @@ function HOME() {
         </div>
       </section>
 
-      <ShopCategoriesCarousel categories={data} />
-    </div>
+      <section className="sections container-fluid mx-3 border-top border-bottom pt-3 pb-3">
+        <div className="row">
+          <div className="col">
+            <h2 className="title text-left pt-1 mb-5 appear-animate-visible">
+              <i className="bi bi-basket mx-3" />
+              Multi Categories
+            </h2>
+            <div className="swiper categories-swiper">
+              <ShopCategoriesCarousel categories={data} />
+            </div>
+          </div>
+        </div>
+      </section>
+    </>
   );
 }
 
