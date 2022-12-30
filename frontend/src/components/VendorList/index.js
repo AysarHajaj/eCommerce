@@ -1,19 +1,25 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useState, useMemo, useRef } from 'react';
 import PropTypes from 'prop-types';
+import { useParams } from 'react-router-dom';
 import VendorCard from '../VendorCard';
 
 function VendorList({ vendors }) {
   const [openFilter, setOpenFilter] = useState(false);
   const [searchVendorText, setSearchVendorText] = useState('');
   const searchRef = useRef();
+  const { id } = useParams();
 
   const filteredShops = useMemo(
     () =>
-      vendors.filter((vendor) =>
-        vendor?.shop?.name?.toLocaleLowerCase()?.includes(searchVendorText?.toLocaleLowerCase()),
+      vendors.filter(
+        (vendor) =>
+          vendor?.shop?.name
+            ?.toLocaleLowerCase()
+            ?.includes(searchVendorText?.toLocaleLowerCase()) && vendor.shop.shop_category_id === 3,
       ),
-    [searchVendorText, vendors],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [searchVendorText, vendors, id],
   );
 
   return (
