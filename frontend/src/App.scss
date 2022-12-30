@@ -1,4 +1,4 @@
-@import "../src/styles/variables.scss";
+@import '../src/styles/variables.scss';
 @import '../src/styles/global.scss';
 
 *,
@@ -76,8 +76,6 @@ nav {
   }
 }
 
-
-
 .logo-image-cont {
   background-color: #fff;
   min-height: 80px;
@@ -87,7 +85,6 @@ nav {
     object-fit: contain;
   }
 }
-
 
 a:hover {
   color: $colorPrimary;
