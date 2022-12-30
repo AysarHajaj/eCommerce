@@ -301,6 +301,9 @@ class ProductController extends Controller
                 $product->image = $this->getImageUrl($product->image);
                 $product->qr_code = $this->getImageUrl($product->qr_code);
                 $product->bar_code = $this->getImageUrl($product->bar_code);
+                if ($product->productCategory) {
+                    $product->productCategory->image = $this->getImageUrl($product->productCategory->image);
+                }
             } else {
                 $response = ["error" => "model not found"];
                 return response()->json($response, 404);
