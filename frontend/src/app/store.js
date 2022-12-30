@@ -11,6 +11,7 @@ import currencyReducer from '../features/Currencies/currencySlice';
 import shopCategorySlice from '../features/ShopCategory/shopCategorySlice';
 import vendorsPageSlice from '../features/VendorsPage/vendorsPageSlice';
 import productsPageSlice from '../features/ProductsPage/productsPageSlice';
+import homePageSlice from '../features/Home/homePageSlice';
 
 export const store = configureStore({
   reducer: {
@@ -26,5 +27,6 @@ export const store = configureStore({
     shop_category: shopCategorySlice,
     vendors_page: vendorsPageSlice,
     products_page: productsPageSlice,
+    home_page: homePageSlice,
   },
 });
