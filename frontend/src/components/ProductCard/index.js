@@ -1,9 +1,13 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable react/self-closing-comp */
 /* eslint-disable jsx-a11y/anchor-has-content */
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useNavigate } from 'react-router-dom';
+import ROUTES from '../../routes/publicPaths';
 
 function ProductCard({ product }) {
+  const navigate = useNavigate();
   return (
     <div className="product-wrap">
       <div className="product product-simple text-center">
@@ -30,7 +34,11 @@ function ProductCard({ product }) {
             ></a>
           </div>
           <div className="product-action">
-            <a href="product.html" className="btn-product btn-quickview" title="Quick View">
+            <a
+              onClick={() => navigate(ROUTES.PRODUCT_PAGE.dynamicPath(product.id))}
+              className="btn-product btn-quickview"
+              title="Quick View"
+            >
               Quick View
             </a>
           </div>
