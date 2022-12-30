@@ -8,7 +8,7 @@ import {
   selectGetCategoriesByVendorId,
 } from './productsPageSlice';
 import ProductList from '../../components/ProductList';
-import ShopCategoriesCarousel from '../../components/ShopCategoriesCarousel';
+import ProductCategoriesCarousel from '../../components/ProductCategoriesCarousel';
 
 function ProductsPage() {
   const { id } = useParams();
@@ -24,7 +24,7 @@ function ProductsPage() {
   return (
     <div className="page-content">
       <div className="container">
-        <ShopCategoriesCarousel categories={categories} />
+        <ProductCategoriesCarousel categories={categories} />
         <ProductList products={data} />
       </div>
     </div>
