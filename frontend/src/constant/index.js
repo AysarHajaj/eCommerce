@@ -93,6 +93,9 @@ const constants = {
       get_by_vendor_id: 'GET/PRODUCT_BY_VENDOR_ID',
       get_categories_by_vendor_id: 'GET/CATEGORIES_BY_VENDOR_ID',
     },
+    home_page: {
+      get_active_shop_categories: 'GET/ACTIVE_SHOP_CATEGORIES',
+    },
   },
 };
 
