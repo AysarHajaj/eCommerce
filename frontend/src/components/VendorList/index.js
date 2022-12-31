@@ -25,7 +25,7 @@ function VendorList({ vendors }) {
   );
 
   return (
-    <div className="page-content mb-8">
+    <div className="page-content w-100 mb-8">
       <div className="container">
         <div className="toolbox vendor-toolbox pb-0">
           <div className="toolbox-left mb-4 mb-md-0">
