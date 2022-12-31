@@ -16,6 +16,7 @@ function HOME() {
     dispatch(getActiveShopCategories());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
   return (
     <>
       <section className="sections container border-start border-end  pt-3">
@@ -136,19 +137,7 @@ function HOME() {
         </div>
       </section>
 
-      <section className="sections container-fluid mx-3 border-top border-bottom pt-3 pb-3">
-        <div className="row">
-          <div className="col">
-            <h2 className="title text-left pt-1 mb-5 appear-animate-visible">
-              <i className="bi bi-basket mx-3" />
-              Multi Categories
-            </h2>
-            <div className="swiper categories-swiper">
-              <ShopCategoriesCarousel categories={data} />
-            </div>
-          </div>
-        </div>
-      </section>
+      <ShopCategoriesCarousel categories={data} />
     </>
   );
 }
