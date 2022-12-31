@@ -21,7 +21,7 @@ function ProductsPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
-    <div className="page-content">
+    <div className="page-content width-100">
       <div className="container-fluid pt-5 mt-5">
         <div className="row d-flex justify-content-center">
           <div className="main-content">
