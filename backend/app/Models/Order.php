@@ -34,4 +34,9 @@ class Order extends Model
         'updated_at',
         'deleted_at',
     ];
+
+    public function products()
+    {
+        return $this->belongsToMany(Product::class, 'order_product', 'order_id', 'product_id')->withPivot('price', 'discount', 'quantity');
+    }
 }

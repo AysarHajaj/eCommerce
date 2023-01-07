@@ -20,6 +20,8 @@ return new class extends Migration
             $table->foreign('order_product_id')->references('id')->on('order_product');
             $table->unsignedBigInteger('product_choice_id')->nullable();
             $table->foreign('product_choice_id')->references('id')->on('product_choices');
+            $table->unsignedBigInteger('product_id')->nullable();
+            $table->foreign('product_id')->references('id')->on('products');
             $table->decimal('price')->nullable();
 
             $table->softDeletes();
@@ -37,6 +39,7 @@ return new class extends Migration
         Schema::table('order_product_choice', function (Blueprint $table) {
             $table->dropForeign(['order_product_id']);
             $table->dropForeign(['product_choice_id']);
+            $table->dropForeign(['product_id']);
         });
         Schema::dropIfExists('order_product_choice');
     }
