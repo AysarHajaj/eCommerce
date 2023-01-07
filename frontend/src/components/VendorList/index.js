@@ -1,3 +1,4 @@
+/* eslint-disable eqeqeq */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useState, useMemo, useRef } from 'react';
@@ -18,7 +19,7 @@ function VendorList({ vendors }) {
           vendor?.shop?.name
             ?.toLocaleLowerCase()
             ?.includes(searchVendorText?.toLocaleLowerCase()) &&
-          vendor.shop.shop_category_id === +id,
+          vendor?.shop?.shop_category_id == +id,
       ),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [searchVendorText, vendors, id],
@@ -37,7 +38,7 @@ function VendorList({ vendors }) {
             >
               <i className="w-icon-category" /> Filter
             </button>
-            <label className="d-block">Total Store Showing {vendors.length}</label>
+            <label className="d-block">Total Store Showing {filteredShops.length}</label>
           </div>
           <div className="toolbox-right">
             <div className="toolbox-item toolbox-sort select-box mb-0">
