@@ -1,5 +1,11 @@
+/* eslint-disable no-unused-vars */
 import React, { useRef, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
+import PerfectScrollbar from 'react-perfect-scrollbar';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import IconButton from '@mui/material/IconButton';
+import 'react-perfect-scrollbar/dist/css/styles.css';
 import './style.scss';
 
 function Carousel({ data, wrapperClassName, sliderClassName, itemClassName }) {
@@ -45,10 +51,8 @@ function Carousel({ data, wrapperClassName, sliderClassName, itemClassName }) {
     return () => {
       prevRef.addEventListener('mousedown', start);
       prevRef.addEventListener('touchstart', start);
-
       prevRef.addEventListener('mousemove', move);
       prevRef.addEventListener('touchmove', move);
-
       prevRef.addEventListener('mouseleave', end);
       prevRef.addEventListener('mouseup', end);
       prevRef.addEventListener('touchend', end);
@@ -57,13 +61,37 @@ function Carousel({ data, wrapperClassName, sliderClassName, itemClassName }) {
 
   return (
     <div className={`wrapper ${wrapperClassName}`}>
-      <ul ref={carouselRef} className={`items ${sliderClassName}`}>
+      <IconButton
+        onClick={() => {
+          carouselRef.current.scrollLeft -= 100;
+        }}
+        className="btn-left"
+      >
+        <ChevronLeftIcon />
+      </IconButton>
+
+      <IconButton
+        onClick={() => {
+          carouselRef.current.scrollLeft += 100;
+        }}
+        className="btn-right"
+      >
+        <ChevronRightIcon />
+      </IconButton>
+
+      <PerfectScrollbar
+        containerRef={(ref) => {
+          carouselRef.current = ref;
+        }}
+        className={`items ${sliderClassName}`}
+        component="ul"
+      >
         {data?.map((item, index) => (
           <li key={index} className={`item ${itemClassName}`}>
             {item}
           </li>
         ))}
-      </ul>
+      </PerfectScrollbar>
     </div>
   );
 }

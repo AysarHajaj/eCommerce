@@ -3,6 +3,29 @@ $margin: 20px;
 .wrapper {
     position: relative;
 
+    button {
+      position: absolute;
+      z-index: 2;
+      top: 50%;
+      transform: translateY(-50%);
+      background-color: #5f4f9c;
+      color: #FFF;
+      opacity: .7;
+
+      &:hover {
+        background-color: #5f4f9c;
+        opacity: 1;
+      }
+    }
+
+    .btn-left {
+      left: -10px;
+    }
+
+    .btn-right {
+      right: -10px;
+    }
+
     &:before,
     &:after {
       position: absolute;
@@ -29,6 +52,7 @@ $margin: 20px;
     overflow: hidden;
     white-space: nowrap;
     cursor: pointer;
+    padding-bottom: 20px !important;
 
     &.active {
       cursor: grab;
