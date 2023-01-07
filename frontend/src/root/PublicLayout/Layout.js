@@ -4,6 +4,7 @@ import AppHeader from './AppHeader';
 import AppMain from './AppMain';
 import StickyFooter from './StickyFooter';
 import Footer from './Footer';
+import './style.scss';
 
 function Layout() {
   return (
