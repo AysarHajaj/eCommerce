@@ -151,7 +151,7 @@ class ProductController extends Controller
                 $input['image'] = $this->saveImage($image, 'products');
             }
 
-            product::where('id', $id)->update($input);
+            Product::where('id', $id)->update($input);
 
             $product = Product::with([
                 'productChoiceGroups' => function ($q) {
@@ -376,6 +376,124 @@ class ProductController extends Controller
             });
 
             $response = ["result" => $products];
+            DB::commit();
+            return response()->json($response, 200);
+        } catch (\Throwable $th) {
+            $response = ["error" => $th->getMessage()];
+            DB::rollBack();
+            return response()->json($response, 500);
+        }
+    }
+
+    public function getProductByIds(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+            $products = Product::whereIn('id', $request->ids)->get();
+
+            $products->map(function ($product) {
+                $product->image = $this->getImageUrl($product->image);
+                $product->qr_code = $this->getImageUrl($product->qr_code);
+                $product->bar_code = $this->getImageUrl($product->bar_code);
+
+                return $product;
+            });
+
+            $response = ["result" => $products];
+            DB::commit();
+            return response()->json($response, 200);
+        } catch (\Throwable $th) {
+            $response = ["error" => $th->getMessage()];
+            DB::rollBack();
+            return response()->json($response, 500);
+        }
+    }
+
+    public function getChoicesByIds(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+            $products = ProductChoice::whereIn('id', $request->ids)->get();
+
+            $response = ["result" => $products];
+            DB::commit();
+            return response()->json($response, 200);
+        } catch (\Throwable $th) {
+            $response = ["error" => $th->getMessage()];
+            DB::rollBack();
+            return response()->json($response, 500);
+        }
+    }
+
+    public function updateChoiceGroup(Request $request, $id)
+    {
+        DB::beginTransaction();
+        try {
+            $input = $request->all();
+            ProductChoiceGroup::where('id', $id)->update($input);
+
+            $response = ["result" => "success"];
+            DB::commit();
+            return response()->json($response, 200);
+        } catch (\Throwable $th) {
+            $response = ["error" => $th->getMessage()];
+            DB::rollBack();
+            return response()->json($response, 500);
+        }
+    }
+
+    public function updateChoice(Request $request, $id)
+    {
+        DB::beginTransaction();
+        try {
+            $input = $request->all();
+            ProductChoice::where('id', $id)->update($input);
+
+            $response = ["result" => "success"];
+            DB::commit();
+            return response()->json($response, 200);
+        } catch (\Throwable $th) {
+            $response = ["error" => $th->getMessage()];
+            DB::rollBack();
+            return response()->json($response, 500);
+        }
+    }
+
+    public function destroyChoiceGroup($id)
+    {
+        DB::beginTransaction();
+        try {
+            $productChoiceGroup = ProductChoiceGroup::find($id);
+            if ($productChoiceGroup) {
+                $productChoiceGroup->delete();
+            } else {
+                $response = ["error" => "model not found"];
+                return response()->json($response, 404);
+            }
+
+            $response = ["result" => true];
+            DB::commit();
+            return response()->json($response, 200);
+        } catch (\Throwable $th) {
+            $response = ["error" => $th->getMessage()];
+            DB::rollBack();
+            return response()->json($response, 500);
+        }
+    }
+
+    public function destroyChoice($id)
+    {
+        DB::beginTransaction();
+        try {
+            $productChoice = ProductChoice::find($id);
+            if ($productChoice) {
+                $productChoice->delete();
+            } else {
+                $response = ["error" => "model not found"];
+                return response()->json($response, 404);
+            }
+
+            $response = ["result" => true];
             DB::commit();
             return response()->json($response, 200);
         } catch (\Throwable $th) {
