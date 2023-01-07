@@ -37,6 +37,11 @@ return new class extends Migration
             $table->decimal('total')->nullable();
             $table->decimal('delivery_charge')->nullable();
 
+            $table->unsignedBigInteger('customer_id')->nullable();
+            $table->foreign('customer_id')->references('id')->on('users');
+            $table->unsignedBigInteger('vendor_id')->nullable();
+            $table->foreign('vendor_id')->references('id')->on('users');
+
             $table->timestamp('deactivated_at')->nullable();
             $table->softDeletes();
             $table->timestamps();
@@ -50,6 +55,11 @@ return new class extends Migration
      */
     public function down()
     {
+        Schema::table('orders', function (Blueprint $table) {
+            $table->dropForeign(['customer_id']);
+            $table->dropForeign(['vendor_id']);
+        });
+
         Schema::dropIfExists('orders');
     }
 };
