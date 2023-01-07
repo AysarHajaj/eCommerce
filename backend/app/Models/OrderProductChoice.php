@@ -14,8 +14,11 @@ class OrderProductChoice extends Model
         'order_product_id',
         'product_choice_id',
         'price',
+        'product_id',
         'created_at',
         'updated_at',
         'deleted_at',
     ];
+
+    protected $table = 'order_product_choice';
 }

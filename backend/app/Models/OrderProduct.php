@@ -19,4 +19,6 @@ class OrderProduct extends Model
         'deleted_at',
         'updated_at',
     ];
+
+    protected $table = 'order_product';
 }

@@ -33,6 +33,8 @@ class Order extends Model
         'created_at',
         'updated_at',
         'deleted_at',
+        'customer_id',
+        'vendor_id',
     ];
 
     public function products()
