@@ -173,7 +173,7 @@ function AppBar({ open, handleDrawerOpen }) {
               onClick={() => {
                 localStorage.clear();
                 setAuth({});
-                navigate(publicPaths.LOGIN.path);
+                navigate(publicPaths.HOME.path);
               }}
             >
               {settings.LOGOUT.icon}

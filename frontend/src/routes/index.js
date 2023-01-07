@@ -7,6 +7,7 @@ import useAuth from '../hooks/useAuth';
 import ADMIN_VENDOR_ROUTES from './adminDashboardRoutes';
 import PublicLayout from '../root/PublicLayout/Layout';
 import PUBLIC_ROUTES from './publicRoutes';
+import PageNotFound from '../components/PageNotFound';
 
 function AppRoutes() {
   const { auth } = useAuth();
@@ -53,6 +54,7 @@ function AppRoutes() {
           </React.Suspense>
         }
       />
+      <Route path="/*" element={<PageNotFound />} />
     </Routes>
   );
 }
