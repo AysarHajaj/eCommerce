@@ -1,0 +1,68 @@
+$margin: 20px;
+
+.wrapper {
+    position: relative;
+
+    &:before,
+    &:after {
+      position: absolute;
+      top: 0;
+      z-index: 1;
+
+      content: '';
+      display: block;
+      width: $margin;
+      height: 100%;
+    }
+
+    &:before {
+      left: 0;
+    }
+
+    &:after {
+      right: 0;
+    }
+  }
+
+  .items {
+    position: relative;
+    overflow: hidden;
+    white-space: nowrap;
+    cursor: pointer;
+
+    &.active {
+      cursor: grab;
+    }
+  }
+
+  .item {
+    display: inline-block;
+    margin-left: $margin;
+    user-select: none;
+
+    &:last-child {
+      margin-right: $margin;
+    }
+  }
+
+  @media screen and (min-width: 500px) {
+    .item {
+      width: 33%;
+    }
+  }
+
+  @media screen and (min-width: 800px) {
+    .item {
+      width: 25%;
+    }
+  }
+
+  @media screen and (min-width: 1200px) {
+    .wrapper {
+      margin-left: -$margin;
+    }
+
+    .item {
+      width: 20%;
+    }
+  }
