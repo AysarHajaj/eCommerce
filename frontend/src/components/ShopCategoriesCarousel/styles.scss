@@ -1,51 +1,14 @@
-//VARIABLES BECAUSE CSS PREPROCESSORS ARE COOL
-$gray: #555;
-$yellow: #f2e968;
-$white: #efefef;
 
-//GET THE GOOGLE FONT SPECIMEN
-@import url(https://fonts.googleapis.com/css?family=Rubik);
-
-
-
-//ENABLE CSS GRID FOR LIFT OFF  🚀
-@supports(display: grid) {
-
-  
-
+section {
   .items {
-    position: relative;
-    width: 100%;
-    overflow-x: scroll;
-    overflow-y: hidden;
-    white-space: nowrap;
-    transition: all 0.2s;
-    transform: scale(0.98);
-    will-change: transform;
-    user-select: none;
-    cursor: pointer;
-    overflow: hidden;
-  }
+    margin: 0;
+    max-width: 100%;
 
-  .items.active {
-    background: rgba(255,255,255,0.3);
-    cursor: grabbing;
-    cursor: -webkit-grabbing;
-    transform: scale(1);
-  }
-
-  .item {
-    display: inline-block;
-    background: skyblue;
-    min-height: 250px;
-    min-width: 400px;
-    margin: 2em 1em;
-    @media screen and (max-width: 500px) {
-      min-height: 200px;
-      min-width: 200px;
+    .item {
+      min-width: 15px;
+      margin: 2em 1em;
+      flex-basis: 200px;
+      max-width: 250px;
     }
   }
 }
-
-
-
