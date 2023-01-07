@@ -109,10 +109,17 @@ function AppDrawer({ open, handleDrawerClose }) {
       open={open}
     >
       <DrawerHeader>
-        <IconButton onClick={handleDrawerClose}>
+        <IconButton
+          style={{
+            display: 'flex',
+            width: '100%',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+          }}
+          onClick={handleDrawerClose}
+        >
           <Avatar
             className="logo-image-cont"
-            style={{ marginRight: '180px' }}
             src={`${process.env.PUBLIC_URL}/images/logo.png`}
             alt=""
           />

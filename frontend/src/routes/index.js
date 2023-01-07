@@ -31,18 +31,28 @@ function AppRoutes() {
       )}
       {/* publich rutes */}
       <Route path="/" element={<PublicLayout />}>
-        {Object.values(PUBLIC_ROUTES).map(({ path, Element }) => (
-          <Route
-            key={path}
-            path={path}
-            element={
-              <React.Suspense fallback={<Loader />}>
-                <Element />
-              </React.Suspense>
-            }
-          />
-        ))}
+        {Object.values(PUBLIC_ROUTES)
+          .filter(({ path }) => path !== PUBLIC_ROUTES.LOGIN.path)
+          .map(({ path, Element }) => (
+            <Route
+              key={path}
+              path={path}
+              element={
+                <React.Suspense fallback={<Loader />}>
+                  <Element />
+                </React.Suspense>
+              }
+            />
+          ))}
       </Route>
+      <Route
+        path={PUBLIC_ROUTES.LOGIN.path}
+        element={
+          <React.Suspense fallback={<Loader />}>
+            <PUBLIC_ROUTES.LOGIN.Element />
+          </React.Suspense>
+        }
+      />
     </Routes>
   );
 }

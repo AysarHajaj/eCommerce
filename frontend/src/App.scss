@@ -77,7 +77,7 @@ nav {
 }
 
 .logo-image-cont {
-  background-color: #fff;
+  background-color: transparent;
   min-height: 80px;
   min-width: 80px;
 
@@ -87,5 +87,5 @@ nav {
 }
 
 a:hover {
-  color: $colorPrimary;
+  color: $colorPrimary !important;
 }
