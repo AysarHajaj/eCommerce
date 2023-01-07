@@ -60,7 +60,7 @@ function Carousel({ data, wrapperClassName, sliderClassName, itemClassName }) {
   }, []);
 
   return (
-    <div className={`wrapper ${wrapperClassName}`}>
+    <div className={`carousel-wrapper ${wrapperClassName}`}>
       <IconButton
         onClick={() => {
           carouselRef.current.scrollLeft -= 100;

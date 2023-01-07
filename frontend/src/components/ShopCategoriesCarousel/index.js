@@ -25,7 +25,7 @@ function ShopCategoriesCarousel({ categories }) {
               itemClassName="category-ellipse"
               wrapperClassName="category-wrapper appear-animate-visible"
               data={categories.map((category) => (
-                <React.Fragment key={category.id}>
+                <div key={category.id}>
                   <figure className="category-media">
                     <a>
                       <img
@@ -36,12 +36,15 @@ function ShopCategoriesCarousel({ categories }) {
                       />
                     </a>
                   </figure>
-                  <div className="category-content">
+                  <div
+                    onClick={() => navigate(ROUTES.VENDORS_PAGE.dynamicPath(category.id))}
+                    className="category-content"
+                  >
                     <h4 className="category-name">
                       <a>{category.name}</a>
                     </h4>
                   </div>
-                </React.Fragment>
+                </div>
               ))}
             />
           </div>
