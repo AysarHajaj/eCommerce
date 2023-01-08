@@ -2,6 +2,7 @@
 /* eslint-disable react/self-closing-comp */
 import React from 'react';
 import PropTypes from 'prop-types';
+import Carousel from '../Carousel';
 
 function ProductCategoriesCarousel({ categories }) {
   return (
@@ -10,8 +11,8 @@ function ProductCategoriesCarousel({ categories }) {
         <div className="col">
           <div className="swiper categories-swiper">
             <div className="swiper-container category-wrapper swiper-theme appear-animate-visible">
-              <div className="swiper-wrapper row cols-xl-6 cols-lg-5 cols-md-4 cols-sm-3 cols-2 d-flex justify-content-center">
-                {categories.map((category) => (
+              <Carousel
+                data={categories.map((category) => (
                   <div
                     key={category.id}
                     className="swiper-slide category category-ellipse app-category margin-top-important"
@@ -33,7 +34,7 @@ function ProductCategoriesCarousel({ categories }) {
                     </div>
                   </div>
                 ))}
-              </div>
+              />
             </div>
           </div>
         </div>
