@@ -10,11 +10,13 @@ import { getSingleProduct, selectGetSingleProduct } from './productPageSlice';
 import ProductList from '../../components/ProductList';
 import ProductCategoriesCarousel from '../../components/ProductCategoriesCarousel';
 import './style.scss';
+import useCart from '../../hooks/useCart';
 
 function ProductsPage() {
   const { id } = useParams();
   const dispatch = useDispatch();
   const { data } = useSelector(selectGetSingleProduct);
+  const { addProductToCart } = useCart();
 
   useEffect(() => {
     dispatch(getSingleProduct(id));
@@ -120,19 +122,6 @@ function ProductsPage() {
                     >
                       {data.price} AED
                     </ins>
-
-                    <div className="product-qty-form">
-                      <div className="input-group">
-                        <input
-                          className="quantity form-control"
-                          type="number"
-                          min="1"
-                          max="10000000"
-                        />
-                        <button className="quantity-plus w-icon-plus" />
-                        <button className="quantity-minus w-icon-minus" />
-                      </div>
-                    </div>
                   </div>
 
                   <hr className="product-divider" />
@@ -301,7 +290,10 @@ function ProductsPage() {
 
                   <div className="fix-bottom product-sticky-content sticky-content">
                     <div className="product-form container">
-                      <button className="btn btn-primary btn-cart w-100">
+                      <button
+                        onClick={() => addProductToCart(data?.user_id, 'aysar', data?.id)}
+                        className="btn btn-primary btn-cart w-100"
+                      >
                         <i className="w-icon-cart" />
                         <span>Add to Cart</span>
                       </button>
