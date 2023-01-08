@@ -4,10 +4,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
+import { Button } from '@mui/material';
 import ROUTES from '../../routes/publicPaths';
+import useCart from '../../hooks/useCart';
 
 function ProductCard({ product }) {
   const navigate = useNavigate();
+  const { addProductToCart } = useCart();
+
   return (
     <div className="product-wrap">
       <div className="product product-simple text-center">
@@ -44,12 +48,13 @@ function ProductCard({ product }) {
               <ins className="new-price">{product.price}</ins>
             </div>
             <div className="product-action">
-              <a
+              <Button
+                variant="text"
                 className="btn-cart btn-product btn btn-icon-right btn-link btn-underline"
-                style={{ textDecoration: 'none' }}
+                onClick={() => addProductToCart(product.user_id, 'ahmad', product.id)}
               >
                 Add To Cart
-              </a>
+              </Button>
             </div>
           </div>
           <div className="sold-by">

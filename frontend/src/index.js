@@ -8,6 +8,7 @@ import { AuthProvider } from './context/AuthProvider';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import theme from './styles/muiTheme';
+import { CartProvider } from './context/CartProvider';
 
 const container = document.getElementById('root');
 const root = createRoot(container);
@@ -19,9 +20,11 @@ root.render(
         <ThemeProvider theme={theme}>
           <BrowserRouter>
             <AuthProvider>
-              <Routes>
-                <Route path="/*" element={<App />} />
-              </Routes>
+              <CartProvider>
+                <Routes>
+                  <Route path="/*" element={<App />} />
+                </Routes>
+              </CartProvider>
             </AuthProvider>
           </BrowserRouter>
         </ThemeProvider>

@@ -2,6 +2,7 @@
 /* eslint-disable react/button-has-type */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React from 'react';
+import './style.scss';
 
 export default function Cart() {
   return (

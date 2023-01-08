@@ -1,12 +1,25 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable jsx-a11y/anchor-has-content */
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
+import useCart from '../../hooks/useCart';
 import ROUTES from '../../routes/publicPaths';
 
 function AppHeader() {
   const navigate = useNavigate();
+  const { cart } = useCart();
+  const cartData = useMemo(
+    () =>
+      Object.values(cart || {}).reduce(
+        (prev, curr) =>
+          prev +
+          +(curr?.products?.reduce((_prev, product) => _prev + +(product?.quantity || 0), 0) || 0),
+        0,
+      ),
+    [cart],
+  );
+
   return (
     <header className="header w-100 mb-3">
       <div className="header-top">
@@ -112,7 +125,7 @@ function AppHeader() {
               <div className="cart-overlay" />
               <a className="cart-toggle label-down link">
                 <i className="w-icon-cart">
-                  <span className="cart-count">2</span>
+                  <span className="cart-count">{cartData}</span>
                 </i>
                 <span className="cart-label">Cart</span>
               </a>
