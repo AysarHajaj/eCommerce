@@ -27,7 +27,6 @@ export default {
     dynamicPath: (id) => `/public/product/${id}`,
   },
   CART: {
-    path: '/public/cart/:id',
-    dynamicPath: (id) => `/public/cart/${id}`,
+    path: '/public/cart',
   },
 };

@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React, { createContext, useState, useMemo, useEffect, useCallback } from 'react';
+import React, { createContext, useState, useMemo, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { cloneData } from '../tools';
 
@@ -17,7 +17,7 @@ const getCart = () => {
   if (cart) {
     return JSON.parse(cart);
   }
-  return undefined;
+  return {};
 };
 
 export function CartProvider({ children }) {
@@ -58,7 +58,7 @@ export function CartProvider({ children }) {
         if (productIndex > -1) {
           const product = newCartData[vendorId]?.products[productIndex];
           product.quantity -= quantity;
-          if (product.quantity === 0) product.splice(productIndex, 1);
+          if (product.quantity === 0) products.splice(productIndex, 1);
         }
         if (!products?.length) {
           delete newCartData[vendorId];

@@ -123,7 +123,7 @@ function AppHeader() {
             </a>
             <div className="dropdown cart-dropdown cart-offcanvas mr-0 mr-lg-2">
               <div className="cart-overlay" />
-              <a className="cart-toggle label-down link">
+              <a onClick={() => navigate(ROUTES.CART.path)} className="cart-toggle label-down link">
                 <i className="w-icon-cart">
                   <span className="cart-count">{cartData}</span>
                 </i>

@@ -51,7 +51,9 @@ function ProductCard({ product }) {
               <Button
                 variant="text"
                 className="btn-cart btn-product btn btn-icon-right btn-link btn-underline"
-                onClick={() => addProductToCart(product.user_id, 'ahmad', product.id)}
+                onClick={() =>
+                  addProductToCart(product.user_id, product?.user?.name || 'samer', product.id)
+                }
               >
                 Add To Cart
               </Button>

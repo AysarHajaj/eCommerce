@@ -131,6 +131,9 @@ const getActiveShopCategories = () => api.get(`/public/shop-categories/active`);
 
 const getSingleProduct = (id) => api.get(`/public/product/${id}`);
 
+const getMultiProducts = (ids) => api.post('/products/by-ids', { ids });
+const getMultiProductChoices = (ids) => api.post('/products/choices/by-ids', { ids });
+
 const apis = {
   getProductCategories,
   deleteProductCategory,
@@ -199,6 +202,9 @@ const apis = {
   getActiveShopCategories,
 
   getSingleProduct,
+
+  getMultiProductChoices,
+  getMultiProducts,
 };
 
 export default apis;

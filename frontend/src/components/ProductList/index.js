@@ -22,9 +22,7 @@ function ProductList({ products }) {
             <div className="toolbox-item toolbox-sort select-box text-dark">
               <label>Sort By :</label>
               <select name="orderby" className="form-control">
-                <option value="default" selected="selected">
-                  Default sorting
-                </option>
+                <option value="default">Default sorting</option>
                 <option value="popularity">Sort by popularity</option>
                 <option value="rating">Sort by average rating</option>
                 <option value="date">Sort by latest</option>
@@ -37,9 +35,7 @@ function ProductList({ products }) {
             <div className="toolbox-item toolbox-show select-box">
               <select name="count" className="form-control">
                 <option value="9">Show 9</option>
-                <option value="12" selected="selected">
-                  Show 12
-                </option>
+                <option value="12">Show 12</option>
                 <option value="24">Show 24</option>
                 <option value="36">Show 36</option>
               </select>
