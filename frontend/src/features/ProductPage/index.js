@@ -179,7 +179,12 @@ function ProductsPage() {
                               <div key={choice.id} className="row">
                                 <div className="col-lg-6 col-md-6 col-sm-12">
                                   <div className="form-group my-form-group">
-                                    <input type="checkbox" className="custom-checkbox" id="opt1" />
+                                    <input
+                                      disabled
+                                      type="checkbox"
+                                      className="custom-checkbox"
+                                      id="opt1"
+                                    />
                                     <label className="options-label">
                                       {choice.english_name}{' '}
                                       {choice.price && <span>({choice.price})</span>}
