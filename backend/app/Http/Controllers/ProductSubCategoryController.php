@@ -198,7 +198,7 @@ class ProductSubCategoryController extends Controller
         try {
             $categories = ProductCategory::where('user_id', $vendorId)->get();
             $subCategories = ProductSubCategory::with('productCategory')
-                ->whereIn('category_id', $categories->pluck('id'))
+                ->whereIn('product_category_id', $categories->pluck('id'))
                 ->get();
             $subCategories->map(function ($subCategory) {
                 $subCategory->qr_code = $this->getImageUrl($subCategory->qr_code);
