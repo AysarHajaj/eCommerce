@@ -134,6 +134,9 @@ const getSingleProduct = (id) => api.get(`/public/product/${id}`);
 const getMultiProducts = (ids) => api.post('/products/by-ids', { ids });
 const getMultiProductChoices = (ids) => api.post('/products/choices/by-ids', { ids });
 
+const getOrdersByStatus = (status, vendorId) => api.get(`/orders/${status}/${vendorId}`);
+const deleteOrder = (id) => api.delete(`/orders/${id}`);
+
 const apis = {
   getProductCategories,
   deleteProductCategory,
@@ -205,6 +208,9 @@ const apis = {
 
   getMultiProductChoices,
   getMultiProducts,
+
+  getOrdersByStatus,
+  deleteOrder,
 };
 
 export default apis;

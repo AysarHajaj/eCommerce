@@ -1,6 +1,7 @@
 import React from 'react';
 import HomeIcon from '@mui/icons-material/Home';
 import WindowIcon from '@mui/icons-material/Window';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
 import CategoryIcon from '@mui/icons-material/Category';
 import StoreIcon from '@mui/icons-material/Store';
@@ -99,6 +100,57 @@ const config = {
       to: ROUTES.SHOP_CATEGORY.path,
       icon: <ShoppingBasketIcon />,
       allowedRoles: ROUTES.SHOP_CATEGORY.allowedRoles,
+    },
+    {
+      id: 15,
+      label: 'Orders',
+      to: '',
+      icon: <ShoppingCartIcon />,
+      allowedRoles: ROUTES.ALL_ORDERS.allowedRoles,
+      sub_items: [
+        {
+          id: 16,
+          label: ROUTES.ALL_ORDERS.label,
+          to: ROUTES.ALL_ORDERS.path,
+          allowedRoles: ROUTES.ALL_ORDERS.allowedRoles,
+        },
+        {
+          id: 17,
+          label: ROUTES.PENDING_ORDERS.label,
+          to: ROUTES.PENDING_ORDERS.path,
+          allowedRoles: ROUTES.PENDING_ORDERS.allowedRoles,
+        },
+        {
+          id: 18,
+          label: ROUTES.PROGRESS_ORDERS.label,
+          to: ROUTES.PROGRESS_ORDERS.path,
+          allowedRoles: ROUTES.PROGRESS_ORDERS.allowedRoles,
+        },
+        {
+          id: 19,
+          label: ROUTES.DELIVERED_ORDERS.label,
+          to: ROUTES.DELIVERED_ORDERS.path,
+          allowedRoles: ROUTES.DELIVERED_ORDERS.allowedRoles,
+        },
+        {
+          id: 20,
+          label: ROUTES.COMPLETED_ORDERS.label,
+          to: ROUTES.COMPLETED_ORDERS.path,
+          allowedRoles: ROUTES.COMPLETED_ORDERS.allowedRoles,
+        },
+        {
+          id: 21,
+          label: ROUTES.DECLINED_ORDERS.label,
+          to: ROUTES.DECLINED_ORDERS.path,
+          allowedRoles: ROUTES.DECLINED_ORDERS.allowedRoles,
+        },
+        {
+          id: 22,
+          label: ROUTES.CASH_ON_DELIVERY_ORDERS.label,
+          to: ROUTES.CASH_ON_DELIVERY_ORDERS.path,
+          allowedRoles: ROUTES.CASH_ON_DELIVERY_ORDERS.allowedRoles,
+        },
+      ],
     },
   ],
 };

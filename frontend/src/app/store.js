@@ -13,6 +13,7 @@ import vendorsPageSlice from '../features/VendorsPage/vendorsPageSlice';
 import productsPageSlice from '../features/ProductsPage/productsPageSlice';
 import productPageSlice from '../features/ProductPage/productPageSlice';
 import homePageSlice from '../features/Home/homePageSlice';
+import orderSlice from '../features/Orders/orderSlice';
 
 export const store = configureStore({
   reducer: {
@@ -30,5 +31,6 @@ export const store = configureStore({
     products_page: productsPageSlice,
     product_page: productPageSlice,
     home_page: homePageSlice,
+    order: orderSlice,
   },
 });

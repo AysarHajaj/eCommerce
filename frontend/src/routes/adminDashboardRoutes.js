@@ -172,6 +172,69 @@ const config = {
     allowedRoles: [USER_ROLES.ADMIN],
     Element: React.lazy(() => import('../features/Currencies/components/Form')),
   },
+  ALL_ORDERS: {
+    path: _paths.ALL_ORDERS.path,
+    label: 'All Orders',
+    allowedRoles: [USER_ROLES.VENDOR],
+    Element: React.lazy(() => import('../features/Orders')),
+    props: {
+      status: 'all',
+    },
+  },
+  PENDING_ORDERS: {
+    path: _paths.PENDING_ORDERS.path,
+    label: 'Pending Orders',
+    allowedRoles: [USER_ROLES.VENDOR],
+    Element: React.lazy(() => import('../features/Orders')),
+    props: {
+      status: 'pending',
+    },
+  },
+  PROGRESS_ORDERS: {
+    path: _paths.PROGRESS_ORDERS.path,
+    label: 'Progress Orders',
+    allowedRoles: [USER_ROLES.VENDOR],
+    Element: React.lazy(() => import('../features/Orders')),
+    props: {
+      status: 'progress',
+    },
+  },
+  DELIVERED_ORDERS: {
+    path: _paths.DELIVERED_ORDERS.path,
+    label: 'Delivered Orders',
+    allowedRoles: [USER_ROLES.VENDOR],
+    Element: React.lazy(() => import('../features/Orders')),
+    props: {
+      status: 'delivered',
+    },
+  },
+  COMPLETED_ORDERS: {
+    path: _paths.COMPLETED_ORDERS.path,
+    label: 'Completed Orders',
+    allowedRoles: [USER_ROLES.VENDOR],
+    Element: React.lazy(() => import('../features/Orders')),
+    props: {
+      status: 'completed',
+    },
+  },
+  DECLINED_ORDERS: {
+    path: _paths.DECLINED_ORDERS.path,
+    label: 'Declined Orders',
+    allowedRoles: [USER_ROLES.VENDOR],
+    Element: React.lazy(() => import('../features/Orders')),
+    props: {
+      status: 'declined',
+    },
+  },
+  CASH_ON_DELIVERY_ORDERS: {
+    path: _paths.CASH_ON_DELIVERY_ORDERS.path,
+    label: 'Cash On Delivery Orders',
+    allowedRoles: [USER_ROLES.VENDOR],
+    Element: React.lazy(() => import('../features/Orders')),
+    props: {
+      status: 'cash_on_delivery',
+    },
+  },
   UNAUTHORIZED: {
     path: _paths.UNAUTHORIZED.path,
     label: 'Unauthorized',

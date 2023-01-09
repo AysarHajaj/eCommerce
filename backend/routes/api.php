@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\CityController;
 use App\Http\Controllers\CurrencyController;
 use App\Http\Controllers\DistrictController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ShopCategoryController;
 use App\Http\Controllers\ProductCategoryController;
 use App\Http\Controllers\ProductController;
@@ -73,9 +74,16 @@ Route::prefix('shops')->group(function () {
 
 //products apis
 Route::resource('products', ProductController::class);
-Route::post('products/{id}', [ProductController::class, 'update']);
 Route::post('products/{id}/change_status', [ProductController::class, 'changeStatus']);
 Route::get('products/vendor/{vendorId}', [ProductController::class, 'getProductsByVendorId']);
+Route::post('products/by-ids', [ProductController::class, 'getProductByIds']);
+Route::post('products/choices/by-ids', [ProductController::class, 'getChoicesByIds']);
+Route::post('products/{id}', [ProductController::class, 'update']);
+Route::put('products/choice-group/{id}', [ProductController::class, 'updateChoiceGroup']);
+Route::put('products/choice/{id}', [ProductController::class, 'updateChoice']);
+Route::delete('/products/choice-group/{id}', [ProductController::class, 'destroyChoiceGroup']);
+Route::delete('/products/choice/{id}', [ProductController::class, 'destroyChoice']);
+
 
 //public apis
 Route::prefix('public')->group(function () {
@@ -85,4 +93,11 @@ Route::prefix('public')->group(function () {
     Route::get('product/{id}', [ProductController::class, 'getSingleProduct']);
     Route::get('{vendor_id}/products', [ProductController::class, 'getActiveProductsByVendorId']);
     Route::get('{vendor_id}/{category_id}/products', [ProductController::class, 'getActiveProductsByVendorIdAndCategoryId']);
+});
+
+//order apis
+Route::prefix('orders')->group(function () {
+    Route::post('/', [OrderController::class, 'store']);
+    Route::delete('/{id}', [OrderController::class, 'destroy']);
+    Route::get('/{status}/{vendorId}', [OrderController::class, 'getOrders']);
 });

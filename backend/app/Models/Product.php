@@ -51,4 +51,9 @@ class Product extends Model
     {
         return $this->hasMany(ProductChoiceGroup::class, 'product_id');
     }
+
+    public function orderProductChoices()
+    {
+        return $this->belongsToMany(ProductChoice::class, 'product_choices', 'product_id', 'product_choice_id')->withPivot('price');
+    }
 }

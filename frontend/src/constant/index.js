@@ -99,6 +99,10 @@ const constants = {
     product_page: {
       get_single_product: 'GET/SINGLE_PRODUCT',
     },
+    order: {
+      get_by_status: 'GET/STATUS',
+      delete: 'DELETE/ORDER',
+    },
   },
 };
 

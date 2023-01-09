@@ -89,4 +89,25 @@ export default {
     path: '/shop/category/edit/:id',
     dynamicPath: (id) => `/shop/category/edit/${id}`,
   },
+  ALL_ORDERS: {
+    path: '/orders/all',
+  },
+  PENDING_ORDERS: {
+    path: '/orders/pending',
+  },
+  PROGRESS_ORDERS: {
+    path: '/orders/progress',
+  },
+  DELIVERED_ORDERS: {
+    path: '/orders/delivered',
+  },
+  COMPLETED_ORDERS: {
+    path: '/orders/completed',
+  },
+  DECLINED_ORDERS: {
+    path: '/orders/declined',
+  },
+  CASH_ON_DELIVERY_ORDERS: {
+    path: '/orders/cash-on-delivery',
+  },
 };
