@@ -1,0 +1,41 @@
+.product-details{
+    padding-top: 3rem !important;
+}
+.product-panels{
+    box-shadow: 0 4px 8px rgba(163, 134, 177, 0.211);
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 2rem;
+}
+
+
+.brand img {
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba($color: #000000, $alpha: .3);
+}
+
+.product-details{
+    background: transparent;
+}
+.product-image{
+    border-radius: 10px;
+
+}
+.my-form-group{
+    margin-bottom: 1rem;
+}
+.my-form-group .custom-checkbox:checked + label::before{
+    border-color: #45357f;
+    background: #7665ac;
+}
+.my-form-group .options-label{
+    font-size: 14px !important;
+    color: black !important;
+}
+.sec-title{
+    font-size: 16px;
+    background: #e1d4e7;
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 2rem;
+}
