@@ -6,9 +6,8 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import { Button, Typography } from '@mui/material';
 import { getSingleProduct, selectGetSingleProduct } from './productPageSlice';
-import ProductList from '../../components/ProductList';
-import ProductCategoriesCarousel from '../../components/ProductCategoriesCarousel';
 import './style.scss';
 import useCart from '../../hooks/useCart';
 
@@ -27,7 +26,7 @@ function ProductsPage() {
       <div className="container-fluid pt-5 mt-5">
         <div className="row d-flex justify-content-center">
           <div className="main-content">
-            <div className="product product-single row bg-light product-panels food-panel">
+            <div className="product product-single row bg-light product-panels">
               <div className="col-md-6 mb-4 mb-md-8">
                 <div className="product-gallery product-gallery-sticky">
                   <div
@@ -53,9 +52,9 @@ function ProductsPage() {
                       </div>
                     </div>
 
-                    <a className="product-gallery-btn product-image-full">
+                    {/* <a className="product-gallery-btn product-image-full">
                       <i className="w-icon-zoom" />
-                    </a>
+                    </a> */}
                   </div>
                   <div className="product-thumbs-wrap swiper-container">
                     <div className="product-thumbs swiper-wrapper row cols-4 gutter-sm" />
@@ -76,19 +75,18 @@ function ProductsPage() {
                       {data.english_name}
                     </h1>
 
-                    <div className="product-link-wrapper d-flex">
+                    {/* <div className="product-link-wrapper d-flex">
                       <a className="btn-product-icon btn-wishlist w-icon-heart">
                         <span />
                       </a>
-                    </div>
+                    </div> */}
                   </div>
-                  <div className="ratings-container">
+                  {/* <div className="ratings-container">
                     <div className="ratings-full">
                       <span className="ratings" style={{ width: '80%' }} />
-                      <span className="tooltiptext tooltip-top" />
                     </div>
                     <a className="rating-reviews">(3 Reviews)</a>
-                  </div>
+                  </div> */}
                   <div className="product-bm-wrapper">
                     <figure className="brand">
                       <img
@@ -99,8 +97,8 @@ function ProductsPage() {
                       />
                     </figure>
                     <div className="product-meta">
+                      <Typography>Category </Typography>
                       <div className="product-categories">
-                        Category:
                         <span className="product-category">
                           <a>{data?.product_category?.name}</a>
                         </span>
@@ -164,14 +162,7 @@ function ProductsPage() {
                         <div className="col">
                           <div className="row">
                             <div className="col px-0">
-                              <h4
-                                style={{
-                                  color: '#5f4da0',
-                                }}
-                                className="sec-title"
-                              >
-                                {group.english_name}
-                              </h4>
+                              <Typography> {group.english_name}</Typography>
                             </div>
                           </div>
                           {group?.product_choices &&
@@ -295,13 +286,14 @@ function ProductsPage() {
 
                   <div className="fix-bottom product-sticky-content sticky-content">
                     <div className="product-form container">
-                      <button
+                      <Button
+                        fullWidth
+                        style={{ padding: '8px', textIndent: '20px', fontSize: '1.6em' }}
                         onClick={() => addProductToCart(data?.user_id, 'aysar', data?.id)}
-                        className="btn btn-primary btn-cart w-100"
                       >
                         <i className="w-icon-cart" />
-                        <span>Add to Cart</span>
-                      </button>
+                        Add to Cart
+                      </Button>
                     </div>
                   </div>
                 </div>
