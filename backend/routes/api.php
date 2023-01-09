@@ -38,10 +38,13 @@ Route::post('shop-categories/{id}/change_status', [ShopCategoryController::class
 Route::resource('product-categories', ProductCategoryController::class);
 Route::post('product-categories/{id}', [ProductCategoryController::class, 'update']);
 Route::post('product-categories/{id}/change_status', [ProductCategoryController::class, 'changeStatus']);
+Route::get('product-categories/vendor/{id}', [ProductCategoryController::class, 'getByVendorId']);
 
 //product sub categories apis
 Route::resource('product-sub-categories', ProductSubCategoryController::class);
 Route::post('product-sub-categories/{id}/change_status', [ProductSubCategoryController::class, 'changeStatus']);
+Route::get('product-sub-categories/vendor/{id}', [ProductSubCategoryController::class, 'getByVendorId']);
+
 
 //city apis
 Route::resource('cities', CityController::class);
