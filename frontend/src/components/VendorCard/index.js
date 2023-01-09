@@ -11,7 +11,7 @@ function VendorCard({ vendor }) {
     <div className="store-wrap mb-4">
       <div className="store store-grid">
         <div className="store-header">
-          <figure className="store-banner">
+          <figure style={{ height: '200px', width: '100%' }} className="store-banner">
             <img
               src={vendor.shop.image}
               alt="Vendor"
