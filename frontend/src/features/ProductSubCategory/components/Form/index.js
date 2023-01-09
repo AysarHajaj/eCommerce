@@ -13,9 +13,15 @@ import {
   selectPostSubCategory,
 } from '../../subCategorySlice';
 import ROUTES from '../../../../routes/_paths';
+import useAuth from '../../../../hooks/useAuth';
 
 function Form() {
   const { id } = useParams();
+  const {
+    auth: {
+      user: { id: userId },
+    },
+  } = useAuth();
   const dispatch = useDispatch();
   const { data: initialData } = useSelector(selectGetSubCategoryById);
   const { data: categories } = useSelector(selectGetCategories);
@@ -65,7 +71,7 @@ function Form() {
   };
 
   useEffect(() => {
-    dispatch(getCategories());
+    dispatch(getCategories(userId));
     if (isEdit) {
       dispatch(getSubCategoryById(id)).then(({ payload }) => {
         // eslint-disable-next-line camelcase

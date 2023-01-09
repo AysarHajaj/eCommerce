@@ -15,9 +15,15 @@ import {
 } from './subCategorySlice';
 import SwitchButton from '../../components/SwitchButton';
 import ROUTES from '../../routes/_paths';
+import useAuth from '../../hooks/useAuth';
 
 function SubCategory() {
   const dispatch = useDispatch();
+  const {
+    auth: {
+      user: { id: userId },
+    },
+  } = useAuth();
   const { data } = useSelector(selectGetSubCategories);
   const navigate = useNavigate();
 
@@ -72,7 +78,7 @@ function SubCategory() {
   );
 
   useEffect(() => {
-    dispatch(getSubCategories());
+    dispatch(getSubCategories(userId));
   }, []);
 
   return (

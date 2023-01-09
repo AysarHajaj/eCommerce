@@ -16,10 +16,16 @@ import {
 } from './categorySlice';
 import SwitchButton from '../../components/SwitchButton';
 import ROUTES from '../../routes/_paths';
+import useAuth from '../../hooks/useAuth';
 
 function Category() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const {
+    auth: {
+      user: { id: userId },
+    },
+  } = useAuth();
   const { data } = useSelector(selectGetCategories);
 
   const handleDelete = useCallback(
@@ -79,7 +85,7 @@ function Category() {
   );
 
   useEffect(() => {
-    dispatch(getCategories());
+    dispatch(getCategories(userId));
   }, []);
   return (
     <div className="wrapper category-wrapper">

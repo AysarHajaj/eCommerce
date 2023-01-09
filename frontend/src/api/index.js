@@ -33,7 +33,7 @@ api.interceptors.response.use(
   },
 );
 
-const getProductCategories = () => api.get('/product-categories');
+const getProductCategories = (vendorId) => api.get(`/product-categories/vendor/${vendorId}`);
 const deleteProductCategory = (id) => api.delete(`/product-categories/${id}`);
 const getProductCategoryById = (id) => api.get(`/product-categories/${id}`);
 const updateProductCategory = (id, data) =>
@@ -46,7 +46,7 @@ const postProductCategory = (data) =>
   });
 const changeProductCategoryStatus = (id) => api.post(`/product-categories/${id}/change_status`);
 
-const getProductSubCategories = () => api.get('/product-sub-categories');
+const getProductSubCategories = (vendorId) => api.get(`/product-sub-categories/vendor/${vendorId}`);
 const deleteProductSubCategory = (id) => api.delete(`/product-sub-categories/${id}`);
 const changeProductSubCategoryStatus = (id) =>
   api.post(`/product-sub-categories/${id}/change_status`);

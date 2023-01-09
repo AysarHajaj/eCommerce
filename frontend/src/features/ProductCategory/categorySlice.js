@@ -37,9 +37,9 @@ const initialState = {
 
 export const getCategories = createAsyncThunk(
   constants.ACTION_TYPES.product_category.get_list,
-  (_, { rejectWithValue }) =>
+  (vendorId, { rejectWithValue }) =>
     api
-      .getProductCategories()
+      .getProductCategories(vendorId)
       .then((response) => response.data)
       .catch((error) => rejectWithValue(error?.response?.data)),
 );

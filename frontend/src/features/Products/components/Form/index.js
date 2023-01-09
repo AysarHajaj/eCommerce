@@ -180,8 +180,8 @@ function Form() {
   };
 
   useEffect(() => {
-    dispatch(getCategories());
-    dispatch(getSubCategories());
+    dispatch(getCategories(userId));
+    dispatch(getSubCategories(userId));
     if (isEdit) {
       dispatch(getProductById(id)).then(({ payload }) => {
         setData(formUtils.getValidData(payload.result));
