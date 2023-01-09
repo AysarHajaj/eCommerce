@@ -15,18 +15,20 @@ function AppRoutes() {
       {/* admin routes */}
       {!!auth?.user && !!auth.accessToken && (
         <Route element={<Layout />} path="/">
-          {Object.values(ADMIN_VENDOR_ROUTES).map(({ path, allowedRoles, Element, label }) => (
-            <Route key={label} element={<RequiredAuth allowedRoles={allowedRoles} />}>
-              <Route
-                element={
-                  <React.Suspense fallback={<Loader />}>
-                    <Element />
-                  </React.Suspense>
-                }
-                path={path}
-              />
-            </Route>
-          ))}
+          {Object.values(ADMIN_VENDOR_ROUTES).map(
+            ({ path, allowedRoles, Element, label, props: routeProps }) => (
+              <Route key={label} element={<RequiredAuth allowedRoles={allowedRoles} />}>
+                <Route
+                  element={
+                    <React.Suspense fallback={<Loader />}>
+                      <Element {...(routeProps || {})} />
+                    </React.Suspense>
+                  }
+                  path={path}
+                />
+              </Route>
+            ),
+          )}
         </Route>
       )}
       {/* publich rutes */}
