@@ -4,7 +4,10 @@ import useAuth from '../hooks/useAuth';
 import publicPaths from '../routes/publicPaths';
 
 const api = axios.create({
-  baseURL: process.env.REACT_APP_API_BASE_URL,
+  baseURL:
+    process.env.NODE_ENV === 'production'
+      ? process.env.REACT_APP_API_BASE_URL
+      : process.env.REACT_APP_API_BASE_URL_STAGING,
 });
 
 api.interceptors.request.use(
