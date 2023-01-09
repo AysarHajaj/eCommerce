@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ProductCategory;
 use App\Models\ProductSubCategory;
 use App\Traits\ImageTrait;
 use App\Traits\QrCodeTrait;
@@ -182,6 +183,29 @@ class ProductSubCategoryController extends Controller
             $subCategory->save();
 
             $response = ["result" => $subCategory->deactivated_at];
+            DB::commit();
+            return response()->json($response, 200);
+        } catch (\Throwable $th) {
+            $response = ["error" => $th->getMessage()];
+            DB::rollBack();
+            return response()->json($response, 500);
+        }
+    }
+
+    public function getByVendorId($vendorId)
+    {
+        DB::beginTransaction();
+        try {
+            $categories = ProductCategory::where('user_id', $vendorId)->get();
+            $subCategories = ProductSubCategory::with('productCategory')
+                ->whereIn('category_id', $categories->pluck('id'))
+                ->get();
+            $subCategories->map(function ($subCategory) {
+                $subCategory->qr_code = $this->getImageUrl($subCategory->qr_code);
+                return $subCategory;
+            });
+
+            $response = ["result" => $subCategories];
             DB::commit();
             return response()->json($response, 200);
         } catch (\Throwable $th) {
