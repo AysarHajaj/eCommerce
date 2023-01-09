@@ -37,7 +37,7 @@ function SubCategory() {
         field: 'product_category_id',
         headerName: 'Category',
         width: 130,
-        valueGetter: (params) => params.row.product_category.name,
+        valueGetter: (params) => params.row?.product_category?.name,
       },
       {
         field: 'status',

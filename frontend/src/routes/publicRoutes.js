@@ -20,7 +20,7 @@ const config = {
   },
   PRODUCT: {
     path: publicPaths.PRODUCT_PAGE.path,
-    Element: React.lazy(() => import('../features/ProductPage')),
+    Element: React.lazy(() => import('../features/ViewProduct')),
   },
   CART: {
     path: publicPaths.CART.path,

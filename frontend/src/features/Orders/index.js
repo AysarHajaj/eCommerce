@@ -2,15 +2,10 @@
 import React, { useEffect, useMemo, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { DataGrid } from '@mui/x-data-grid';
-import EditIcon from '@mui/icons-material/Edit';
 import IconButton from '@mui/material/IconButton';
-import Button from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
-import AddIcon from '@mui/icons-material/Add';
-import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { getOrdersByStatus, selectGetOrders, deleteOrder } from './orderSlice';
-import ROUTES from '../../routes/_paths';
 import useAuth from '../../hooks/useAuth';
 
 function Orders({ status }) {
@@ -19,7 +14,6 @@ function Orders({ status }) {
       user: { id: userId },
     },
   } = useAuth();
-  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { data } = useSelector(selectGetOrders);
 
@@ -69,11 +63,6 @@ function Orders({ status }) {
 
   return (
     <div className="wrapper category-wrapper">
-      <div className="container-header">
-        <Button onClick={() => navigate(ROUTES.CREATE_PRODUCT.path)} startIcon={<AddIcon />}>
-          Add New Product
-        </Button>
-      </div>
       <DataGrid rows={data || []} columns={columns} pageSize={5} rowsPerPageOptions={[5]} />
     </div>
   );
