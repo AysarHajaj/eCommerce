@@ -98,4 +98,6 @@ Route::prefix('public')->group(function () {
 //order apis
 Route::prefix('orders')->group(function () {
     Route::post('/', [OrderController::class, 'store']);
+    Route::delete('/{id}', [OrderController::class, 'destroy']);
+    Route::get('/{status}/{vendorId}', [OrderController::class, 'getOrders']);
 });

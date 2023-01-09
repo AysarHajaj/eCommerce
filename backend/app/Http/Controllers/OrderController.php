@@ -8,7 +8,7 @@ use App\Models\OrderProductChoice;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
@@ -78,6 +78,60 @@ class OrderController extends Controller
             }
 
             $response = ["result" => $order];
+            DB::commit();
+            return response()->json($response, 200);
+        } catch (\Throwable $th) {
+            $response = ["error" => $th->getMessage()];
+            DB::rollBack();
+            return response()->json($response, 500);
+        }
+    }
+
+    public function getOrders($status, $vendorId)
+    {
+        DB::beginTransaction();
+        try {
+            if ($status == 'all') {
+                $result = Order::with(['customer', 'products'])->where('vendor_id', $vendorId)->get();
+            } elseif ($status == 'cash_on_delivery') {
+                $result =  Order::with(['customer', 'products'])->where('payment_method', 'cash_on_delivery')->where('vendor_id', $vendorId)->get();
+            } else {
+                $result = Order::with(['customer', 'products'])->where('status', $status)->where('vendor_id', $vendorId)->get();
+            }
+            $result = $result->map(function ($order) {
+                $order['quantity'] = $order->products->pluck('pivot')->flatten()->sum('quantity');
+                $order['date'] = $order->created_at->format('d F Y');
+                return $order;
+            });
+            $response = ["result" => $result];
+            DB::commit();
+            return response()->json($response, 200);
+        } catch (\Throwable $th) {
+            $response = ["error" => $th->getMessage()];
+            DB::rollBack();
+            return response()->json($response, 500);
+        }
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        DB::beginTransaction();
+        try {
+            $order = Order::find($id);
+            if ($order) {
+                $order->delete();
+            } else {
+                $response = ["error" => "model not found"];
+                return response()->json($response, 404);
+            }
+
+            $response = ["result" => true];
             DB::commit();
             return response()->json($response, 200);
         } catch (\Throwable $th) {
