@@ -89,7 +89,7 @@ function Form() {
   useEffect(() => {
     if (isEdit) {
       dispatch(getCategoryById(id)).then(({ payload }) => {
-        setData({ ...payload.result, image: undefined });
+        setData({ ...payload.result });
       });
     }
   }, []);
