@@ -7,11 +7,11 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { Button, Typography } from '@mui/material';
-import { getSingleProduct, selectGetSingleProduct } from './productPageSlice';
+import { getSingleProduct, selectGetSingleProduct } from './viewProductSlice';
 import './style.scss';
 import useCart from '../../hooks/useCart';
 
-function ProductsPage() {
+function ViewPage() {
   const { id } = useParams();
   const dispatch = useDispatch();
   const { data } = useSelector(selectGetSingleProduct);
@@ -306,4 +306,4 @@ function ProductsPage() {
   );
 }
 
-export default ProductsPage;
+export default ViewPage;

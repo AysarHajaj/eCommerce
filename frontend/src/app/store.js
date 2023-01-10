@@ -11,7 +11,7 @@ import currencyReducer from '../features/Currencies/currencySlice';
 import shopCategorySlice from '../features/ShopCategory/shopCategorySlice';
 import vendorsPageSlice from '../features/VendorsPage/vendorsPageSlice';
 import productsPageSlice from '../features/ProductsPage/productsPageSlice';
-import productPageSlice from '../features/ProductPage/productPageSlice';
+import viewProductSlice from '../features/ViewProduct/viewProductSlice';
 import homePageSlice from '../features/Home/homePageSlice';
 import orderSlice from '../features/Orders/orderSlice';
 
@@ -29,7 +29,7 @@ export const store = configureStore({
     shop_category: shopCategorySlice,
     vendors_page: vendorsPageSlice,
     products_page: productsPageSlice,
-    product_page: productPageSlice,
+    view_product: viewProductSlice,
     home_page: homePageSlice,
     order: orderSlice,
   },

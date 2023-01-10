@@ -19,8 +19,8 @@ export const getSingleProduct = createAsyncThunk(
       .catch((error) => rejectWithValue(error?.response?.data)),
 );
 
-export const productPageSlice = createSlice({
-  name: 'product_page',
+export const viewProductSlice = createSlice({
+  name: 'view_product',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
@@ -41,6 +41,6 @@ export const productPageSlice = createSlice({
   },
 });
 
-export const selectGetSingleProduct = (state) => state.product_page.get_single_product;
+export const selectGetSingleProduct = (state) => state.view_product.get_single_product;
 
-export default productPageSlice.reducer;
+export default viewProductSlice.reducer;
