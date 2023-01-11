@@ -7,6 +7,7 @@ import ShopCategoriesCarousel from '../../components/ShopCategoriesCarousel';
 import '../../styles/assets/scss/demos/demo4/demo4.scss';
 import '../../styles/assets/scss/demos/demo3/demo3.scss';
 import './styles.scss';
+import homeGif from '../../styles/assets/img/home.gif';
 
 function HOME() {
   const dispatch = useDispatch();
@@ -92,21 +93,14 @@ function HOME() {
                         }"
               >
                 <div className="swiper-wrapper h-100">
-                  <div
-                    className="swiper-slide banner banner-fixed intro-slide intro-slide1 br-sm home-image-banner"
+                  <img
+                    src={homeGif}
+                    alt=""
                     style={{
-                      backgroundColor: '#E8EAEF',
+                      width: '100%',
+                      height: '100%',
                     }}
-                  >
-                    <div className="banner-content y-50">
-                      <div
-                        className="slide-animate"
-                        data-animation-options="{
-                                            'name': 'flipInY', 'duration': '1s'
-                                        }"
-                      />
-                    </div>
-                  </div>
+                  />
                 </div>
               </div>
             </div>
