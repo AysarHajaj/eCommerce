@@ -3,7 +3,7 @@
 /* eslint-disable react/button-has-type */
 /* eslint-disable react/no-unknown-property */
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { Button, Typography } from '@mui/material';
@@ -12,8 +12,6 @@ import Checkbox from '@mui/material/Checkbox';
 import FormGroup from '@mui/material/FormGroup';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
-import FormControl from '@mui/material/FormControl';
-import FormLabel from '@mui/material/FormLabel';
 import { getSingleProduct, selectGetSingleProduct } from './viewProductSlice';
 import './style.scss';
 import useCart from '../../hooks/useCart';
@@ -23,11 +21,38 @@ function ViewPage() {
   const dispatch = useDispatch();
   const { data } = useSelector(selectGetSingleProduct);
   const { addProductToCart } = useCart();
+  const [choices, setChoices] = useState({});
 
   useEffect(() => {
     dispatch(getSingleProduct(id));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    console.log(choices);
+  }, [choices]);
+
+  useEffect(() => {
+    if (data) {
+      const newChoices = { ...choices };
+      data.product_choice_groups?.forEach((group) => {
+        if (!newChoices[group.id]) newChoices[group.id] = [];
+      });
+      setChoices(newChoices);
+    }
+  }, [data]);
+
+  const handleChangeChoice = (e, choiceId, groupId, onlyOne) => {
+    const { checked } = e.target;
+    const newChoices = { ...choices };
+    if (!newChoices[groupId]) newChoices[groupId] = [];
+    if (checked) {
+      if (onlyOne) newChoices[groupId] = [choiceId];
+      else newChoices[groupId].push(choiceId);
+    } else newChoices[groupId] = newChoices[groupId].filter((choice) => choice !== choiceId);
+    setChoices(newChoices);
+  };
+
   return (
     <div className="page-content w-100">
       <div className="container-fluid pt-5 mt-5">
@@ -170,7 +195,6 @@ function ViewPage() {
                           <div className="row">
                             <div className="col px-0">
                               <Typography className="group-name">
-                                {' '}
                                 {group.english_name} (min: {group.min_number} - max:{' '}
                                 {group.max_number})
                               </Typography>
@@ -182,7 +206,18 @@ function ViewPage() {
                                 <FormControlLabel
                                   key={choice.id}
                                   value={choice?.id}
-                                  control={<Radio />}
+                                  control={
+                                    <Radio
+                                      onChange={(e) =>
+                                        handleChangeChoice(e, choice.id, group.id, true)
+                                      }
+                                      checked={
+                                        !!choices[group.id]?.some(
+                                          (choiceId) => choiceId === choice.id,
+                                        )
+                                      }
+                                    />
+                                  }
                                   label={`${choice.english_name} ${
                                     choice.price ? `(${choice.price})` : ''
                                   }`.trim()}
@@ -192,15 +227,30 @@ function ViewPage() {
                           )}
                           {+group.max_number > 1 && group?.product_choices && (
                             <FormGroup>
-                              {group.product_choices.map((choice) => (
-                                <FormControlLabel
-                                  value={choice?.id}
-                                  control={<Checkbox />}
-                                  label={`${choice.english_name} ${
-                                    choice.price ? `(${choice.price})` : ''
-                                  }`.trim()}
-                                />
-                              ))}
+                              {group.product_choices.map((choice) => {
+                                const checked = !!choices[group.id]?.some(
+                                  (choiceId) => choiceId === choice.id,
+                                );
+                                return (
+                                  <FormControlLabel
+                                    key={choice.id}
+                                    value={choice?.id}
+                                    control={
+                                      <Checkbox
+                                        checked={checked}
+                                        onChange={(e) => handleChangeChoice(e, choice.id, group.id)}
+                                        disabled={
+                                          !checked &&
+                                          choices[group.id]?.length === +group.max_number
+                                        }
+                                      />
+                                    }
+                                    label={`${choice.english_name} ${
+                                      choice.price ? `(${choice.price})` : ''
+                                    }`.trim()}
+                                  />
+                                );
+                              })}
                             </FormGroup>
                           )}
                         </div>
