@@ -358,7 +358,18 @@ function ViewPage() {
                       <Button
                         fullWidth
                         style={{ padding: '8px', textIndent: '20px', fontSize: '1.6em' }}
-                        onClick={() => addProductToCart(data?.user_id, 'aysar', data?.id)}
+                        onClick={() =>
+                          addProductToCart(
+                            data?.user_id,
+                            'aysar',
+                            data?.id,
+                            1,
+                            Object.values(choices).reduce((prev, choiceList) => {
+                              prev.push(...choiceList);
+                              return prev;
+                            }, []),
+                          )
+                        }
                       >
                         <i className="w-icon-cart" />
                         Add to Cart

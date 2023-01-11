@@ -6,9 +6,9 @@ import { cloneData } from '../tools';
 const CartContext = createContext({
   cart: undefined,
   addChoiceToCart: (vendorId, productId, choiceId) => {},
-  addProductToCart: (vendorId, vendorName, productId, quantity = 1) => {},
+  addProductToCart: (vendorId, vendorName, productId, quantity = 1, choices = []) => {},
   removeChoiceFromCart: (vendorId, productId, choiceId) => {},
-  removeProductFromCart: (vendorId, productId, quantity = 1) => {},
+  removeProductFromCart: (vendorId, productId, quantity = 1, choices = []) => {},
 });
 
 const getCart = () => {
@@ -24,23 +24,23 @@ export function CartProvider({ children }) {
   const [cart, setCart] = useState(getCart);
 
   const addProductToCart = useCallback(
-    (vendorId, vendorName, productId, quantity = 1) => {
+    (vendorId, vendorName, productId, quantity = 1, choices = []) => {
       const newCartData = cloneData(cart) || {};
       if (!newCartData[vendorId])
         newCartData[vendorId] = {
           date_time: new Date().getTime(),
-          products: [{ productId, quantity }],
+          products: [{ productId, quantity, choices }],
           vendorName,
         };
       else {
         const product = newCartData[vendorId]?.products?.find(
           (_product) => _product.productId === productId,
         );
-        if (product) {
+        if (product?.choices?.every((choiceId) => choices?.includes(choiceId))) {
           const oldQuantity = +(product?.quantity || 0);
           product.quantity = oldQuantity + quantity;
         } else {
-          newCartData[vendorId]?.products?.push({ productId, quantity });
+          newCartData[vendorId]?.products?.push({ productId, quantity, choices });
         }
       }
       localStorage.setItem('cart', JSON.stringify(newCartData));
@@ -50,11 +50,15 @@ export function CartProvider({ children }) {
   );
 
   const removeProductFromCart = useCallback(
-    (vendorId, productId, quantity = 1) => {
+    (vendorId, productId, quantity = 1, choices = []) => {
       const newCartData = cloneData(cart) || {};
       if (newCartData[vendorId]) {
         const products = newCartData[vendorId]?.products;
-        const productIndex = products?.findIndex((product) => product?.productId === productId);
+        const productIndex = products?.findIndex(
+          (product) =>
+            product?.productId === productId &&
+            product?.choices?.every((choiceId) => choices?.includes(choiceId)),
+        );
         if (productIndex > -1) {
           const product = newCartData[vendorId]?.products[productIndex];
           product.quantity -= quantity;
