@@ -7,6 +7,13 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { Button, Typography } from '@mui/material';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
+import FormGroup from '@mui/material/FormGroup';
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import FormControl from '@mui/material/FormControl';
+import FormLabel from '@mui/material/FormLabel';
 import { getSingleProduct, selectGetSingleProduct } from './viewProductSlice';
 import './style.scss';
 import useCart from '../../hooks/useCart';
@@ -162,28 +169,40 @@ function ViewPage() {
                         <div className="col">
                           <div className="row">
                             <div className="col px-0">
-                              <Typography> {group.english_name}</Typography>
+                              <Typography className="group-name">
+                                {' '}
+                                {group.english_name} (min: {group.min_number} - max:{' '}
+                                {group.max_number})
+                              </Typography>
                             </div>
                           </div>
-                          {group?.product_choices &&
-                            group.product_choices.map((choice) => (
-                              <div key={choice.id} className="row">
-                                <div className="col-lg-6 col-md-6 col-sm-12">
-                                  <div className="form-group my-form-group">
-                                    <input
-                                      disabled
-                                      type="checkbox"
-                                      className="custom-checkbox"
-                                      id="opt1"
-                                    />
-                                    <label className="options-label">
-                                      {choice.english_name}{' '}
-                                      {choice.price && <span>({choice.price})</span>}
-                                    </label>
-                                  </div>
-                                </div>
-                              </div>
-                            ))}
+                          {+group.max_number === 1 && group?.product_choices && (
+                            <RadioGroup>
+                              {group.product_choices.map((choice) => (
+                                <FormControlLabel
+                                  key={choice.id}
+                                  value={choice?.id}
+                                  control={<Radio />}
+                                  label={`${choice.english_name} ${
+                                    choice.price ? `(${choice.price})` : ''
+                                  }`.trim()}
+                                />
+                              ))}
+                            </RadioGroup>
+                          )}
+                          {+group.max_number > 1 && group?.product_choices && (
+                            <FormGroup>
+                              {group.product_choices.map((choice) => (
+                                <FormControlLabel
+                                  value={choice?.id}
+                                  control={<Checkbox />}
+                                  label={`${choice.english_name} ${
+                                    choice.price ? `(${choice.price})` : ''
+                                  }`.trim()}
+                                />
+                              ))}
+                            </FormGroup>
+                          )}
                         </div>
                       </div>
                     ))}
